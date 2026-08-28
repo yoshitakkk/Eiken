@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- アプリ化（PWA / Web App）向けカスタマイズタグ -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a5276">
+    <meta name="application-name" content="英検準2級アプリ">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/192/1a5276/ffffff?text=EIKEN">
+
+    <title>英検準2級 演習アプリ</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-size: 1.4rem;
+            color: #1a5276;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .sub-title {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 15px 0 8px 0;
+        }
+        .mode-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .mode-btn {
+            padding: 14px;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .mode-btn:active {
+            transform: scale(0.98);
+        }
+        .mode-btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .mode-btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .mode-btn-secondary {
+            background-color: #9b59b6;
+            color: white;
+        }
+        .mode-btn-secondary:hover {
+            background-color: #8e44ad;
+        }
+        .mode-btn-mix {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .mode-btn-mix:hover {
+            background-color: #27ae60;
+        }
+        .mode-btn-weak {
+            background-color: #e67e22;
+            color: white;
+        }
+        .mode-btn-weak:hover {
+            background-color: #d35400;
+        }
+        .mode-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .badge-count {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        .question-card {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .question-number {
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .question-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            background-color: #fafafa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-btn {
+            background-color: #f0f4f8;
+            border: 1px solid #d6e4ed;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background-color 0.15s;
+        }
+        .option-btn:hover {
+            background-color: #e2ecf5;
+        }
+        .option-btn.selected {
+            background-color: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            background-color: #27ae60;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: #7f8c8d;
+        }
+        .btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .result-box {
+            text-align: center;
+            padding: 20px;
+            background: #e8f8f5;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .correct { color: #27ae60; font-weight: bold; }
+        .incorrect { color: #c0392b; font-weight: bold; }
+        .badge {
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>英検準2級 演習アプリ</h1>
+    <div class="sub-title">トップページで挑戦したいコースを選択してください</div>
+
+    <!-- モード選択画面 -->
+    <div id="start-screen">
+        <div class="section-title">コースを選択</div>
+        <div class="mode-selection">
+            <button class="mode-btn mode-btn-primary" onclick="startQuiz('q1')">
+                <span>📘 大問1：短文空所補充 (語彙・熟語)</span>
+                <span class="badge-count">15問</span>
+            </button>
+            <button class="mode-btn mode-btn-secondary" onclick="startQuiz('q2')">
+                <span>💬 大問2：会話文完成</span>
+                <span class="badge-count">5問</span>
+            </button>
+            <button class="mode-btn mode-btn-mix" onclick="startQuiz('mix')">
+                <span>🎲 総合ミックス (大問1 ＋ 大問2)</span>
+                <span class="badge-count">計20問</span>
+            </button>
+        </div>
+
+        <div class="section-title">復習</div>
+        <div class="mode-selection">
+            <button class="mode-btn mode-btn-weak" id="weak-mode-btn" onclick="startQuiz('weak')">
+                <span>🔥 弱点克服モード</span>
+                <span class="badge-count"><span id="weak-count">0</span>問保存中</span>
+            </button>
+        </div>
+
+        <p style="text-align: center; font-size: 0.8rem; color: #7f8c8d; line-height: 1.4; margin-top: 15px;">
+            ※間違えた問題は自動的に保存され、弱点克服モードで効率良く復習できます。
+        </p>
+    </div>
+
+    <!-- クイズ画面 -->
+    <div id="quiz-screen" style="display:none;">
+        <div id="quiz-area"></div>
+        <div class="controls">
+            <button class="btn btn-secondary" id="prev-btn" onclick="changeQuestion(-1)">前へ</button>
+            <button class="btn btn-secondary" id="next-btn" onclick="changeQuestion(1)">次へ</button>
+            <button class="btn" id="submit-btn" style="display:none;" onclick="showResults()">結果を見る</button>
+        </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result-area" class="result-box" style="display:none;"></div>
+</div>
+
+<script>
+// 大問1 (語彙・熟語 データベース)
+const q1Bank = [
+    { id: "w1", q: "A: Michael, this meal is ( ) delicious! It's the best pasta I've ever eaten.\nB: Really? I'm glad you like it.", options: ["1 nervously", "2 absolutely", "3 rarely", "4 separately"], answer: 1, explanation: "「絶対に/完全に」を意味する副詞 absolutely が入ります。" },
+    { id: "w2", q: "Dennis was recently ( ) to his company's New York office. He likes his new apartment.", options: ["1 transferred", "2 reduced", "3 proposed", "4 apologized"], answer: 0, explanation: "「転勤した/移動した」を意味する transferred が適当です。" },
+    { id: "w3", q: "A: Why did you choose that hotel?\nB: It had good reviews, and the price seemed ( ) compared to other options.", options: ["1 wooden", "2 boring", "3 cute", "4 reasonable"], answer: 3, explanation: "「（価格が）手頃な・妥当な」を意味する reasonable が入ります。" },
+    { id: "w4", q: "At the start of the lesson, Mr. Harris made an ( ) that a student teacher would join them.", options: ["1 award", "2 aisle", "3 attempt", "4 announcement"], answer: 3, explanation: "「お知らせ・発表」を意味する announcement が正解です。" },
+    { id: "w5", q: "When Adam buys expensive items, he always keeps the ( ) in a safe place in case he needs to return them.", options: ["1 battery", "2 receipt", "3 website", "4 frame"], answer: 1, explanation: "「領収書・レシート」を意味する receipt が入ります。" },
+    { id: "w6", q: "People can ( ) their friends to support them during difficult times.", options: ["1 paste", "2 blame", "3 trust", "4 scratch"], answer: 2, explanation: "「信頼する」を意味する trust が適当です。" },
+    { id: "w7", q: "A: How many points did you ( ) in the math test?\nB: Only 50 out of 100.", options: ["1 enter", "2 engage", "3 claim", "4 score"], answer: 3, explanation: "「（点数を）獲得する」を意味する score が入ります。" },
+    { id: "w8", q: "After running ten kilometers, Evan's legs started to ( ). He sat down to rest.", options: ["1 ache", "2 soothe", "3 push", "4 gather"], answer: 0, explanation: "「痛む」を意味する ache が適当です。" },
+    { id: "w9", q: "Gold has a higher ( ) than silver because it is harder to find.", options: ["1 shadow", "2 talent", "3 pattern", "4 value"], answer: 3, explanation: "「価値」を意味する value が入ります。" },
+    { id: "w10", q: "Yes, my headache has totally ( ). The pain had gone when I woke up.", options: ["1 wondered", "2 disappeared", "3 supposed", "4 entered"], answer: 1, explanation: "「（症状などが）消去する・消える」を意味する disappeared が正解です。" },
+    { id: "i1", q: "Almost all the pets in the shelter found homes, ( ) one dog that was still waiting.", options: ["1 next to", "2 except for", "3 across from", "4 up to"], answer: 1, explanation: "「〜を除いて」を意味する except for が入ります。" },
+    { id: "i2", q: "A: ( )! There's a bee near your face!\nB: Oh, I didn't see it. Thanks!", options: ["1 Get on", "2 Take off", "3 Give up", "4 Look out"], answer: 3, explanation: "「気をつけて！」を意味する Look out が入ります。" },
+    { id: "i3", q: "A: Dad, can I have a new smartphone?\nB: No, that's ( ), Megan. You just got a new one last month.", options: ["1 out of the question", "2 up in the air", "3 in a good temper", "4 none of your business"], answer: 0, explanation: "「論外だ・不可能だ」を意味する out of the question が入ります。" },
+    { id: "i4", q: "Justin does not mind cooking for his family ( ) he does not have to wash the dishes afterward.", options: ["1 as soon as", "2 as long as", "3 even if", "4 by the time"], answer: 1, explanation: "「〜である限り」条件を表す as long as が正解です。" },
+    { id: "i5", q: "( ) her full-time job, Sheila teaches guitar lessons on the weekends.", options: ["1 On account of", "2 For fear of", "3 In addition to", "4 By means of"], answer: 2, explanation: "「〜に加えて」を意味する In addition to が適当です。" }
+];
+
+// 大問2 (会話文完成 データベース)
+const q2Bank = [
+    {
+        id: "d16",
+        q: "A: Welcome to Jason's PC Rescue. How can I assist you today?\nB: Hi, I accidentally dropped my computer from my desk. I can turn it on, but the top half of the screen is completely dark.\nA: I understand. I'll ( 16 ) and check if everything else works well.\nB: Thank you. I really hope that's the only part that's damaged.",
+        options: [
+            "1 fix your desk as soon as possible",
+            "2 make sure the screen is dark enough",
+            "3 change the screen to a new one",
+            "4 return it to you without any repairs"
+        ],
+        answer: 2,
+        explanation: "画面の上半分が暗くなっているパソコンの修理依頼です。画面を新しいものに交換して他が動作するか確認するため「3 change the screen to a new one（画面を新しいものに交換する）」が適当です。"
+    },
+    {
+        id: "d17",
+        q: "A: Jason, how should we get to the hotel from here?\nB: Let me check the guidebook. It says we can either take the bus or the train.\nA: We've got heavy bags, so I'd prefer not to walk too much.\nB: In that case, ( 17 ). It drops us off right in front of the hotel.",
+        options: [
+            "1 we should take the bus",
+            "2 we can walk to our hotel",
+            "3 let's book a guided tour later",
+            "4 let's check in our baggage first"
+        ],
+        answer: 0,
+        explanation: "重い荷物があるため歩きたくないと言うAに対し、「ホテルのすぐ真前で降ろしてくれる」バスを提案する「1 we should take the bus（バスに乗るべきだ）」が適当です。"
+    },
+    {
+        id: "d18",
+        q: "A: Hello. What can I get for you today?\nB: Hi. I'd like four beef tacos and a large chicken salad to go, please.\nA: Sure. For your salad, we have a creamy dressing or a spicy dressing. Which one would you like?\nB: I don't want my salad to be too hot, so I'll have ( 18 ), please.",
+        options: [
+            "1 another cup of tea",
+            "2 the creamy one",
+            "3 two more tacos",
+            "4 something spicy"
+        ],
+        answer: 1,
+        explanation: "辛すぎるドレッシング（spicy）は避けたいと言っているので、もう一方の「2 the creamy one（クリーミーな方）」が正解です。"
+    },
+    {
+        id: "d19",
+        q: "A: Excuse me, is this seat taken?\nB: No, go ahead. Are you heading to the central station?\nA: Yes, I have a meeting there at 2 PM. Do you know if we are running on time?\nB: Yes, the driver announced that we are ( 19 ).",
+        options: [
+            "1 right on schedule",
+            "2 getting lost",
+            "3 missing the stop",
+            "4 far behind time"
+        ],
+        answer: 0,
+        explanation: "予定通り運行しているか尋ねられて肯定しているため、「1 right on schedule（定刻通りである）」が適当です。"
+    },
+    {
+        id: "d20",
+        q: "A: Mom, I'm thinking about joining the school drama club.\nB: That sounds like a wonderful idea! You've always enjoyed acting.\nA: But I'm a bit worried about managing my study time.\nB: As long as you plan your week carefully, you should be able to ( 20 ).",
+        options: [
+            "1 balance both easily",
+            "2 give up on your study",
+            "3 quit the drama club",
+            "4 fail the upcoming exam"
+        ],
+        answer: 0,
+        explanation: "勉強と部活の両立を心配する子供に対し、「計画をしっかり立てれば両立できる（1 balance both easily）」と励ましています。"
+    }
+];
+
+// シャッフル関数
+function shuffleOptions(question) {
+    const originalAnswerText = question.options[question.answer];
+    const shuffledOptions = [...question.options];
+    for (let i = shuffledOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+    }
+    const cleanOptions = shuffledOptions.map(opt => opt.replace(/^[1-4]\s*/, ""));
+    const finalOptions = cleanOptions.map((opt, idx) => `${idx + 1} ${opt}`);
+    const newAnswerIndex = cleanOptions.findIndex(opt => originalAnswerText.includes(opt));
+    
+    return { ...question, options: finalOptions, answer: newAnswerIndex };
+}
+
+function getRandomItems(array, count) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, Math.min(count, array.length));
+}
+
+function getWeakList() {
+    const data = localStorage.getItem("eiken_p2_weak_list");
+    return data ? JSON.parse(data) : [];
+}
+
+function saveWeakList(list) {
+    localStorage.setItem("eiken_p2_weak_list", JSON.stringify(list));
+    updateWeakCountUI();
+}
+
+function updateWeakCountUI() {
+    const weakList = getWeakList();
+    document.getElementById("weak-count").textContent = weakList.length;
+    document.getElementById("weak-mode-btn").disabled = weakList.length === 0;
+}
+
+let activeQuestions = [];
+let currentIndex = 0;
+let userAnswers = [];
+
+function startQuiz(mode) {
+    const allQuestions = [...q1Bank, ...q2Bank];
+
+    if (mode === "q1") {
+        // 大問1：15問選出
+        activeQuestions = getRandomItems(q1Bank, 15).map(shuffleOptions);
+    } else if (mode === "q2") {
+        // 大問2：5問選出
+        activeQuestions = getRandomItems(q2Bank, 5).map(shuffleOptions);
+    } else if (mode === "mix") {
+        // 総合ミックス：大問1(15問) ＋ 大問2(5問) ＝ 計20問
+        const q1Selected = getRandomItems(q1Bank, 15).map(shuffleOptions);
+        const q2Selected = getRandomItems(q2Bank, 5).map(shuffleOptions);
+        activeQuestions = [...q1Selected, ...q2Selected];
+    } else if (mode === "weak") {
+        // 弱点克服モード
+        const weakIds = getWeakList();
+        const weakQuestions = allQuestions.filter(q => weakIds.includes(q.id));
+        activeQuestions = getRandomItems(weakQuestions, Math.min(20, weakQuestions.length)).map(shuffleOptions);
+    }
+
+    userAnswers = new Array(activeQuestions.length).fill(null);
+    currentIndex = 0;
+
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("quiz-screen").style.display = "block";
+    document.getElementById("result-area").style.display = "none";
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const qData = activeQuestions[currentIndex];
+    const quizArea = document.getElementById("quiz-area");
+
+    let optionsHtml = qData.options.map((opt, idx) => {
+        const isSelected = userAnswers[currentIndex] === idx ? "selected" : "";
+        return `<button class="option-btn ${isSelected}" onclick="selectOption(${idx})">${opt}</button>`;
+    }).join("");
+
+    let badgeText = "大問1 (語彙・熟語)";
+    let badgeColor = "#3498db";
+    if (qData.id.startsWith("d")) { 
+        badgeText = "大問2 (会話文)"; 
+        badgeColor = "#9b59b6"; 
+    }
+
+    quizArea.innerHTML = `
+        <div class="question-card">
+            <div class="question-number">
+                <span>問題 (${currentIndex + 1} / ${activeQuestions.length})</span>
+                <span class="badge" style="background-color: ${badgeColor}">${badgeText}</span>
+            </div>
+            <div class="question-text">${qData.q}</div>
+            <div class="options">${optionsHtml}</div>
+        </div>
+    `;
+
+    document.getElementById("prev-btn").disabled = currentIndex === 0;
+    if (currentIndex === activeQuestions.length - 1) {
+        document.getElementById("next-btn").style.display = "none";
+        document.getElementById("submit-btn").style.display = "inline-block";
+    } else {
+        document.getElementById("next-btn").style.display = "inline-block";
+        document.getElementById("submit-btn").style.display = "none";
+    }
+}
+
+function selectOption(index) {
+    userAnswers[currentIndex] = index;
+    renderQuestion();
+}
+
+function changeQuestion(step) {
+    currentIndex += step;
+    renderQuestion();
+}
+
+function showResults() {
+    let score = 0;
+    let detailHtml = "";
+    let weakList = getWeakList();
+
+    activeQuestions.forEach((q, idx) => {
+        const userAns = userAnswers[idx];
+        const isCorrect = userAns === q.answer;
+        
+        if (isCorrect) {
+            score++;
+            weakList = weakList.filter(id => id !== q.id);
+        } else {
+            if (!weakList.includes(q.id)) weakList.push(q.id);
+        }
+
+        let badgeText = q.id.startsWith("d") ? "大問2" : "大問1";
+
+        detailHtml += `
+            <div style="text-align:left; margin-bottom:12px; border-bottom: 1px dashed #ccc; padding-bottom:8px;">
+                <strong>問${idx + 1} [${badgeText}]:</strong> ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
+                正解: ${q.options[q.answer]}<br>
+                <small style="color:#666;">解説: ${q.explanation}</small>
+            </div>
+        `;
+    });
+
+    saveWeakList(weakList);
+
+    const resultArea = document.getElementById("result-area");
+    resultArea.style.display = "block";
+    resultArea.innerHTML = `
+        <h2>結果発表</h2>
+        <p style="font-size: 1.2rem;">スコア: <strong>${score} / ${activeQuestions.length}</strong> 点</p>
+        <hr>
+        ${detailHtml}
+        <button class="btn" style="margin-top:15px;" onclick="returnToStart()">トップに戻る</button>
+    `;
+
+    document.getElementById("quiz-screen").style.display = "none";
+}
+
+function returnToStart() {
+    document.getElementById("start-screen").style.display = "block";
+    document.getElementById("quiz-screen").style.display = "none";
+    document.getElementById("result-area").style.display = "none";
+    updateWeakCountUI();
+}
+
+updateWeakCountUI();
+</script>
+
+</body>
+</html>
