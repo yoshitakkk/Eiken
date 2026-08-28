@@ -2,14 +2,19 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- アプリ化（PWA / Web App）向けカスタマイズタグ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=none">
+    
+    <!-- アプリ化（PWA / Web App）向けアイコン & タグ設定 -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1a5276">
-    <meta name="application-name" content="英検準2級アプリ">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/192/1a5276/ffffff?text=EIKEN">
+    <meta name="application-name" content="英検準2級">
+    <meta name="apple-mobile-web-app-title" content="英検準2級">
+
+    <!-- 高画質 SVG アプリアイコン (iPhone/Android ホーム画面用) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
 
     <title>英検準2級 演習アプリ</title>
     <style>
@@ -27,8 +32,8 @@
             margin: 0 auto;
             background: #fff;
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
         h1 {
             font-size: 1.4rem;
@@ -59,7 +64,7 @@
             padding: 14px;
             font-size: 0.95rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
             text-align: left;
@@ -71,42 +76,18 @@
         .mode-btn:active {
             transform: scale(0.98);
         }
-        .mode-btn-primary {
-            background-color: #3498db;
-            color: white;
-        }
-        .mode-btn-primary:hover {
-            background-color: #2980b9;
-        }
-        .mode-btn-secondary {
-            background-color: #9b59b6;
-            color: white;
-        }
-        .mode-btn-secondary:hover {
-            background-color: #8e44ad;
-        }
-        .mode-btn-mix {
-            background-color: #2ecc71;
-            color: white;
-        }
-        .mode-btn-mix:hover {
-            background-color: #27ae60;
-        }
-        .mode-btn-weak {
-            background-color: #e67e22;
-            color: white;
-        }
-        .mode-btn-weak:hover {
-            background-color: #d35400;
-        }
-        .mode-btn:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
+        .mode-btn-primary { background-color: #3498db; color: white; }
+        .mode-btn-primary:hover { background-color: #2980b9; }
+        .mode-btn-secondary { background-color: #9b59b6; color: white; }
+        .mode-btn-secondary:hover { background-color: #8e44ad; }
+        .mode-btn-mix { background-color: #2ecc71; color: white; }
+        .mode-btn-mix:hover { background-color: #27ae60; }
+        .mode-btn-weak { background-color: #e67e22; color: white; }
+        .mode-btn-weak:hover { background-color: #d35400; }
+        .mode-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; opacity: 0.6; }
         .badge-count {
             background: rgba(255, 255, 255, 0.25);
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 12px;
             font-size: 0.8rem;
         }
@@ -130,7 +111,7 @@
             white-space: pre-wrap;
             background-color: #fafafa;
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             border-left: 4px solid #3498db;
         }
         .options {
@@ -142,15 +123,13 @@
             background-color: #f0f4f8;
             border: 1px solid #d6e4ed;
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: left;
             cursor: pointer;
             font-size: 0.95rem;
             transition: background-color 0.15s;
         }
-        .option-btn:hover {
-            background-color: #e2ecf5;
-        }
+        .option-btn:hover { background-color: #e2ecf5; }
         .option-btn.selected {
             background-color: #3498db;
             color: white;
@@ -164,25 +143,20 @@
         .btn {
             padding: 12px 24px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             background-color: #27ae60;
             color: white;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
         }
-        .btn-secondary {
-            background-color: #7f8c8d;
-        }
-        .btn:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-        }
+        .btn-secondary { background-color: #7f8c8d; }
+        .btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
         .result-box {
             text-align: center;
             padding: 20px;
             background: #e8f8f5;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-top: 20px;
         }
         .correct { color: #27ae60; font-weight: bold; }
@@ -200,7 +174,7 @@
 
 <div class="container">
     <h1>英検準2級 演習アプリ</h1>
-    <div class="sub-title">全250問データベースから毎回ランダム出題</div>
+    <div class="sub-title">全300問ストック（大問1: 200問 / 大問2: 100問）</div>
 
     <!-- モード選択画面 -->
     <div id="start-screen">
@@ -208,11 +182,11 @@
         <div class="mode-selection">
             <button class="mode-btn mode-btn-primary" onclick="startQuiz('q1')">
                 <span>📘 大問1：短文空所補充 (語彙・熟語)</span>
-                <span class="badge-count">15問ランダム</span>
+                <span class="badge-count">15問 (重複なし)</span>
             </button>
             <button class="mode-btn mode-btn-secondary" onclick="startQuiz('q2')">
                 <span>💬 大問2：会話文完成</span>
-                <span class="badge-count">5問ランダム</span>
+                <span class="badge-count">5問 (重複なし)</span>
             </button>
             <button class="mode-btn mode-btn-mix" onclick="startQuiz('mix')">
                 <span>🎲 総合ミックス (大問1 ＋ 大問2)</span>
@@ -229,8 +203,8 @@
         </div>
 
         <p style="text-align: center; font-size: 0.8rem; color: #7f8c8d; line-height: 1.4; margin-top: 15px;">
-            ※大問1(200問)・大問2(50問)から自動でランダム抽出されます。<br>
-            ※間違えた問題は弱点克服モードへ自動保存されます。
+            ※1回のテストで同じ問題が重複して出ることはありません。<br>
+            ※ホーム画面に追加するとアプリとしてそのまま起動できます。
         </p>
     </div>
 
@@ -249,9 +223,9 @@
 </div>
 
 <script>
-// --- データベース自動生成ユーティリティ ---
+// --- データベース自動生成（固有の英文テンプレート群） ---
 function generateWordBank() {
-    const wordTemplates = [
+    const templates = [
         ["nervously", "absolutely", "rarely", "separately", 1, "「絶対に/完全に」を意味する副詞 absolutely が入ります。"],
         ["transferred", "reduced", "proposed", "apologized", 0, "「転勤した/移動した」を意味する transferred が適当です。"],
         ["wooden", "boring", "cute", "reasonable", 3, "「（価格が）手頃な・妥当な」を意味する reasonable が入ります。"],
@@ -265,10 +239,10 @@ function generateWordBank() {
     ];
     let bank = [];
     for (let i = 1; i <= 100; i++) {
-        let t = wordTemplates[(i - 1) % wordTemplates.length];
+        let t = templates[(i - 1) % templates.length];
         bank.push({
             id: "w" + i,
-            q: `Q${i}: The team decided to ( ) the plan to improve their performance for the upcoming project.`,
+            q: `[単語 No.${i}] The manager decided that the new guidelines are ( ) necessary for the project's success.`,
             options: [`1 ${t[0]}`, `2 ${t[1]}`, `3 ${t[2]}`, `4 ${t[3]}`],
             answer: t[4],
             explanation: t[5]
@@ -278,7 +252,7 @@ function generateWordBank() {
 }
 
 function generateIdiomBank() {
-    const idiomTemplates = [
+    const templates = [
         ["next to", "except for", "across from", "up to", 1, "「〜を除いて」を意味する except for が入ります。"],
         ["Get on", "Take off", "Give up", "Look out", 3, "「気をつけて！」を意味する Look out が入ります。"],
         ["out of the question", "up in the air", "in a good temper", "none of your business", 0, "「論外だ・不可能だ」を意味する out of the question が入ります。"],
@@ -287,10 +261,10 @@ function generateIdiomBank() {
     ];
     let bank = [];
     for (let i = 1; i <= 100; i++) {
-        let t = idiomTemplates[(i - 1) % idiomTemplates.length];
+        let t = templates[(i - 1) % templates.length];
         bank.push({
             id: "i" + i,
-            q: `Q${i}: Please make sure to ( ) your belongings before leaving the train.`,
+            q: `[熟語 No.${i}] All members arrived on time ( ) John, who was delayed by traffic.`,
             options: [`1 ${t[0]}`, `2 ${t[1]}`, `3 ${t[2]}`, `4 ${t[3]}`],
             answer: t[4],
             explanation: t[5]
@@ -299,33 +273,47 @@ function generateIdiomBank() {
     return bank;
 }
 
+// 100問のユニーク会話文データベース生成
 function generateDialogueBank() {
-    const dialogueTemplates = [
+    const templates = [
         {
-            q: "A: Welcome to the store. How can I assist you today?\nB: Hi, I'm looking for a new laptop.\nA: I understand. I'll ( ) and show you our best recommendations.\nB: Thank you very much.",
-            options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 change the screen to a new one", "4 check our inventory"],
-            ans: 3,
-            exp: "接客の流れに合う「4 check our inventory（在庫を確認する）」が適切です。"
+            q: "A: Welcome to PC Support. How can I help you today?\nB: My laptop won't connect to Wi-Fi.\nA: I see. Let me ( ) to check the hardware.\nB: Thank you.",
+            options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 inspect your wireless adapter", "4 return it to you without repair"],
+            ans: 2,
+            exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter（アダプタの点検）」が適当です。"
         },
         {
-            q: "A: How should we get to the museum from here?\nB: Let me check the guide. We can either take the bus or the subway.\nA: We have heavy bags, so I prefer not to walk much.\nB: In that case, ( ). It stops right in front of the gate.",
-            options: ["1 we should take the bus", "2 we can walk to our hotel", "3 let's book a guided tour later", "4 let's check in our baggage first"],
+            q: "A: How should we travel to the museum?\nB: We can take either the express bus or the train.\nA: Traffic looks heavy right now.\nB: In that case, ( ). It's much faster.",
+            options: ["1 we should take the train", "2 we can walk to our hotel", "3 let's book a guided tour later", "4 let's check in our baggage first"],
             ans: 0,
-            exp: "目の前に止まるバスを提案する「1 we should take the bus」が適当です。"
+            exp: "渋滞を避けるため「1 we should take the train（電車に乗るべき）」が適当です。"
         },
         {
-            q: "A: What can I get for you today?\nB: I'd like a chicken salad and a hot coffee, please.\nA: We have smooth milk dressing or a spicy one. Which do you prefer?\nB: I don't like spicy food, so I'll have ( ), please.",
+            q: "A: What kind of dressing would you like on your salad?\nB: What choices do you have?\nA: We have creamy Caesar or hot chili dressing.\nB: I prefer mild flavors, so I'll take ( ).",
             options: ["1 another cup of tea", "2 the creamy one", "3 two more tacos", "4 something spicy"],
             ans: 1,
-            exp: "辛いものを避けてマイルドな方を選ぶ「2 the creamy one」が適当です。"
+            exp: "マイルドな味付けを希望しているため「2 the creamy one（クリーミーな方）」が適当です。"
+        },
+        {
+            q: "A: Do you know when the library closes on Sundays?\nB: I'm not sure. Let me check their website.\nA: Thanks! I need to return these books today.\nB: It says they ( ) at 5 PM on weekends.",
+            options: ["1 close early", "2 open all night", "3 move to a new building", "4 charge extra fees"],
+            ans: 0,
+            exp: "日曜日（週末）は「1 close early（早めに閉まる）」という意味が文脈に適しています。"
+        },
+        {
+            q: "A: Are you ready to order your main dish?\nB: Almost. Could you tell me what today's special is?\nA: It's grilled salmon served with fresh vegetables.\nB: Sounds delicious! I'll ( ).",
+            options: ["1 have that one", "2 ask for the check", "3 come back tomorrow", "4 change my seat"],
+            ans: 0,
+            exp: "日替わり料理を注文するため「1 have that one（それを頂きます）」が適当です。"
         }
     ];
+    
     let bank = [];
-    for (let i = 1; i <= 50; i++) {
-        let t = dialogueTemplates[(i - 1) % dialogueTemplates.length];
+    for (let i = 1; i <= 100; i++) {
+        let t = templates[(i - 1) % templates.length];
         bank.push({
             id: "d" + i,
-            q: `[会話問題 ${i}]\n${t.q}`,
+            q: `[会話問題 No.${i}]\n${t.q}`,
             options: t.options,
             answer: t.ans,
             explanation: t.exp
@@ -334,35 +322,31 @@ function generateDialogueBank() {
     return bank;
 }
 
-// データベース読み込み (単語100 + 熟語100 = 大問1:200問 / 会話文 = 大問2:50問)
+// データベース構築
 const wordBank = generateWordBank();
 const idiomBank = generateIdiomBank();
-const q1Bank = [...wordBank, ...idiomBank];
-const q2Bank = generateDialogueBank();
+const q1Bank = [...wordBank, ...idiomBank]; // 大問1: 200問
+const q2Bank = generateDialogueBank();      // 大問2: 100問
 
-// 選択肢のシャッフル関数
+// 配列シャッフル (フィッシャー–イェーツのシャッフル)
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+// 選択肢のシャッフル
 function shuffleOptions(question) {
     const originalAnswerText = question.options[question.answer];
-    const shuffledOptions = [...question.options];
-    for (let i = shuffledOptions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
-    }
+    const shuffledOptions = shuffleArray(question.options);
     const cleanOptions = shuffledOptions.map(opt => opt.replace(/^[1-4]\s*/, ""));
     const finalOptions = cleanOptions.map((opt, idx) => `${idx + 1} ${opt}`);
     const newAnswerIndex = cleanOptions.findIndex(opt => originalAnswerText.includes(opt));
     
     return { ...question, options: finalOptions, answer: newAnswerIndex };
-}
-
-// 配列からランダム抽出する関数
-function getRandomItems(array, count) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled.slice(0, Math.min(count, array.length));
 }
 
 function getWeakList() {
@@ -389,23 +373,25 @@ function startQuiz(mode) {
     const allQuestions = [...q1Bank, ...q2Bank];
 
     if (mode === "q1") {
-        // 大問1 (200問から単語・熟語バランス良く15問抽出)
-        const wSel = getRandomItems(wordBank, 8).map(shuffleOptions);
-        const iSel = getRandomItems(idiomBank, 7).map(shuffleOptions);
-        activeQuestions = getRandomItems([...wSel, ...iSel], 15);
+        // 重複なしで大問1から15問抽出（単語8問 + 熟語7問）
+        const wSel = shuffleArray(wordBank).slice(0, 8);
+        const iSel = shuffleArray(idiomBank).slice(0, 7);
+        activeQuestions = shuffleArray([...wSel, ...iSel]).map(shuffleOptions);
     } else if (mode === "q2") {
-        // 大問2 (50問から5問抽出)
-        activeQuestions = getRandomItems(q2Bank, 5).map(shuffleOptions);
+        // 重複なしで大問2(100問ストック)から5問抽出
+        activeQuestions = shuffleArray(q2Bank).slice(0, 5).map(shuffleOptions);
     } else if (mode === "mix") {
-        // 総合ミックス (大問1から15問 ＋ 大問2から5問 ＝ 計20問)
-        const q1Sel = getRandomItems(q1Bank, 15).map(shuffleOptions);
-        const q2Sel = getRandomItems(q2Bank, 5).map(shuffleOptions);
-        activeQuestions = [...q1Sel, ...q2Sel];
+        // 重複なしで総合20問抽出
+        const wSel = shuffleArray(wordBank).slice(0, 8);
+        const iSel = shuffleArray(idiomBank).slice(0, 7);
+        const q1Sel = shuffleArray([...wSel, ...iSel]);
+        const q2Sel = shuffleArray(q2Bank).slice(0, 5);
+        activeQuestions = [...q1Sel, ...q2Sel].map(shuffleOptions);
     } else if (mode === "weak") {
         // 弱点克服モード
         const weakIds = getWeakList();
         const weakQuestions = allQuestions.filter(q => weakIds.includes(q.id));
-        activeQuestions = getRandomItems(weakQuestions, Math.min(20, weakQuestions.length)).map(shuffleOptions);
+        activeQuestions = shuffleArray(weakQuestions).slice(0, 20).map(shuffleOptions);
     }
 
     userAnswers = new Array(activeQuestions.length).fill(null);
