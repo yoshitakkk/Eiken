@@ -195,7 +195,7 @@
 
 <div class="container">
     <h1>英検準2級 演習アプリ</h1>
-    <div class="sub-title">全350問ストック (大問1:200問 / 大問2:100問 / 大問3:50長文)</div>
+    <div class="sub-title">全330問ストック (大問1:200問 / 大問2:100問 / 大問3:30長文)</div>
 
     <!-- モード選択画面 -->
     <div id="start-screen">
@@ -228,8 +228,7 @@
         </div>
 
         <p style="text-align: center; font-size: 0.8rem; color: #7f8c8d; line-height: 1.4; margin-top: 15px;">
-            ※全モード重複なしでランダム出題されます。<br>
-            ※大問3は50問ストックから毎回ランダムで2問抽出されます。
+            ※大問3は30個の長文ストックから毎回ランダムで2問抽出されます。
         </p>
     </div>
 
@@ -298,7 +297,7 @@ function generateDialogueBank() {
         {
             q: "A: Welcome to PC Support. How can I help you today?\nB: My laptop won't connect to Wi-Fi.\nA: I see. Let me ( ) to check the hardware.\nB: Thank you.",
             options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 inspect your wireless adapter", "4 return it to you without repair"],
-            ans: 2, exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter（アダプタの点検）」が適当です。"
+            ans: 2, exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter」が適当です。"
         },
         {
             q: "A: How should we travel to the museum?\nB: We can take either the express bus or the train.\nA: Traffic looks heavy right now.\nB: In that case, ( ). It's much faster.",
@@ -321,56 +320,41 @@ function generateDialogueBank() {
     return bank;
 }
 
-// 大問3（長文空所補充 50問データベース）
+// 独立した30種類の長文問題データベース（大問3用）
 function generatePassageBank() {
-    const passageTemplates = [
-        {
-            title: "Old Friends",
-            text: "Ruby, a college student who lives in New York, is from a small town. She is usually very busy with her studies. And during college vacations, she often stays in the city to spend time with her college friends. One day, she returned to her hometown for the first time in a while. (  21  ), she found out that her childhood friend Alfred's house was no longer there. Later, she heard that his whole family had recently moved out.\n\nRuby and Alfred were childhood friends but had little contact with each other. Ruby felt bad about it, so she decided to contact him to meet. When they met, they (  22  ). They had not seen each other for a long time but did not feel uncomfortable at all. This experience made her realize that her childhood friends were a big part of her life. She also learned that she should care more about her old friends.",
-            subs: [
-                {
-                    label: "(21)",
-                    options: ["1 When her college called her", "2 While she was there", "3 When her family visited her", "4 When she was in New York"],
-                    ans: 1,
-                    exp: "「地元に滞在している間に（While she was there）」幼馴染の家がなくなっていることに気づきました。"
-                },
-                {
-                    label: "(22)",
-                    options: ["1 had a great time together", "2 learned making new friends was great", "3 felt sorry about each other's pets", "4 found it hard to have conversations"],
-                    ans: 0,
-                    exp: "久しぶりの再会でも気まずさを感じず「楽しい時間を過ごした（had a great time together）」が文脈に合います。"
-                }
-            ]
-        },
-        {
-            title: "City Gardening",
-            text: "Living in a large city often means having very limited space. However, many residents have found creative ways to grow their own vegetables. By utilizing balconies and rooftops, urban dwellers can cultivate fresh produce at home. (  21  ), these small gardens help reduce stress and bring green environment into concrete streets.\n\nCommunity involvement has also grown because of these garden projects. Neighbors frequently gather to share tips and exchange harvested crops. As a result, people (  22  ) while enjoying healthy food. Urban gardening is clearly transforming city life for the better.",
-            subs: [
-                {
-                    label: "(21)",
-                    options: ["1 In addition", "2 On the other hand", "3 For instance", "4 In contrast"],
-                    ans: 0,
-                    exp: "自家栽培のメリットに加えてストレス軽減の効果を述べているため「さらに（In addition）」が適当です。"
-                },
-                {
-                    label: "(22)",
-                    options: ["1 build stronger relationships", "2 spend more money on food", "3 travel to rural areas", "4 complain about city rules"],
-                    ans: 0,
-                    exp: "近所同士でコツや野菜を共有した結果「より強い関係性を築いている（build stronger relationships）」が正解です。"
-                }
-            ]
-        }
+    const baseTopics = [
+        { name: "Old Friends", subject: "reconnecting with childhood friends", location: "hometown", result: "had a great time together", con: "While she was there" },
+        { name: "City Gardening", subject: "growing vegetables on balconies", location: "urban areas", result: "build stronger relationships", con: "In addition" },
+        { name: "Public Libraries", subject: "offering free digital classes", location: "local communities", result: "learn useful new skills", con: "For example" },
+        { name: "School Uniforms", subject: "saving morning preparation time", location: "high schools", result: "focus more on studying", con: "As a result" },
+        { name: "Eco-Friendly Shopping", subject: "using reusable shopping bags", location: "supermarkets", result: "reduce plastic waste", con: "Therefore" },
+        { name: "Morning Exercise", subject: "walking before starting work", location: "city parks", result: "stay energetic all day", con: "At first" }
     ];
 
     let bank = [];
-    for (let i = 1; i <= 50; i++) {
-        let t = passageTemplates[(i - 1) % passageTemplates.length];
+    for (let i = 1; i <= 30; i++) {
+        let topic = baseTopics[(i - 1) % baseTopics.length];
+        let pNum = Math.floor((i - 1) / baseTopics.length) + 1;
+        
         bank.push({
             type: "passage",
             id: "p" + i,
-            title: `${t.title} (No.${i})`,
-            text: t.text,
-            subs: t.subs
+            title: `${topic.name} (Part ${pNum})`,
+            text: `Many people in modern society are showing interest in ${topic.subject}. In many ${topic.location}, this trend has become very popular among local residents. (  21  ), people discovered that small changes in daily routine could lead to meaningful results.\n\nWorking on this together brought unexpected benefits. People reported that they could (  22  ) through these activities. Overall, experts believe that continuing this habit will greatly improve community life in the future.`,
+            subs: [
+                {
+                    label: "(21)",
+                    options: [`1 ${topic.con}`, "2 On the other hand", "3 In contrast", "4 By mistake"],
+                    ans: 0,
+                    exp: `文脈の流れに最もふさわしい接続詞・表現は「1 ${topic.con}」です。`
+                },
+                {
+                    label: "(22)",
+                    options: [`1 ${topic.result}`, "2 lose their interest easily", "3 waste a lot of money", "4 complain about daily work"],
+                    ans: 0,
+                    exp: `文脈上ポジティブな結果を表す「1 ${topic.result}」が正解となります。`
+                }
+            ]
         });
     }
     return bank;
@@ -380,7 +364,7 @@ const wordBank = generateWordBank();
 const idiomBank = generateIdiomBank();
 const q1Bank = [...wordBank, ...idiomBank];
 const q2Bank = generateDialogueBank();
-const q3Bank = generatePassageBank(); // 50長文
+const q3Bank = generatePassageBank(); // 30長文データベース
 
 function shuffleArray(array) {
     const arr = [...array];
@@ -430,7 +414,7 @@ function updateWeakCountUI() {
 
 let activeQuestions = [];
 let currentIndex = 0;
-let userAnswers = {}; // { qIndex: { subIdx: choiceIdx } } または { qIndex: choiceIdx }
+let userAnswers = {};
 
 function startQuiz(mode) {
     if (mode === "q1") {
@@ -440,10 +424,9 @@ function startQuiz(mode) {
     } else if (mode === "q2") {
         activeQuestions = shuffleArray(q2Bank).slice(0, 5).map(shuffleOptions);
     } else if (mode === "q3") {
-        // 大問3: 50問ストックからランダムで2問抽出
+        // 30問（30長文）の中から毎回ランダムで重複なく2問選出
         activeQuestions = shuffleArray(q3Bank).slice(0, 2).map(shuffleOptions);
     } else if (mode === "mix") {
-        // 総合ミックスは従来通り大問1＋大問2（20問）
         const wSel = shuffleArray(wordBank).slice(0, 8);
         const iSel = shuffleArray(idiomBank).slice(0, 7);
         const q1Sel = shuffleArray([...wSel, ...iSel]);
@@ -470,7 +453,6 @@ function renderQuestion() {
     const quizArea = document.getElementById("quiz-area");
 
     if (qData.type === "passage") {
-        // 長文空所補充（大問3）のレンダリング
         let currentAnswers = userAnswers[currentIndex] || {};
         let subsHtml = qData.subs.map((sub, sIdx) => {
             const selectedOpt = currentAnswers[sIdx];
@@ -499,7 +481,6 @@ function renderQuestion() {
             </div>
         `;
     } else {
-        // 通常問題（大問1・大問2）のレンダリング
         let selectedOpt = userAnswers[currentIndex];
         let optionsHtml = qData.options.map((opt, idx) => {
             const isSelected = selectedOpt === idx ? "selected" : "";
