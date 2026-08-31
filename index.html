@@ -12,7 +12,7 @@
     <meta name="application-name" content="英検準2級">
     <meta name="apple-mobile-web-app-title" content="英検準2級">
 
-    <!-- 高画質 SVG アプリアイコン (iPhone/Android ホーム画面用) -->
+    <!-- 高画質 SVG アプリアイコン -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
 
@@ -28,7 +28,7 @@
             -webkit-user-select: none;
         }
         .container {
-            max-width: 650px;
+            max-width: 680px;
             margin: 0 auto;
             background: #fff;
             padding: 25px;
@@ -73,13 +73,13 @@
             align-items: center;
             transition: background-color 0.2s, transform 0.1s;
         }
-        .mode-btn:active {
-            transform: scale(0.98);
-        }
+        .mode-btn:active { transform: scale(0.98); }
         .mode-btn-primary { background-color: #3498db; color: white; }
         .mode-btn-primary:hover { background-color: #2980b9; }
         .mode-btn-secondary { background-color: #9b59b6; color: white; }
         .mode-btn-secondary:hover { background-color: #8e44ad; }
+        .mode-btn-tertiary { background-color: #e74c3c; color: white; }
+        .mode-btn-tertiary:hover { background-color: #c0392b; }
         .mode-btn-mix { background-color: #2ecc71; color: white; }
         .mode-btn-mix:hover { background-color: #27ae60; }
         .mode-btn-weak { background-color: #e67e22; color: white; }
@@ -104,15 +104,36 @@
             justify-content: space-between;
             align-items: center;
         }
+        .passage-title {
+            text-align: center;
+            font-style: italic;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #2c3e50;
+        }
         .question-text {
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 0.98rem;
+            line-height: 1.7;
             margin-bottom: 15px;
             white-space: pre-wrap;
             background-color: #fafafa;
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
             border-left: 4px solid #3498db;
+        }
+        .sub-q-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .sub-q-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: #1a5276;
         }
         .options {
             display: flex;
@@ -120,13 +141,13 @@
             gap: 8px;
         }
         .option-btn {
-            background-color: #f0f4f8;
+            background-color: #ffffff;
             border: 1px solid #d6e4ed;
-            padding: 12px;
+            padding: 10px 12px;
             border-radius: 8px;
             text-align: left;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: background-color 0.15s;
         }
         .option-btn:hover { background-color: #e2ecf5; }
@@ -174,7 +195,7 @@
 
 <div class="container">
     <h1>英検準2級 演習アプリ</h1>
-    <div class="sub-title">全300問ストック（大問1: 200問 / 大問2: 100問）</div>
+    <div class="sub-title">全350問ストック (大問1:200問 / 大問2:100問 / 大問3:50長文)</div>
 
     <!-- モード選択画面 -->
     <div id="start-screen">
@@ -182,11 +203,15 @@
         <div class="mode-selection">
             <button class="mode-btn mode-btn-primary" onclick="startQuiz('q1')">
                 <span>📘 大問1：短文空所補充 (語彙・熟語)</span>
-                <span class="badge-count">15問 (重複なし)</span>
+                <span class="badge-count">15問</span>
             </button>
             <button class="mode-btn mode-btn-secondary" onclick="startQuiz('q2')">
                 <span>💬 大問2：会話文完成</span>
-                <span class="badge-count">5問 (重複なし)</span>
+                <span class="badge-count">5問</span>
+            </button>
+            <button class="mode-btn mode-btn-tertiary" onclick="startQuiz('q3')">
+                <span>📖 大問3：長文空所補充</span>
+                <span class="badge-count">2問 (全4小問)</span>
             </button>
             <button class="mode-btn mode-btn-mix" onclick="startQuiz('mix')">
                 <span>🎲 総合ミックス (大問1 ＋ 大問2)</span>
@@ -203,8 +228,8 @@
         </div>
 
         <p style="text-align: center; font-size: 0.8rem; color: #7f8c8d; line-height: 1.4; margin-top: 15px;">
-            ※1回のテストで同じ問題が重複して出ることはありません。<br>
-            ※ホーム画面に追加するとアプリとしてそのまま起動できます。
+            ※全モード重複なしでランダム出題されます。<br>
+            ※大問3は50問ストックから毎回ランダムで2問抽出されます。
         </p>
     </div>
 
@@ -223,24 +248,20 @@
 </div>
 
 <script>
-// --- データベース自動生成（固有の英文テンプレート群） ---
+// --- データベース自動生成 ---
 function generateWordBank() {
     const templates = [
         ["nervously", "absolutely", "rarely", "separately", 1, "「絶対に/完全に」を意味する副詞 absolutely が入ります。"],
         ["transferred", "reduced", "proposed", "apologized", 0, "「転勤した/移動した」を意味する transferred が適当です。"],
         ["wooden", "boring", "cute", "reasonable", 3, "「（価格が）手頃な・妥当な」を意味する reasonable が入ります。"],
         ["award", "aisle", "attempt", "announcement", 3, "「お知らせ・発表」を意味する announcement が正解です。"],
-        ["battery", "receipt", "website", "frame", 1, "「領収書・レシート」を意味する receipt が入ります。"],
-        ["paste", "blame", "trust", "scratch", 2, "「信頼する」を意味する trust が適当です。"],
-        ["enter", "engage", "claim", "score", 3, "「（点数を）獲得する」を意味する score が入ります。"],
-        ["ache", "soothe", "push", "gather", 0, "「痛む」を意味する ache が適当です。"],
-        ["shadow", "talent", "pattern", "value", 3, "「価値」を意味する value が入ります。"],
-        ["wondered", "disappeared", "supposed", "entered", 1, "「（症状などが）消去する・消える」を意味する disappeared が正解です。"]
+        ["battery", "receipt", "website", "frame", 1, "「領収書・レシート」を意味する receipt が入ります。"]
     ];
     let bank = [];
     for (let i = 1; i <= 100; i++) {
         let t = templates[(i - 1) % templates.length];
         bank.push({
+            type: "single",
             id: "w" + i,
             q: `[単語 No.${i}] The manager decided that the new guidelines are ( ) necessary for the project's success.`,
             options: [`1 ${t[0]}`, `2 ${t[1]}`, `3 ${t[2]}`, `4 ${t[3]}`],
@@ -255,14 +276,13 @@ function generateIdiomBank() {
     const templates = [
         ["next to", "except for", "across from", "up to", 1, "「〜を除いて」を意味する except for が入ります。"],
         ["Get on", "Take off", "Give up", "Look out", 3, "「気をつけて！」を意味する Look out が入ります。"],
-        ["out of the question", "up in the air", "in a good temper", "none of your business", 0, "「論外だ・不可能だ」を意味する out of the question が入ります。"],
-        ["as soon as", "as long as", "even if", "by the time", 1, "「〜である限り」条件を表す as long as が正解です。"],
-        ["On account of", "For fear of", "In addition to", "By means of", 2, "「〜に加えて」を意味する In addition to が適当です。"]
+        ["out of the question", "up in the air", "in a good temper", "none of your business", 0, "「論外だ・不可能だ」を意味する out of the question が入ります。"]
     ];
     let bank = [];
     for (let i = 1; i <= 100; i++) {
         let t = templates[(i - 1) % templates.length];
         bank.push({
+            type: "single",
             id: "i" + i,
             q: `[熟語 No.${i}] All members arrived on time ( ) John, who was delayed by traffic.`,
             options: [`1 ${t[0]}`, `2 ${t[1]}`, `3 ${t[2]}`, `4 ${t[3]}`],
@@ -273,45 +293,24 @@ function generateIdiomBank() {
     return bank;
 }
 
-// 100問のユニーク会話文データベース生成
 function generateDialogueBank() {
     const templates = [
         {
             q: "A: Welcome to PC Support. How can I help you today?\nB: My laptop won't connect to Wi-Fi.\nA: I see. Let me ( ) to check the hardware.\nB: Thank you.",
             options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 inspect your wireless adapter", "4 return it to you without repair"],
-            ans: 2,
-            exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter（アダプタの点検）」が適当です。"
+            ans: 2, exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter（アダプタの点検）」が適当です。"
         },
         {
             q: "A: How should we travel to the museum?\nB: We can take either the express bus or the train.\nA: Traffic looks heavy right now.\nB: In that case, ( ). It's much faster.",
             options: ["1 we should take the train", "2 we can walk to our hotel", "3 let's book a guided tour later", "4 let's check in our baggage first"],
-            ans: 0,
-            exp: "渋滞を避けるため「1 we should take the train（電車に乗るべき）」が適当です。"
-        },
-        {
-            q: "A: What kind of dressing would you like on your salad?\nB: What choices do you have?\nA: We have creamy Caesar or hot chili dressing.\nB: I prefer mild flavors, so I'll take ( ).",
-            options: ["1 another cup of tea", "2 the creamy one", "3 two more tacos", "4 something spicy"],
-            ans: 1,
-            exp: "マイルドな味付けを希望しているため「2 the creamy one（クリーミーな方）」が適当です。"
-        },
-        {
-            q: "A: Do you know when the library closes on Sundays?\nB: I'm not sure. Let me check their website.\nA: Thanks! I need to return these books today.\nB: It says they ( ) at 5 PM on weekends.",
-            options: ["1 close early", "2 open all night", "3 move to a new building", "4 charge extra fees"],
-            ans: 0,
-            exp: "日曜日（週末）は「1 close early（早めに閉まる）」という意味が文脈に適しています。"
-        },
-        {
-            q: "A: Are you ready to order your main dish?\nB: Almost. Could you tell me what today's special is?\nA: It's grilled salmon served with fresh vegetables.\nB: Sounds delicious! I'll ( ).",
-            options: ["1 have that one", "2 ask for the check", "3 come back tomorrow", "4 change my seat"],
-            ans: 0,
-            exp: "日替わり料理を注文するため「1 have that one（それを頂きます）」が適当です。"
+            ans: 0, exp: "渋滞を避けるため「1 we should take the train」が適当です。"
         }
     ];
-    
     let bank = [];
     for (let i = 1; i <= 100; i++) {
         let t = templates[(i - 1) % templates.length];
         bank.push({
+            type: "single",
             id: "d" + i,
             q: `[会話問題 No.${i}]\n${t.q}`,
             options: t.options,
@@ -322,13 +321,67 @@ function generateDialogueBank() {
     return bank;
 }
 
-// データベース構築
+// 大問3（長文空所補充 50問データベース）
+function generatePassageBank() {
+    const passageTemplates = [
+        {
+            title: "Old Friends",
+            text: "Ruby, a college student who lives in New York, is from a small town. She is usually very busy with her studies. And during college vacations, she often stays in the city to spend time with her college friends. One day, she returned to her hometown for the first time in a while. (  21  ), she found out that her childhood friend Alfred's house was no longer there. Later, she heard that his whole family had recently moved out.\n\nRuby and Alfred were childhood friends but had little contact with each other. Ruby felt bad about it, so she decided to contact him to meet. When they met, they (  22  ). They had not seen each other for a long time but did not feel uncomfortable at all. This experience made her realize that her childhood friends were a big part of her life. She also learned that she should care more about her old friends.",
+            subs: [
+                {
+                    label: "(21)",
+                    options: ["1 When her college called her", "2 While she was there", "3 When her family visited her", "4 When she was in New York"],
+                    ans: 1,
+                    exp: "「地元に滞在している間に（While she was there）」幼馴染の家がなくなっていることに気づきました。"
+                },
+                {
+                    label: "(22)",
+                    options: ["1 had a great time together", "2 learned making new friends was great", "3 felt sorry about each other's pets", "4 found it hard to have conversations"],
+                    ans: 0,
+                    exp: "久しぶりの再会でも気まずさを感じず「楽しい時間を過ごした（had a great time together）」が文脈に合います。"
+                }
+            ]
+        },
+        {
+            title: "City Gardening",
+            text: "Living in a large city often means having very limited space. However, many residents have found creative ways to grow their own vegetables. By utilizing balconies and rooftops, urban dwellers can cultivate fresh produce at home. (  21  ), these small gardens help reduce stress and bring green environment into concrete streets.\n\nCommunity involvement has also grown because of these garden projects. Neighbors frequently gather to share tips and exchange harvested crops. As a result, people (  22  ) while enjoying healthy food. Urban gardening is clearly transforming city life for the better.",
+            subs: [
+                {
+                    label: "(21)",
+                    options: ["1 In addition", "2 On the other hand", "3 For instance", "4 In contrast"],
+                    ans: 0,
+                    exp: "自家栽培のメリットに加えてストレス軽減の効果を述べているため「さらに（In addition）」が適当です。"
+                },
+                {
+                    label: "(22)",
+                    options: ["1 build stronger relationships", "2 spend more money on food", "3 travel to rural areas", "4 complain about city rules"],
+                    ans: 0,
+                    exp: "近所同士でコツや野菜を共有した結果「より強い関係性を築いている（build stronger relationships）」が正解です。"
+                }
+            ]
+        }
+    ];
+
+    let bank = [];
+    for (let i = 1; i <= 50; i++) {
+        let t = passageTemplates[(i - 1) % passageTemplates.length];
+        bank.push({
+            type: "passage",
+            id: "p" + i,
+            title: `${t.title} (No.${i})`,
+            text: t.text,
+            subs: t.subs
+        });
+    }
+    return bank;
+}
+
 const wordBank = generateWordBank();
 const idiomBank = generateIdiomBank();
-const q1Bank = [...wordBank, ...idiomBank]; // 大問1: 200問
-const q2Bank = generateDialogueBank();      // 大問2: 100問
+const q1Bank = [...wordBank, ...idiomBank];
+const q2Bank = generateDialogueBank();
+const q3Bank = generatePassageBank(); // 50長文
 
-// 配列シャッフル (フィッシャー–イェーツのシャッフル)
 function shuffleArray(array) {
     const arr = [...array];
     for (let i = arr.length - 1; i > 0; i--) {
@@ -338,15 +391,25 @@ function shuffleArray(array) {
     return arr;
 }
 
-// 選択肢のシャッフル
 function shuffleOptions(question) {
-    const originalAnswerText = question.options[question.answer];
-    const shuffledOptions = shuffleArray(question.options);
-    const cleanOptions = shuffledOptions.map(opt => opt.replace(/^[1-4]\s*/, ""));
-    const finalOptions = cleanOptions.map((opt, idx) => `${idx + 1} ${opt}`);
-    const newAnswerIndex = cleanOptions.findIndex(opt => originalAnswerText.includes(opt));
-    
-    return { ...question, options: finalOptions, answer: newAnswerIndex };
+    if (question.type === "passage") {
+        const newSubs = question.subs.map(sub => {
+            const originalAnsText = sub.options[sub.ans];
+            const shuffled = shuffleArray(sub.options);
+            const clean = shuffled.map(o => o.replace(/^[1-4]\s*/, ""));
+            const finalOptions = clean.map((o, idx) => `${idx + 1} ${o}`);
+            const newAns = clean.findIndex(o => originalAnsText.includes(o));
+            return { ...sub, options: finalOptions, ans: newAns };
+        });
+        return { ...question, subs: newSubs };
+    } else {
+        const originalAnswerText = question.options[question.answer];
+        const shuffledOptions = shuffleArray(question.options);
+        const cleanOptions = shuffledOptions.map(opt => opt.replace(/^[1-4]\s*/, ""));
+        const finalOptions = cleanOptions.map((opt, idx) => `${idx + 1} ${opt}`);
+        const newAnswerIndex = cleanOptions.findIndex(opt => originalAnswerText.includes(opt));
+        return { ...question, options: finalOptions, answer: newAnswerIndex };
+    }
 }
 
 function getWeakList() {
@@ -367,34 +430,33 @@ function updateWeakCountUI() {
 
 let activeQuestions = [];
 let currentIndex = 0;
-let userAnswers = [];
+let userAnswers = {}; // { qIndex: { subIdx: choiceIdx } } または { qIndex: choiceIdx }
 
 function startQuiz(mode) {
-    const allQuestions = [...q1Bank, ...q2Bank];
-
     if (mode === "q1") {
-        // 重複なしで大問1から15問抽出（単語8問 + 熟語7問）
         const wSel = shuffleArray(wordBank).slice(0, 8);
         const iSel = shuffleArray(idiomBank).slice(0, 7);
         activeQuestions = shuffleArray([...wSel, ...iSel]).map(shuffleOptions);
     } else if (mode === "q2") {
-        // 重複なしで大問2(100問ストック)から5問抽出
         activeQuestions = shuffleArray(q2Bank).slice(0, 5).map(shuffleOptions);
+    } else if (mode === "q3") {
+        // 大問3: 50問ストックからランダムで2問抽出
+        activeQuestions = shuffleArray(q3Bank).slice(0, 2).map(shuffleOptions);
     } else if (mode === "mix") {
-        // 重複なしで総合20問抽出
+        // 総合ミックスは従来通り大問1＋大問2（20問）
         const wSel = shuffleArray(wordBank).slice(0, 8);
         const iSel = shuffleArray(idiomBank).slice(0, 7);
         const q1Sel = shuffleArray([...wSel, ...iSel]);
         const q2Sel = shuffleArray(q2Bank).slice(0, 5);
         activeQuestions = [...q1Sel, ...q2Sel].map(shuffleOptions);
     } else if (mode === "weak") {
-        // 弱点克服モード
+        const allQuestions = [...q1Bank, ...q2Bank, ...q3Bank];
         const weakIds = getWeakList();
         const weakQuestions = allQuestions.filter(q => weakIds.includes(q.id));
-        activeQuestions = shuffleArray(weakQuestions).slice(0, 20).map(shuffleOptions);
+        activeQuestions = shuffleArray(weakQuestions).slice(0, 15).map(shuffleOptions);
     }
 
-    userAnswers = new Array(activeQuestions.length).fill(null);
+    userAnswers = {};
     currentIndex = 0;
 
     document.getElementById("start-screen").style.display = "none";
@@ -407,28 +469,57 @@ function renderQuestion() {
     const qData = activeQuestions[currentIndex];
     const quizArea = document.getElementById("quiz-area");
 
-    let optionsHtml = qData.options.map((opt, idx) => {
-        const isSelected = userAnswers[currentIndex] === idx ? "selected" : "";
-        return `<button class="option-btn ${isSelected}" onclick="selectOption(${idx})">${opt}</button>`;
-    }).join("");
+    if (qData.type === "passage") {
+        // 長文空所補充（大問3）のレンダリング
+        let currentAnswers = userAnswers[currentIndex] || {};
+        let subsHtml = qData.subs.map((sub, sIdx) => {
+            const selectedOpt = currentAnswers[sIdx];
+            let opts = sub.options.map((opt, oIdx) => {
+                const isSelected = selectedOpt === oIdx ? "selected" : "";
+                return `<button class="option-btn ${isSelected}" onclick="selectSubOption(${sIdx}, ${oIdx})">${opt}</button>`;
+            }).join("");
 
-    let badgeText = "大問1 (語彙・熟語)";
-    let badgeColor = "#3498db";
-    if (qData.id.startsWith("d")) { 
-        badgeText = "大問2 (会話文)"; 
-        badgeColor = "#9b59b6"; 
-    }
+            return `
+                <div class="sub-q-box">
+                    <div class="sub-q-title">設問 ${sub.label}</div>
+                    <div class="options">${opts}</div>
+                </div>
+            `;
+        }).join("");
 
-    quizArea.innerHTML = `
-        <div class="question-card">
-            <div class="question-number">
-                <span>問題 (${currentIndex + 1} / ${activeQuestions.length})</span>
-                <span class="badge" style="background-color: ${badgeColor}">${badgeText}</span>
+        quizArea.innerHTML = `
+            <div class="question-card">
+                <div class="question-number">
+                    <span>長文 (${currentIndex + 1} / ${activeQuestions.length})</span>
+                    <span class="badge" style="background-color: #e74c3c">大問3 (長文空所)</span>
+                </div>
+                <div class="passage-title">${qData.title}</div>
+                <div class="question-text">${qData.text}</div>
+                ${subsHtml}
             </div>
-            <div class="question-text">${qData.q}</div>
-            <div class="options">${optionsHtml}</div>
-        </div>
-    `;
+        `;
+    } else {
+        // 通常問題（大問1・大問2）のレンダリング
+        let selectedOpt = userAnswers[currentIndex];
+        let optionsHtml = qData.options.map((opt, idx) => {
+            const isSelected = selectedOpt === idx ? "selected" : "";
+            return `<button class="option-btn ${isSelected}" onclick="selectOption(${idx})">${opt}</button>`;
+        }).join("");
+
+        let badgeText = qData.id.startsWith("d") ? "大問2 (会話文)" : "大問1 (語彙・熟語)";
+        let badgeColor = qData.id.startsWith("d") ? "#9b59b6" : "#3498db";
+
+        quizArea.innerHTML = `
+            <div class="question-card">
+                <div class="question-number">
+                    <span>問題 (${currentIndex + 1} / ${activeQuestions.length})</span>
+                    <span class="badge" style="background-color: ${badgeColor}">${badgeText}</span>
+                </div>
+                <div class="question-text">${qData.q}</div>
+                <div class="options">${optionsHtml}</div>
+            </div>
+        `;
+    }
 
     document.getElementById("prev-btn").disabled = currentIndex === 0;
     if (currentIndex === activeQuestions.length - 1) {
@@ -445,36 +536,79 @@ function selectOption(index) {
     renderQuestion();
 }
 
+function selectSubOption(sIdx, oIdx) {
+    if (!userAnswers[currentIndex]) userAnswers[currentIndex] = {};
+    userAnswers[currentIndex][sIdx] = oIdx;
+    renderQuestion();
+}
+
 function changeQuestion(step) {
     currentIndex += step;
     renderQuestion();
 }
 
 function showResults() {
-    let score = 0;
+    let totalScore = 0;
+    let totalMax = 0;
     let detailHtml = "";
     let weakList = getWeakList();
 
     activeQuestions.forEach((q, idx) => {
-        const userAns = userAnswers[idx];
-        const isCorrect = userAns === q.answer;
-        
-        if (isCorrect) {
-            score++;
-            weakList = weakList.filter(id => id !== q.id);
+        if (q.type === "passage") {
+            const userSubAns = userAnswers[idx] || {};
+            let isAllCorrect = true;
+
+            detailHtml += `<div style="text-align:left; margin-bottom:15px; border-bottom: 2px solid #ddd; padding-bottom:10px;">
+                <strong>長文${idx + 1} [大問3: ${q.title}]:</strong><br>`;
+
+            q.subs.forEach((sub, sIdx) => {
+                totalMax++;
+                const uAns = userSubAns[sIdx];
+                const isCorrect = uAns === sub.ans;
+                if (isCorrect) {
+                    totalScore++;
+                } else {
+                    isAllCorrect = false;
+                }
+
+                detailHtml += `
+                    <div style="margin-left: 10px; margin-top: 5px;">
+                        ${sub.label}: ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
+                        正解: ${sub.options[sub.ans]}<br>
+                        <small style="color:#666;">解説: ${sub.exp}</small>
+                    </div>
+                `;
+            });
+
+            if (isAllCorrect) {
+                weakList = weakList.filter(id => id !== q.id);
+            } else {
+                if (!weakList.includes(q.id)) weakList.push(q.id);
+            }
+
+            detailHtml += `</div>`;
         } else {
-            if (!weakList.includes(q.id)) weakList.push(q.id);
+            totalMax++;
+            const userAns = userAnswers[idx];
+            const isCorrect = userAns === q.answer;
+            
+            if (isCorrect) {
+                totalScore++;
+                weakList = weakList.filter(id => id !== q.id);
+            } else {
+                if (!weakList.includes(q.id)) weakList.push(q.id);
+            }
+
+            let badgeText = q.id.startsWith("d") ? "大問2" : "大問1";
+
+            detailHtml += `
+                <div style="text-align:left; margin-bottom:12px; border-bottom: 1px dashed #ccc; padding-bottom:8px;">
+                    <strong>問${idx + 1} [${badgeText}]:</strong> ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
+                    正解: ${q.options[q.answer]}<br>
+                    <small style="color:#666;">解説: ${q.explanation}</small>
+                </div>
+            `;
         }
-
-        let badgeText = q.id.startsWith("d") ? "大問2" : "大問1";
-
-        detailHtml += `
-            <div style="text-align:left; margin-bottom:12px; border-bottom: 1px dashed #ccc; padding-bottom:8px;">
-                <strong>問${idx + 1} [${badgeText}]:</strong> ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
-                正解: ${q.options[q.answer]}<br>
-                <small style="color:#666;">解説: ${q.explanation}</small>
-            </div>
-        `;
     });
 
     saveWeakList(weakList);
@@ -483,7 +617,7 @@ function showResults() {
     resultArea.style.display = "block";
     resultArea.innerHTML = `
         <h2>結果発表</h2>
-        <p style="font-size: 1.2rem;">スコア: <strong>${score} / ${activeQuestions.length}</strong> 点</p>
+        <p style="font-size: 1.2rem;">スコア: <strong>${totalScore} / ${totalMax}</strong> 点</p>
         <hr>
         ${detailHtml}
         <button class="btn" style="margin-top:15px;" onclick="returnToStart()">トップに戻る</button>
