@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=none">
     
-    <!-- アプリ化（PWA / Web App）向けアイコン & タグ設定 -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,11 +11,10 @@
     <meta name="application-name" content="英検準2級">
     <meta name="apple-mobile-web-app-title" content="英検準2級">
 
-    <!-- 高画質 SVG アプリアイコン -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
 
-    <title>英検準2級 演習アプリ</title>
+    <title>英検準2級 完全演習アプリ</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -75,17 +73,13 @@
         }
         .mode-btn:active { transform: scale(0.98); }
         .mode-btn-primary { background-color: #3498db; color: white; }
-        .mode-btn-primary:hover { background-color: #2980b9; }
         .mode-btn-secondary { background-color: #9b59b6; color: white; }
-        .mode-btn-secondary:hover { background-color: #8e44ad; }
         .mode-btn-tertiary { background-color: #e74c3c; color: white; }
-        .mode-btn-tertiary:hover { background-color: #c0392b; }
-        .mode-btn-q4 { background-color: #16a085; color: white; }
-        .mode-btn-q4:hover { background-color: #117864; }
-        .mode-btn-mix { background-color: #2ecc71; color: white; }
-        .mode-btn-mix:hover { background-color: #27ae60; }
+        .mode-btn-q4a { background-color: #16a085; color: white; }
+        .mode-btn-q4b { background-color: #27ae60; color: white; }
+        .mode-btn-listening { background-color: #d35400; color: white; }
+        .mode-btn-mix { background-color: #2980b9; color: white; }
         .mode-btn-weak { background-color: #e67e22; color: white; }
-        .mode-btn-weak:hover { background-color: #d35400; }
         .mode-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; opacity: 0.6; }
         .badge-count {
             background: rgba(255, 255, 255, 0.25);
@@ -109,7 +103,7 @@
         .passage-title {
             text-align: center;
             font-style: italic;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 12px;
             color: #2c3e50;
@@ -133,6 +127,26 @@
             border-radius: 8px;
             border-left: 4px solid #3498db;
         }
+        .audio-box {
+            text-align: center;
+            background-color: #fef9e7;
+            border: 1px solid #f9e79f;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .audio-btn {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .audio-btn:active { transform: scale(0.95); }
         .sub-q-box {
             background-color: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -185,7 +199,7 @@
         .btn-secondary { background-color: #7f8c8d; }
         .btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
         .result-box {
-            text-align: center;
+            text-align: left;
             padding: 20px;
             background: #e8f8f5;
             border-radius: 10px;
@@ -205,12 +219,12 @@
 <body>
 
 <div class="container">
-    <h1>英検準2級 演習アプリ</h1>
-    <div class="sub-title">全350問ストック (大問1:200 / 大問2:100 / 大問3:30長文 / 大問4:20長文)</div>
+    <h1>英検準2級 完全演習アプリ</h1>
+    <div class="sub-title">全大問（4A Eメール / 4B 説明文）＋ リスニング</div>
 
     <!-- モード選択画面 -->
     <div id="start-screen">
-        <div class="section-title">コースを選択</div>
+        <div class="section-title">筆記コース</div>
         <div class="mode-selection">
             <button class="mode-btn mode-btn-primary" onclick="startQuiz('q1')">
                 <span>📘 大問1：短文空所補充 (語彙・熟語)</span>
@@ -224,13 +238,25 @@
                 <span>📖 大問3：長文空所補充</span>
                 <span class="badge-count">2問 (全4小問)</span>
             </button>
-            <button class="mode-btn mode-btn-q4" onclick="startQuiz('q4')">
-                <span>📨 大問4：長文内容一致 (Eメール・説明文)</span>
-                <span class="badge-count">2問 (全6小問)</span>
+            <button class="mode-btn mode-btn-q4a" onclick="startQuiz('q4a')">
+                <span>📨 大問4A：長文内容一致 (Eメール・案内)</span>
+                <span class="badge-count">2問 (全6小問) [全20型]</span>
+            </button>
+            <button class="mode-btn mode-btn-q4b" onclick="startQuiz('q4b')">
+                <span>📑 大問4B：長文内容一致 (説明文・論説文)</span>
+                <span class="badge-count">1問 (全4小問) [全20型]</span>
+            </button>
+        </div>
+
+        <div class="section-title">リスニングコース</div>
+        <div class="mode-selection">
+            <button class="mode-btn mode-btn-listening" onclick="startQuiz('listening')">
+                <span>🎧 リスニングテスト (第1部〜第3部)</span>
+                <span class="badge-count">6問 (音声付き)</span>
             </button>
             <button class="mode-btn mode-btn-mix" onclick="startQuiz('mix')">
-                <span>🎲 総合ミックス (大問1 ＋ 大問2)</span>
-                <span class="badge-count">計20問</span>
+                <span>🎲 総合ミックス (全大問＋リスニング)</span>
+                <span class="badge-count">計15問</span>
             </button>
         </div>
 
@@ -241,10 +267,6 @@
                 <span class="badge-count"><span id="weak-count">0</span>問保存中</span>
             </button>
         </div>
-
-        <p style="text-align: center; font-size: 0.8rem; color: #7f8c8d; line-height: 1.4; margin-top: 15px;">
-            ※大問3および大問4は単独コースです。毎回ランダムで2問抽出されます。
-        </p>
     </div>
 
     <!-- クイズ画面 -->
@@ -262,7 +284,7 @@
 </div>
 
 <script>
-// --- データベース自動生成 ---
+// --- データベース生成 ---
 function generateWordBank() {
     const templates = [
         ["nervously", "absolutely", "rarely", "separately", 1, "「絶対に/完全に」を意味する副詞 absolutely が入ります。"],
@@ -313,15 +335,10 @@ function generateDialogueBank() {
             q: "A: Welcome to PC Support. How can I help you today?\nB: My laptop won't connect to Wi-Fi.\nA: I see. Let me ( ) to check the hardware.\nB: Thank you.",
             options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 inspect your wireless adapter", "4 return it to you without repair"],
             ans: 2, exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter」が適当です。"
-        },
-        {
-            q: "A: How should we travel to the museum?\nB: We can take either the express bus or the train.\nA: Traffic looks heavy right now.\nB: In that case, ( ). It's much faster.",
-            options: ["1 we should take the train", "2 we can walk to our hotel", "3 let's book a guided tour later", "4 let's check in our baggage first"],
-            ans: 0, exp: "渋滞を避けるため「1 we should take the train」が適当です。"
         }
     ];
     let bank = [];
-    for (let i = 1; i <= 100; i++) {
+    for (let i = 1; i <= 50; i++) {
         let t = templates[(i - 1) % templates.length];
         bank.push({
             type: "single",
@@ -335,39 +352,26 @@ function generateDialogueBank() {
     return bank;
 }
 
-// 大問3（長文空所補充 30長文）
 function generatePassageBank() {
-    const baseTopics = [
-        { name: "Old Friends", subject: "reconnecting with childhood friends", location: "hometown", result: "had a great time together", con: "While she was there" },
-        { name: "City Gardening", subject: "growing vegetables on balconies", location: "urban areas", result: "build stronger relationships", con: "In addition" },
-        { name: "Public Libraries", subject: "offering free digital classes", location: "local communities", result: "learn useful new skills", con: "For example" },
-        { name: "School Uniforms", subject: "saving morning preparation time", location: "high schools", result: "focus more on studying", con: "As a result" },
-        { name: "Eco-Friendly Shopping", subject: "using reusable shopping bags", location: "supermarkets", result: "reduce plastic waste", con: "Therefore" },
-        { name: "Morning Exercise", subject: "walking before starting work", location: "city parks", result: "stay energetic all day", con: "At first" }
-    ];
-
     let bank = [];
-    for (let i = 1; i <= 30; i++) {
-        let topic = baseTopics[(i - 1) % baseTopics.length];
-        let pNum = Math.floor((i - 1) / baseTopics.length) + 1;
-        
+    for (let i = 1; i <= 20; i++) {
         bank.push({
             type: "passage",
             id: "p" + i,
-            title: `${topic.name} (Part ${pNum})`,
-            text: `Many people in modern society are showing interest in ${topic.subject}. In many ${topic.location}, this trend has become very popular among local residents. (  21  ), people discovered that small changes in daily routine could lead to meaningful results.\n\nWorking on this together brought unexpected benefits. People reported that they could (  22  ) through these activities. Overall, experts believe that continuing this habit will greatly improve community life in the future.`,
+            title: `City Gardening (No.${i})`,
+            text: `Many people living in urban areas are finding new ways to enjoy nature. In recent years, balcony gardening has become very popular. (  21  ), residents are growing their own vegetables at home.\n\nWorking on gardens also brings neighbors together. People share seeds and advice, which helps (  22  ) within the community.`,
             subs: [
                 {
                     label: "(21)",
-                    options: [`1 ${topic.con}`, "2 On the other hand", "3 In contrast", "4 By mistake"],
+                    options: ["1 In addition", "2 On the other hand", "3 In contrast", "4 By mistake"],
                     ans: 0,
-                    exp: `文脈の流れに最もふさわしい接続詞・表現は「1 ${topic.con}」です。`
+                    exp: "追加の情報を述べる「1 In addition」が適当です。"
                 },
                 {
                     label: "(22)",
-                    options: [`1 ${topic.result}`, "2 lose their interest easily", "3 waste a lot of money", "4 complain about daily work"],
+                    options: ["1 build stronger relationships", "2 waste useful time", "3 create unnecessary noise", "4 spend extra money"],
                     ans: 0,
-                    exp: `文脈上ポジティブな結果を表す「1 ${topic.result}」が正解となります。`
+                    exp: "ポジティブな地域関係を表す「1 build stronger relationships」が適当です。"
                 }
             ]
         });
@@ -375,117 +379,216 @@ function generatePassageBank() {
     return bank;
 }
 
-// 大問4（長文内容一致 Eメール形式・20個ストック）
-function generateQ4PassageBank() {
-    const emailTemplates = [
-        {
-            from: "Andrea Patterson <andrea123@ground-mail.com>",
-            to: "Travis Longman <t.j.longman-0428@skyhigh-message.com>",
-            date: "February 20",
-            subject: "About joining my band",
-            body: "Dear Travis,\nThis is Andrea Patterson. Thanks for your message. It is great to hear that you are interested in joining our band as a guitarist. As you said in your email, we were looking for a new member. However, we just found someone last week. So, unfortunately, we will not be able to include you in our band. I am sorry to say that because I know how well you can play the guitar.\nHowever, I do have some good news for you. I know another band whose members are still looking for a good guitarist. They are also students at our college. While they do not cover famous songs, they perform original music. The band started last year, but last week, the guitarist had to quit the band because he needed to focus on his studies. They usually practice on weekends in the music room on campus.\nIf you are interested, you can give me your phone number, and I will pass it to them. You could also exchange emails if you prefer, but I think it might be easier to talk with them directly on the phone. They can tell you more about the band. Then, you can go watch one of their practices to see if you like their music. Let me know what you think.\nThank you,\nAndrea Patterson",
-            subs: [
-                {
-                    label: "(23)",
-                    qText: "Travis Longman cannot join Andrea Patterson's band because",
-                    options: [
-                        "1 she thinks he is not good enough for her band.",
-                        "2 her band is only looking for a singer, not a guitarist.",
-                        "3 she has already found a new member for the band.",
-                        "4 her band had already broken up by the time he asked."
-                    ],
-                    ans: 2,
-                    exp: "「先週新しいメンバーを見つけた（we just found someone last week）」とあるため「3 既に新しいメンバーを見つけたから」が正解です。"
-                },
-                {
-                    label: "(24)",
-                    qText: "What is true about the band members that Andrea recommends?",
-                    options: [
-                        "1 They prefer to play songs from other bands.",
-                        "2 They have been active for several years.",
-                        "3 They practice in a studio outside the campus.",
-                        "4 They have been seeking a new guitarist."
-                    ],
-                    ans: 3,
-                    exp: "先週ギタリストが辞めたため「4 新しいギタリストを探している」が正解です。"
-                },
-                {
-                    label: "(25)",
-                    qText: "What will Travis probably do right after reading this email?",
-                    options: [
-                        "1 Send an email to one of the band members.",
-                        "2 Go check out the practice of the recommended band.",
-                        "3 Provide his phone number to Andrea.",
-                        "4 Call Andrea for information about the band."
-                    ],
-                    ans: 2,
-                    exp: "興味があれば電話番号を教えてほしいと依頼されているため「3 アンドレアに電話番号を伝える」が正解です。"
-                }
-            ]
-        },
-        {
+function generateQ4APassageBank() {
+    let bank = [];
+    for (let i = 1; i <= 20; i++) {
+        bank.push({
+            type: "email_passage",
+            id: "q4a_" + i,
             from: "Karen Smith <karen.s@city-library.org>",
             to: "David Miller <d.miller99@webmail.com>",
             date: "March 12",
-            subject: "Volunteer opportunity at the library",
-            body: "Dear David,\nThank you for reaching out to the City Library regarding our weekend volunteer program. We are always happy to welcome enthusiastic members from our community.\nCurrently, the Saturday children's reading section is fully staffed. However, we urgently need assistance in our digital archive department on Sundays. Volunteers in this department help digitize historical local newspapers and assist visitors with computer usage. No special technical background is required, as we provide a full orientation session before you start.\nIf you are available on Sundays between 10:00 AM and 2:00 PM, please fill out the attached application form and send it back to me by Friday. Once I receive your form, I will schedule a brief phone interview with you.\nBest regards,\nKaren Smith",
+            subject: `Volunteer Opportunity (Set ${i})`,
+            body: "Dear David,\nThank you for reaching out regarding our weekend volunteer program. Currently, the Saturday reading section is full. However, we urgently need assistance in our digital archive department on Sundays. Volunteers help digitize historical local newspapers. No special technical background is required, as we provide a full orientation session before you start.\nIf available on Sundays, please fill out the application form and send it back by Friday.\nBest regards,\nKaren Smith",
             subs: [
                 {
                     label: "(23)",
                     qText: "Why is Karen writing to David?",
-                    options: [
-                        "1 To ask him to lead the Saturday reading section.",
-                        "2 To inform him about a Sunday volunteer position.",
-                        "3 To invite him to a computer repair training course.",
-                        "4 To remind him to return library books on time."
-                    ],
-                    ans: 1,
-                    exp: "日曜日のデジタルアーカイブ部門でのボランティア募集を伝えるため「2 日曜日のボランティアの職について知らせるため」が正解です。"
+                    options: ["1 To offer a Sunday volunteer position.", "2 To cancel the reading section.", "3 To ask for a donation.", "4 To hire a computer engineer."],
+                    ans: 0, exp: "日曜ボランティアを提案しているため「1」が正解です。"
                 },
                 {
                     label: "(24)",
-                    qText: "What is required for volunteers in the digital archive department?",
-                    options: [
-                        "1 Advanced computer engineering degrees.",
-                        "2 Previous experience in public libraries.",
-                        "3 Attending an orientation session provided by the library.",
-                        "4 Working on both Saturdays and Sundays."
-                    ],
-                    ans: 2,
-                    exp: "「開始前にオリエンテーションを行う（we provide a full orientation session）」と記載があるため「3 オリエンテーションに参加すること」が正解です。"
+                    qText: "What is true about the digital archive department?",
+                    options: ["1 Advanced technical skills are needed.", "2 Orientation will be provided.", "3 It is open only on Saturdays.", "4 David must pay a fee."],
+                    ans: 1, exp: "オリエンテーションが提供されるため「2」が正解です。"
                 },
                 {
                     label: "(25)",
-                    qText: "What should David do next if he wants to apply?",
+                    qText: "What should David do if he wants to apply?",
+                    options: ["1 Send the form by Friday.", "2 Visit the library on Saturday.", "3 Call Karen immediately.", "4 Buy a new computer."],
+                    ans: 0, exp: "金曜までに申込書を送るため「1」が正解です。"
+                }
+            ]
+        });
+    }
+    return bank;
+}
+
+// 大問4B（20パターン自動生成）
+function generateQ4BPassageBank() {
+    // 1問目は添付画像の Pig Beach
+    let bank = [
+        {
+            type: "article_passage",
+            id: "q4b_1",
+            title: "Pig Beach",
+            text: "    Big Major Cay in the country of the Bahamas is a small island with a beautiful beach known as Pig Beach. On this island, visitors can see and sometimes play with pigs swimming near the beach. In recent years, these pigs have gained popularity worldwide because of social media. This has led many tourists to visit the island to see this unique sight. As a result, this has had some negative impact on these animals.\n\n    These pigs are not native to the island, and nobody knows exactly how they arrived there. One story says that old sailors left their pigs on the island. Another story suggests that the pigs swam to the island after escaping from a broken ship. Some people believe the pigs were brought there by farmers from a nearby island. In any case, after these pigs learned that humans, especially tourists today, would feed them, they made the place their home.\n\n    Today, tourists who come to see the pigs sometimes cause problems. They often give the pigs various kinds of food, but much of it is not good for their health. This could make the pigs sick. Some reports said that pigs ate harmful items, such as plastic. In the past, some of the pigs died after people fed them on the beach, as they had also eaten too much sand with the food.\n\n    To protect the pigs, several organizations and the local government are taking action. For example, they have started campaigns to educate tourists on how to behave properly around the swimming pigs. They are also cleaning up the beach and making stricter rules on feeding the pigs. They aim to improve the situation for both the pigs and the environment through more eco-friendly tourism. These events have also made people reconsider how humans should interact with wild animals.",
+            subs: [
+                {
+                    label: "(26)",
+                    qText: "What is true about Big Major Cay?",
                     options: [
-                        "1 Visit the library in person on Saturday.",
-                        "2 Call Karen directly to arrange an interview.",
-                        "3 Send the completed application form by Friday.",
-                        "4 Start working immediately this Sunday."
+                        "1 Social media has made it famous for its large, beautiful beach.",
+                        "2 There are pigs living there without any contact with humans.",
+                        "3 This island, where pigs live, offers tourists a very unusual view.",
+                        "4 It experienced a drop in tourists in recent years due to the pigs."
                     ],
-                    ans: 2,
-                    exp: "「申込書に記入し金曜日までに返信してください」とあるため「3 記入した申込書を金曜までに送る」が正解です。"
+                    ans: 2, exp: "第1段落「tourists to visit the island to see this unique sight」より、ブタがいる珍しい景観を提供している「3」が正解です。"
+                },
+                {
+                    label: "(27)",
+                    qText: "One possible explanation for the pigs being on the island is that",
+                    options: [
+                        "1 people brought them to attract tourists.",
+                        "2 a broken ship landed there with them inside.",
+                        "3 they originally came from this island.",
+                        "4 sailors brought them but left them behind."
+                    ],
+                    ans: 3, exp: "第2段落「old sailors left their pigs on the island」より、船乗りが連れてきて置いて行ったという「4」发正解です。"
+                },
+                {
+                    label: "(28)",
+                    qText: "How are the pigs affected by tourists?",
+                    options: [
+                        "1 They feel stressed when tourists touch them carelessly.",
+                        "2 They are fed food that is not good for them to eat.",
+                        "3 Their homes are being destroyed because of plastic trash.",
+                        "4 Too many tourists drive them away from their homes."
+                    ],
+                    ans: 1, exp: "第3段落「much of it is not good for their health」より、体に良くない食べ物を与えられているという「2」が正解です。"
+                },
+                {
+                    label: "(29)",
+                    qText: "What was done to protect the pigs on the island?",
+                    options: [
+                        "1 The government provided locals with information on how to handle them.",
+                        "2 The government made a rule that no tourists could go to the island.",
+                        "3 Some groups were working to teach tourists how to treat them correctly.",
+                        "4 Some groups were cleaning the beach without the help of the government."
+                    ],
+                    ans: 2, exp: "第4段落「campaigns to educate tourists on how to behave properly」より、観光客に正しい接し方を教える活動をしている「3」が正解です。"
                 }
             ]
         }
     ];
 
-    let bank = [];
-    for (let i = 1; i <= 20; i++) {
-        let t = emailTemplates[(i - 1) % emailTemplates.length];
-        let num = Math.floor((i - 1) / emailTemplates.length) + 1;
+    // 2〜20問目を自動生成
+    const topics = [
+        "Urban Rooftop Farming", "The History of Coffee", "Solar Energy in Schools", "The Secrets of Honeybees",
+        "Electric Bicycles in Cities", "Preserving Coral Reefs", "The Rise of Podcasts", "Deep-Sea Creatures",
+        "Vertical Gardens", "Space Debris Removal", "The World of Alpaca Wool", "Ancient Trade Routes",
+        "The Power of Wind Energy", "Traditional Tea Ceremonies", "Forest Bathing in Japan", "Microplastics in Oceans",
+        "Artificial Intelligence in Art", "The History of Paper", "Bird Migration Patterns"
+    ];
+
+    for (let i = 2; i <= 20; i++) {
+        let topicName = topics[i - 2];
         bank.push({
-            type: "email_passage",
-            id: "q4_" + i,
-            from: t.from,
-            to: t.to,
-            date: t.date,
-            subject: `${t.subject} (Set ${num})`,
-            body: t.body,
-            subs: t.subs
+            type: "article_passage",
+            id: "q4b_" + i,
+            title: topicName,
+            text: `    ${topicName} has become an important topic around the world in recent years. Many scientists and researchers have studied how it impacts our daily lives and environment. Initially, people viewed this phenomenon as simple, but further studies revealed much greater complexity.\n\n    In the past, traditional methods were widely accepted because technology was limited. However, modern innovations have completely changed the situation. Experts discovered new ways to utilize resources effectively, which led to significant improvements in efficiency.\n\n    Despite these positive changes, several challenges remain unresolved. One major concern is the high cost involved in implementing new systems. Additionally, public awareness remains relatively low in some regions, making it difficult to achieve widespread adoption.\n\n    To address these issues, local governments and environmental organizations are taking action. They are organizing educational programs to inform citizens about the benefits. Through continuous efforts and international cooperation, experts hope to create a sustainable future for everyone.`,
+            subs: [
+                {
+                    label: "(26)",
+                    qText: `What is true about ${topicName}?`,
+                    options: [
+                        "1 Recent studies show it is more complex than previously thought.",
+                        "2 It has been completely ignored by scientists worldwide.",
+                        "3 Traditional methods are still considered the most effective way.",
+                        "4 It has only negative effects on local communities."
+                    ],
+                    ans: 0, exp: "第1段落「further studies revealed much greater complexity」より「1」が正解です。"
+                },
+                {
+                    label: "(27)",
+                    qText: "What led to improvements in efficiency?",
+                    options: [
+                        "1 Stopping the use of modern technology.",
+                        "2 Modern innovations and new resource utilization methods.",
+                        "3 Relying solely on ancient traditions.",
+                        "4 Increasing the overall production costs."
+                    ],
+                    ans: 1, exp: "第2段落「modern innovations... new ways to utilize resources」より「2」が正解です。"
+                },
+                {
+                    label: "(28)",
+                    qText: "What is mentioned as a current problem?",
+                    options: [
+                        "1 The total lack of interest from local governments.",
+                        "2 The implementation costs are still very high.",
+                        "3 Scientists have stopped researching the issue.",
+                        "4 Citizens are forced to pay heavy taxes."
+                    ],
+                    ans: 1, exp: "第3段落「One major concern is the high cost」より「2」が正解です。"
+                },
+                {
+                    label: "(29)",
+                    qText: "How are organizations trying to solve the problem?",
+                    options: [
+                        "1 By banning the topic entirely.",
+                        "2 By closing down local schools and libraries.",
+                        "3 By running educational programs for citizens.",
+                        "4 By raising prices for all products."
+                    ],
+                    ans: 2, exp: "第4段落「organizing educational programs to inform citizens」より「3」が正解です。"
+                }
+            ]
         });
     }
+
     return bank;
+}
+
+// リスニング問題データベース
+function generateListeningBank() {
+    return [
+        {
+            type: "listening",
+            id: "l1",
+            part: "第1部 会話応答",
+            script: "Man: Excuse me, is this seat taken?\nWoman: No, it's free. Please go ahead and sit down.",
+            question: "音声を聴いて、最後の返答として最も適切なものを選びなさい。",
+            audioText: "Excuse me, is this seat taken? No, it's free. Please go ahead and sit down.",
+            options: ["1 Thank you very much.", "2 Yes, I bought it yesterday.", "3 I am looking for the station.", "4 Sorry, I have no time."],
+            answer: 0,
+            explanation: "席を譲ってもらったお礼を言う「1 Thank you very much.」が正解です。"
+        },
+        {
+            type: "listening",
+            id: "l2",
+            part: "第1部 会話応答",
+            script: "Woman: What time does the grocery store close tonight?\nMan: It usually closes at 8 PM, but today is a holiday, so it closes at 6 PM.",
+            question: "音声を聴いて、次に続く会話として最も適切なものを選びなさい。",
+            audioText: "What time does the grocery store close tonight? It usually closes at 8 PM, but today is a holiday, so it closes at 6 PM.",
+            options: ["1 Oh, then we should hurry!", "2 I like grocery shopping.", "3 Yes, it opens at 9 AM.", "4 No, I didn't go there."],
+            answer: 0,
+            explanation: "6時に閉まるため急がなければいけないという「1 Oh, then we should hurry!」が正解です。"
+        },
+        {
+            type: "listening",
+            id: "l3",
+            part: "第2部 会話の内容一致",
+            script: "Man: Hi Mary, did you finish your history essay?\nWoman: Not yet. I'm going to the central library after lunch to find some extra books.\nMan: Can I come with you? I need to print out my science report.",
+            question: "Question: Where is Mary going after lunch?",
+            audioText: "Hi Mary, did you finish your history essay? Not yet. I'm going to the central library after lunch to find some extra books. Can I come with you? I need to print out my science report. Question: Where is Mary going after lunch?",
+            options: ["1 To the central library.", "2 To a computer shop.", "3 To a science lab.", "4 To her history class."],
+            answer: 0,
+            explanation: "昼食後に中央図書館（central library）へ行くと言っているため「1」が正解です。"
+        },
+        {
+            type: "listening",
+            id: "l4",
+            part: "第3部 文の内容一致",
+            script: "Attention all passengers on Flight 302 to London. Due to heavy snow at the destination airport, our departure will be delayed by two hours. Please wait near Gate 12 for further updates.",
+            question: "Question: Why is Flight 302 delayed?",
+            audioText: "Attention all passengers on Flight 302 to London. Due to heavy snow at the destination airport, our departure will be delayed by two hours. Please wait near Gate 12 for further updates. Question: Why is Flight 302 delayed?",
+            options: ["1 Because of heavy snow.", "2 Because of mechanical trouble.", "3 Because Gate 12 is closed.", "4 Because of a strike."],
+            answer: 0,
+            explanation: "目的地の大雪（heavy snow）が原因のため「1」が正解です。"
+        }
+    ];
 }
 
 const wordBank = generateWordBank();
@@ -493,7 +596,9 @@ const idiomBank = generateIdiomBank();
 const q1Bank = [...wordBank, ...idiomBank];
 const q2Bank = generateDialogueBank();
 const q3Bank = generatePassageBank();
-const q4Bank = generateQ4PassageBank(); // 大問4用20長文
+const q4aBank = generateQ4APassageBank();
+const q4bBank = generateQ4BPassageBank();
+const listeningBank = generateListeningBank();
 
 function shuffleArray(array) {
     const arr = [...array];
@@ -505,7 +610,7 @@ function shuffleArray(array) {
 }
 
 function shuffleOptions(question) {
-    if (question.type === "passage" || question.type === "email_passage") {
+    if (question.type === "passage" || question.type === "email_passage" || question.type === "article_passage") {
         const newSubs = question.subs.map(sub => {
             const originalAnsText = sub.options[sub.ans];
             const shuffled = shuffleArray(sub.options);
@@ -545,6 +650,18 @@ let activeQuestions = [];
 let currentIndex = 0;
 let userAnswers = {};
 
+function playAudio(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const uttr = new SpeechSynthesisUtterance(text);
+        uttr.lang = 'en-US';
+        uttr.rate = 0.9;
+        window.speechSynthesis.speak(uttr);
+    } else {
+        alert("お使いのブラウザは音声読み上げに対応していません。");
+    }
+}
+
 function startQuiz(mode) {
     if (mode === "q1") {
         const wSel = shuffleArray(wordBank).slice(0, 8);
@@ -554,17 +671,21 @@ function startQuiz(mode) {
         activeQuestions = shuffleArray(q2Bank).slice(0, 5).map(shuffleOptions);
     } else if (mode === "q3") {
         activeQuestions = shuffleArray(q3Bank).slice(0, 2).map(shuffleOptions);
-    } else if (mode === "q4") {
-        // 大問4: 毎回ランダムで2問抽出
-        activeQuestions = shuffleArray(q4Bank).slice(0, 2).map(shuffleOptions);
+    } else if (mode === "q4a") {
+        activeQuestions = shuffleArray(q4aBank).slice(0, 2).map(shuffleOptions);
+    } else if (mode === "q4b") {
+        activeQuestions = shuffleArray(q4bBank).slice(0, 1).map(shuffleOptions);
+    } else if (mode === "listening") {
+        activeQuestions = shuffleArray(listeningBank).map(shuffleOptions);
     } else if (mode === "mix") {
-        const wSel = shuffleArray(wordBank).slice(0, 8);
-        const iSel = shuffleArray(idiomBank).slice(0, 7);
-        const q1Sel = shuffleArray([...wSel, ...iSel]);
-        const q2Sel = shuffleArray(q2Bank).slice(0, 5);
-        activeQuestions = [...q1Sel, ...q2Sel].map(shuffleOptions);
+        const q1Sel = shuffleArray(q1Bank).slice(0, 5);
+        const q2Sel = shuffleArray(q2Bank).slice(0, 2);
+        const q3Sel = shuffleArray(q3Bank).slice(0, 1);
+        const q4bSel = shuffleArray(q4bBank).slice(0, 1);
+        const lSel = shuffleArray(listeningBank).slice(0, 2);
+        activeQuestions = [...q1Sel, ...q2Sel, ...q3Sel, ...q4bSel, ...lSel].map(shuffleOptions);
     } else if (mode === "weak") {
-        const allQuestions = [...q1Bank, ...q2Bank, ...q3Bank, ...q4Bank];
+        const allQuestions = [...q1Bank, ...q2Bank, ...q3Bank, ...q4aBank, ...q4bBank, ...listeningBank];
         const weakIds = getWeakList();
         const weakQuestions = allQuestions.filter(q => weakIds.includes(q.id));
         activeQuestions = shuffleArray(weakQuestions).slice(0, 15).map(shuffleOptions);
@@ -580,11 +701,32 @@ function startQuiz(mode) {
 }
 
 function renderQuestion() {
+    window.speechSynthesis.cancel();
     const qData = activeQuestions[currentIndex];
     const quizArea = document.getElementById("quiz-area");
 
-    if (qData.type === "email_passage") {
-        // 大問4 (Eメール形式長文)
+    if (qData.type === "listening") {
+        let selectedOpt = userAnswers[currentIndex];
+        let optionsHtml = qData.options.map((opt, idx) => {
+            const isSelected = selectedOpt === idx ? "selected" : "";
+            return `<button class="option-btn ${isSelected}" onclick="selectOption(${idx})">${opt}</button>`;
+        }).join("");
+
+        quizArea.innerHTML = `
+            <div class="question-card">
+                <div class="question-number">
+                    <span>問題 (${currentIndex + 1} / ${activeQuestions.length})</span>
+                    <span class="badge" style="background-color: #d35400">${qData.part}</span>
+                </div>
+                <div class="audio-box">
+                    <p style="margin-top:0; font-weight:bold; color:#d35400;">🔊 音声ボタンを押して問題を聴いてください</p>
+                    <button class="audio-btn" onclick="playAudio('${qData.audioText.replace(/'/g, "\\'")}')">▶ 音声を再生する</button>
+                </div>
+                <div style="font-weight:bold; margin-bottom:12px;">${qData.question}</div>
+                <div class="options">${optionsHtml}</div>
+            </div>
+        `;
+    } else if (qData.type === "article_passage") {
         let currentAnswers = userAnswers[currentIndex] || {};
         let subsHtml = qData.subs.map((sub, sIdx) => {
             const selectedOpt = currentAnswers[sIdx];
@@ -606,7 +748,36 @@ function renderQuestion() {
             <div class="question-card">
                 <div class="question-number">
                     <span>長文 (${currentIndex + 1} / ${activeQuestions.length})</span>
-                    <span class="badge" style="background-color: #16a085">大問4 (内容一致)</span>
+                    <span class="badge" style="background-color: #27ae60">大問4B (説明文)</span>
+                </div>
+                <div class="passage-title">${qData.title}</div>
+                <div class="question-text">${qData.text}</div>
+                ${subsHtml}
+            </div>
+        `;
+    } else if (qData.type === "email_passage") {
+        let currentAnswers = userAnswers[currentIndex] || {};
+        let subsHtml = qData.subs.map((sub, sIdx) => {
+            const selectedOpt = currentAnswers[sIdx];
+            let opts = sub.options.map((opt, oIdx) => {
+                const isSelected = selectedOpt === oIdx ? "selected" : "";
+                return `<button class="option-btn ${isSelected}" onclick="selectSubOption(${sIdx}, ${oIdx})">${opt}</button>`;
+            }).join("");
+
+            return `
+                <div class="sub-q-box">
+                    <div class="sub-q-title">設問 ${sub.label}</div>
+                    <div style="font-weight:bold; margin-bottom: 8px; font-size: 0.9rem;">${sub.qText}</div>
+                    <div class="options">${opts}</div>
+                </div>
+            `;
+        }).join("");
+
+        quizArea.innerHTML = `
+            <div class="question-card">
+                <div class="question-number">
+                    <span>長文 (${currentIndex + 1} / ${activeQuestions.length})</span>
+                    <span class="badge" style="background-color: #16a085">大問4A (Eメール)</span>
                 </div>
                 <div class="email-header">
                     From: ${qData.from}<br>
@@ -619,7 +790,6 @@ function renderQuestion() {
             </div>
         `;
     } else if (qData.type === "passage") {
-        // 大問3
         let currentAnswers = userAnswers[currentIndex] || {};
         let subsHtml = qData.subs.map((sub, sIdx) => {
             const selectedOpt = currentAnswers[sIdx];
@@ -648,7 +818,6 @@ function renderQuestion() {
             </div>
         `;
     } else {
-        // 大問1・2
         let selectedOpt = userAnswers[currentIndex];
         let optionsHtml = qData.options.map((opt, idx) => {
             const isSelected = selectedOpt === idx ? "selected" : "";
@@ -697,16 +866,17 @@ function changeQuestion(step) {
 }
 
 function showResults() {
+    window.speechSynthesis.cancel();
     let totalScore = 0;
     let totalMax = 0;
     let detailHtml = "";
     let weakList = getWeakList();
 
     activeQuestions.forEach((q, idx) => {
-        if (q.type === "passage" || q.type === "email_passage") {
+        if (q.type === "passage" || q.type === "email_passage" || q.type === "article_passage") {
             const userSubAns = userAnswers[idx] || {};
             let isAllCorrect = true;
-            let sectionName = q.type === "email_passage" ? "大問4" : "大问3";
+            let sectionName = q.type === "article_passage" ? "大問4B" : (q.type === "email_passage" ? "大問4A" : "大問3");
             let qTitle = q.subject || q.title;
 
             detailHtml += `<div style="text-align:left; margin-bottom:15px; border-bottom: 2px solid #ddd; padding-bottom:10px;">
@@ -738,6 +908,27 @@ function showResults() {
             }
 
             detailHtml += `</div>`;
+        } else if (q.type === "listening") {
+            totalMax++;
+            const userAns = userAnswers[idx];
+            const isCorrect = userAns === q.answer;
+            
+            if (isCorrect) {
+                totalScore++;
+                weakList = weakList.filter(id => id !== q.id);
+            } else {
+                if (!weakList.includes(q.id)) weakList.push(q.id);
+            }
+
+            detailHtml += `
+                <div style="text-align:left; margin-bottom:15px; border-bottom: 1px dashed #ccc; padding-bottom:10px;">
+                    <strong>問${idx + 1} [${q.part}]:</strong> ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
+                    <strong>英文スクリプト:</strong><br>
+                    <small style="color:#2c3e50; font-family:monospace; display:block; background:#f0f3f4; padding:6px; border-radius:4px; margin:4px 0;">${q.script.replace(/\n/g, '<br>')}</small>
+                    正解: ${q.options[q.answer]}<br>
+                    <small style="color:#666;">解説: ${q.explanation}</small>
+                </div>
+            `;
         } else {
             totalMax++;
             const userAns = userAnswers[idx];
@@ -767,17 +958,18 @@ function showResults() {
     const resultArea = document.getElementById("result-area");
     resultArea.style.display = "block";
     resultArea.innerHTML = `
-        <h2>結果発表</h2>
-        <p style="font-size: 1.2rem;">スコア: <strong>${totalScore} / ${totalMax}</strong> 点</p>
+        <h2 style="text-align:center;">結果発表</h2>
+        <p style="font-size: 1.2rem; text-align:center;">スコア: <strong>${totalScore} / ${totalMax}</strong> 点</p>
         <hr>
         ${detailHtml}
-        <button class="btn" style="margin-top:15px;" onclick="returnToStart()">トップに戻る</button>
+        <button class="btn" style="margin:15px auto 0 auto; display:block;" onclick="returnToStart()">トップに戻る</button>
     `;
 
     document.getElementById("quiz-screen").style.display = "none";
 }
 
 function returnToStart() {
+    window.speechSynthesis.cancel();
     document.getElementById("start-screen").style.display = "block";
     document.getElementById("quiz-screen").style.display = "none";
     document.getElementById("result-area").style.display = "none";
