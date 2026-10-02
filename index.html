@@ -2,460 +2,242 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=none">
-    
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#1a5276">
-    <meta name="application-name" content="英検準2級">
-    <meta name="apple-mobile-web-app-title" content="英検準2級">
-
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='115' fill='%231a5276'/><path d='M160 120 h192 a30 30 0 0 1 30 30 v212 a30 30 0 0 1 -30 30 h-192 a30 30 0 0 1 -30 -30 v-212 a30 30 0 0 1 30 -30' fill='%23ffffff' opacity='0.15'/><text x='50%25' y='42%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='100' fill='%23ffffff'>英検</text><rect x='136' y='270' width='240' height='70' rx='35' fill='%23f1c40f'/><text x='50%25' y='308' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='48' fill='%231a5276'>準2級</text></svg>">
-
-    <title>英検準2級 完全演習アプリ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英語資格試験 模擬テスト（大問1〜4問題集）</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             background-color: #f4f7f6;
+            color: #333;
             margin: 0;
             padding: 20px;
-            color: #333;
-            user-select: none;
-            -webkit-user-select: none;
+            line-height: 1.6;
         }
         .container {
-            max-width: 680px;
+            max-width: 800px;
             margin: 0 auto;
             background: #fff;
             padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
         }
         h1 {
-            font-size: 1.4rem;
-            color: #1a5276;
+            font-size: 1.5rem;
+            color: #2c3e50;
             text-align: center;
-            margin-top: 0;
-            margin-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
-        .sub-title {
-            text-align: center;
-            color: #666;
-            font-size: 0.85rem;
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .btn {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-active {
+            background-color: #2e7d32;
+        }
+        .card {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
             margin-bottom: 20px;
         }
-        .section-title {
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin: 15px 0 8px 0;
+        .passage-box {
+            background: #eef7fc;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            font-family: Georgia, serif;
         }
-        .mode-selection {
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            white-space: pre-line;
+        }
+        .options {
             display: flex;
             flex-direction: column;
             gap: 10px;
             margin-bottom: 15px;
         }
-        .mode-btn {
-            padding: 14px;
-            font-size: 0.95rem;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-        .mode-btn:active { transform: scale(0.98); }
-        .mode-btn-primary { background-color: #3498db; color: white; }
-        .mode-btn-secondary { background-color: #9b59b6; color: white; }
-        .mode-btn-tertiary { background-color: #e74c3c; color: white; }
-        .mode-btn-q4a { background-color: #16a085; color: white; }
-        .mode-btn-q4b { background-color: #27ae60; color: white; }
-        .mode-btn-listening { background-color: #d35400; color: white; }
-        .mode-btn-mix { background-color: #2980b9; color: white; }
-        .mode-btn-weak { background-color: #e67e22; color: white; }
-        .mode-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; opacity: 0.6; }
-        .badge-count {
-            background: rgba(255, 255, 255, 0.25);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-        }
-        .question-card {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-        .question-number {
-            font-weight: bold;
-            color: #2980b9;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .passage-title {
-            text-align: center;
-            font-style: italic;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #2c3e50;
-        }
-        .email-header {
-            background-color: #eef2f5;
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            border: 1px solid #d5dbdb;
-        }
-        .question-text {
-            font-size: 0.98rem;
-            line-height: 1.7;
-            margin-bottom: 15px;
-            white-space: pre-wrap;
-            background-color: #fafafa;
-            padding: 14px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-        }
-        .audio-box {
-            text-align: center;
-            background-color: #fef9e7;
-            border: 1px solid #f9e79f;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        .audio-btn {
-            background-color: #e67e22;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .audio-btn:active { transform: scale(0.95); }
-        .sub-q-box {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        .sub-q-title {
-            font-weight: bold;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-            color: #1a5276;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
         .option-btn {
-            background-color: #ffffff;
-            border: 1px solid #d6e4ed;
-            padding: 10px 12px;
-            border-radius: 8px;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 10px 15px;
             text-align: left;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+        .explanation {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 5px;
             font-size: 0.9rem;
-            transition: background-color 0.15s;
         }
-        .option-btn:hover { background-color: #e2ecf5; }
-        .option-btn.selected {
-            background-color: #3498db;
-            color: white;
-            border-color: #2980b9;
+        .exp-correct {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
         }
-        .controls {
+        .exp-wrong {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        .pagination {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 20px;
-        }
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            background-color: #27ae60;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-secondary { background-color: #7f8c8d; }
-        .btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
-        .result-box {
-            text-align: left;
-            padding: 20px;
-            background: #e8f8f5;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .correct { color: #27ae60; font-weight: bold; }
-        .incorrect { color: #c0392b; font-weight: bold; }
-        .badge {
-            color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: normal;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>英検準2級 完全演習アプリ</h1>
-    <div class="sub-title">全大問（4A Eメール / 4B 説明文）＋ リスニング</div>
-
-    <!-- モード選択画面 -->
-    <div id="start-screen">
-        <div class="section-title">筆記コース</div>
-        <div class="mode-selection">
-            <button class="mode-btn mode-btn-primary" onclick="startQuiz('q1')">
-                <span>📘 大問1：短文空所補充 (語彙・熟語)</span>
-                <span class="badge-count">15問</span>
-            </button>
-            <button class="mode-btn mode-btn-secondary" onclick="startQuiz('q2')">
-                <span>💬 大問2：会話文完成</span>
-                <span class="badge-count">5問</span>
-            </button>
-            <button class="mode-btn mode-btn-tertiary" onclick="startQuiz('q3')">
-                <span>📖 大問3：長文空所補充</span>
-                <span class="badge-count">2問 (全4小問)</span>
-            </button>
-            <button class="mode-btn mode-btn-q4a" onclick="startQuiz('q4a')">
-                <span>📨 大問4A：長文内容一致 (Eメール・案内)</span>
-                <span class="badge-count">2問 (全6小問) [全20型]</span>
-            </button>
-            <button class="mode-btn mode-btn-q4b" onclick="startQuiz('q4b')">
-                <span>📑 大問4B：長文内容一致 (説明文・論説文)</span>
-                <span class="badge-count">1問 (全4小問) [全20型]</span>
-            </button>
-        </div>
-
-        <div class="section-title">リスニングコース</div>
-        <div class="mode-selection">
-            <button class="mode-btn mode-btn-listening" onclick="startQuiz('listening')">
-                <span>🎧 リスニングテスト (第1部〜第3部)</span>
-                <span class="badge-count">6問 (音声付き)</span>
-            </button>
-            <button class="mode-btn mode-btn-mix" onclick="startQuiz('mix')">
-                <span>🎲 総合ミックス (全大問＋リスニング)</span>
-                <span class="badge-count">計15問</span>
-            </button>
-        </div>
-
-        <div class="section-title">復習</div>
-        <div class="mode-selection">
-            <button class="mode-btn mode-btn-weak" id="weak-mode-btn" onclick="startQuiz('weak')">
-                <span>🔥 弱点克服モード</span>
-                <span class="badge-count"><span id="weak-count">0</span>問保存中</span>
-            </button>
-        </div>
+    <h1>英語資格試験 模擬テスト</h1>
+    
+    <div class="nav-buttons">
+        <button class="btn" onclick="loadSection(1)">大問1: 語彙・文法 (20パターン)</button>
+        <button class="btn" onclick="loadSection(2)">大問2: 会話文完成 (20パターン)</button>
+        <button class="btn" onclick="loadSection(3)">大問3: 案内・メール (5セット)</button>
+        <button class="btn" onclick="loadSection(4)">大問4: 長文読解 (5セット)</button>
     </div>
 
-    <!-- クイズ画面 -->
-    <div id="quiz-screen" style="display:none;">
-        <div id="quiz-area"></div>
-        <div class="controls">
-            <button class="btn btn-secondary" id="prev-btn" onclick="changeQuestion(-1)">前へ</button>
-            <button class="btn btn-secondary" id="next-btn" onclick="changeQuestion(1)">次へ</button>
-            <button class="btn" id="submit-btn" style="display:none;" onclick="showResults()">結果を見る</button>
-        </div>
-    </div>
-
-    <!-- 結果画面 -->
-    <div id="result-area" class="result-box" style="display:none;"></div>
+    <div id="content-area"></div>
 </div>
 
 <script>
-// --- データベース生成 ---
-function generateWordBank() {
+// --- 大問1: 語彙・文法 (20パターン) ---
+function generateVocabularyBank() {
     const templates = [
-        ["nervously", "absolutely", "rarely", "separately", 1, "「絶対に/完全に」を意味する副詞 absolutely が入ります。"],
-        ["transferred", "reduced", "proposed", "apologized", 0, "「転勤した/移動した」を意味する transferred が適当です。"],
-        ["wooden", "boring", "cute", "reasonable", 3, "「（価格が）手頃な・妥当な」を意味する reasonable が入ります。"],
-        ["award", "aisle", "attempt", "announcement", 3, "「お知らせ・発表」を意味する announcement が正解です。"],
-        ["battery", "receipt", "website", "frame", 1, "「領収書・レシート」を意味する receipt が入ります。"]
-    ];
-    let bank = [];
-    for (let i = 1; i <= 100; i++) {
-        let t = templates[(i - 1) % templates.length];
-        bank.push({
-            type: "single",
-            id: "w" + i,
-            q: `[単語 No.${i}] The manager decided that the new guidelines are ( ) necessary for the project's success.`,
-            options: [`1 ${t[0]}`, `2 ${t[1]}`, `3 ${t[2]}`, `4 ${t[3]}`],
-            answer: t[4],
-            explanation: t[5]
-        });
-    }
-    return bank;
-}
-
-function generateIdiomBank() {
-    const templates = [
-        ["next to", "except for", "across from", "up to", 1, "「〜を除いて」を意味する except for が入ります。"],
-        ["Get on", "Take off", "Give up", "Look out", 3, "「気をつけて！」を意味する Look out が入ります。"],
-        ["out of the question", "up in the air", "in a good temper", "none of your business", 0, "「論外だ・不可能だ」を意味する out of the question が入ります。"]
-    ];
-    let bank = [];
-    for (let i = 1; i <= 100; i++) {
-        let t = templates[(i - 1) % templates.length];
-        bank.push({
-            type: "single",
-            id: "i" + i,
-            q: `[熟語 No.${i}] All members arrived on time ( ) John, who was delayed by traffic.`,
-            options: [`1 ${t[0]}`, `2 ${t[1]}`, `3 ${t[2]}`, `4 ${t[3]}`],
-            answer: t[4],
-            explanation: t[5]
-        });
-    }
-    return bank;
-}
-
-function generateDialogueBank() {
-    const templates = [
-        // 1. PCサポート / ITトラブル (既存ベース)
         {
-            q: "A: Welcome to PC Support. How can I help you today?\nB: My laptop won't connect to Wi-Fi.\nA: I see. Let me ( ) to check the hardware.\nB: Thank you.",
-            options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 inspect your wireless adapter", "4 return it to you without repair"],
-            ans: 2, exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter」が適当です。"
+            q: "The company decided to ( ) a new marketing strategy to attract younger customers.",
+            options: ["1 adopt", "2 adapt", "3 avoid", "4 afford"],
+            ans: 0, exp: "「新しいマーケティング戦略を採用する」という意味になり、1 adopt（採用する）が適切です。"
         },
-        // 2. レストラン / 席待ち
         {
-            q: "A: Do you have a table for two available?\nB: Yes, but you'll have to wait about 15 minutes.\nA: That's fine. Can we ( ) in the meantime?\nB: Sure, right this way.",
-            options: ["1 look at the menu", "2 pay the bill", "3 cancel our reservation", "4 wash the dishes"],
-            ans: 0, exp: "待ち時間にできることとして「1 look at the menu（メニューを見る）」が適当です。"
+            q: "Ms. Tanaka gave a very ( ) presentation that persuaded all the board members.",
+            options: ["1 convincing", "2 reluctant", "3 careless", "4 convenient"],
+            ans: 0, exp: "役員全員を納得させたことから「1 convincing（説得力のある）」が適切です。"
         },
-        // 3. 週末の旅行 / 予定変更
         {
-            q: "A: How was your weekend trip to the mountains?\nB: It was great, but it started raining heavily on Sunday.\nA: Oh, that's too bad. Did you ( )?\nB: Yes, we visited an art museum instead.",
-            options: ["1 go hiking anyway", "2 change your plans", "3 stay home all weekend", "4 buy a new umbrella"],
-            ans: 1, exp: "雨のため予定を変更したか尋ねる「2 change your plans」が適当です。"
+            q: "Due to bad weather, the outdoor concert was ( ) until next weekend.",
+            options: ["1 called off", "2 put off", "3 taken off", "4 turned off"],
+            ans: 1, exp: "「来週末まで延期された」となるため「2 put off（延期する）」が適切です。（called offは中止）"
         },
-        // 4. オフィス / 電話の取り次ぎ
         {
-            q: "A: Good morning, Marketing Department.\nB: Hello, may I speak to Mr. Davis, please?\nA: I'm afraid he is in a meeting right now. Would you like to ( )?\nB: Yes, please ask him to call me back.",
-            options: ["1 join the meeting", "2 leave a message", "3 wait on the line forever", "4 send him a postcard"],
-            ans: 1, exp: "不在時の対応として「2 leave a message（伝言を残す）」が適当です。"
+            q: "The new software update significantly improved system performance, making it run ( ) faster.",
+            options: ["1 highly", "2 considerably", "3 nearly", "4 deeply"],
+            ans: 1, exp: "比較級 faster を強調し「かなり速く」とする「2 considerably（かなり、大幅に）」が適切です。"
         },
-        // 5. ショッピング / 服の試着
         {
-            q: "A: Excuse me, I really like this jacket. Do you have it in a medium?\nB: Let me check our stock room... Yes, here you go.\nA: Great! Where can I ( )?\nB: The fitting rooms are right over there.",
-            options: ["1 try it on", "2 return this item", "3 pay for shipping", "4 wash this jacket"],
-            ans: 0, exp: "試着室の場所を聞く文脈なので「1 try it on（試着する）」が適当です。"
+            q: "All employees are required to show their identification badges at the ( ) to the building.",
+            options: ["1 entrance", "2 allowance", "3 substance", "4 distance"],
+            ans: 0, exp: "建物の「1 entrance（入口）」が文脈上最も適切です。"
         },
-        // 6. ホテル / チェックイン前荷物預かり
         {
-            q: "A: Hi, I'd like to check in, but I know it's only 11 AM.\nB: Standard check-in is at 3 PM, sir.\nA: Is it possible to ( ) until then?\nB: Certainly. We can store them in our luggage room.",
-            options: ["1 book another room", "2 leave my bags here", "3 get a full refund", "4 order room service"],
-            ans: 1, exp: "チェックイン前荷物を預ける「2 leave my bags here」が適当です。"
+            q: "By the time the manager arrived at the office, the team ( ) the project proposal.",
+            options: ["1 finishes", "2 has finished", "3 had finished", "4 will finish"],
+            ans: 2, exp: "マネージャーが到着した（過去）時点ですでに完了していたため、過去完了形「3 had finished」になります。"
         },
-        // 7. 道案内 / 最寄り駅への行き方
         {
-            q: "A: Excuse me, could you tell me how to get to the central library?\nB: Go straight down this street and turn left at the traffic light.\nA: Is it ( ) from here?\nB: No, it's only about a 5-minute walk.",
-            options: ["1 open today", "2 very far", "3 expensive to enter", "4 dangerous to walk"],
-            ans: 1, exp: "徒歩5分かを聞く前の質問として「2 very far（とても遠いですか）」が適当です。"
+            q: "The consultant ( ) we hired last month has introduced several efficient methods.",
+            options: ["1 who", "2 whose", "3 which", "4 where"],
+            ans: 0, exp: "先行詞が「The consultant（人）」であり、目的格の関係代名詞「1 who（またはwhom）」が入ります。"
         },
-        // 8. 病院・クリニック / 予約
         {
-            q: "A: Dr. Smith's office. How can I help you?\nB: I'd like to ( ) for a routine checkup.\nA: Sure, we have openings this Thursday at 2 PM.",
-            options: ["1 make an appointment", "2 cancel my insurance", "3 pay my medical bill", "4 take some medicine"],
-            ans: 0, exp: "受診の予約をする表現「1 make an appointment」が適当です。"
+            q: "If I ( ) more time yesterday, I would have attended the seminar on artificial intelligence.",
+            options: ["1 have", "2 had had", "3 will have", "4 have had"],
+            ans: 1, exp: "過去の事実と反対の仮定を表す仮定法過去完了（If + 主語 + had + 過去分詞）のため「2 had had」が適切です。"
         },
-        // 9. 空港 / 荷物の手荷物許容量
         {
-            q: "A: Please put your suitcase on the scale.\nB: Here you go. Is the weight okay?\nA: I'm sorry, but it's 3 kilograms over the limit. You will need to ( ).\nB: Oh, then I'll move some heavy items to my carry-on.",
-            options: ["1 buy a new suitcase", "2 pay an extra fee", "3 change your flight seat", "4 leave the airport"],
-            ans: 1, exp: "重量オーバー時の対応として「2 pay an extra fee（追加料金を払う）」が適当です。"
+            q: "Please ( ) all confidential documents before leaving the conference room.",
+            options: ["1 secure", "2 damage", "3 publish", "4 ignore"],
+            ans: 0, exp: "機密文書を「1 secure（しっかり保管・確保する）」が適切です。"
         },
-        // 10. カフェ / 注文のお持ち帰り
         {
-            q: "A: What can I get for you today?\nB: An iced latte and a blueberry muffin, please.\nA: Will that be for here or ( )?\nB: To go, please.",
-            options: ["1 for later", "2 to take out", "3 to go", "4 for dining"],
-            ans: 2, exp: "店内か持ち帰りか尋ねる定型句「3 to go（お持ち帰り）」が対話の答と一致します。"
+            q: "The customer service representative offered a full ( ) for the damaged product.",
+            options: ["1 receipt", "2 refund", "3 discount", "4 charge"],
+            ans: 1, exp: "破損品に対して「2 refund（全額返金）」を提供する文脈が自然です。"
         },
-        // 11. 同僚同士 / 昼食の誘い
         {
-            q: "A: Are you free to grab some lunch now?\nB: I'd love to, but I have to ( ) by 1 PM.\nA: That's okay, we can go somewhere quick nearby.",
-            options: ["1 finish this report", "2 start my vacation", "3 buy a new car", "4 clean my house"],
-            ans: 0, exp: "仕事中の昼休みの会話として「1 finish this report（レポートを終わらせる）」が適当です。"
+            q: "It is ( ) for all drivers to wear seatbelts while driving.",
+            options: ["1 mandatory", "2 optional", "3 flexible", "4 temporary"],
+            ans: 0, exp: "シートベルト着用は義務であるため「1 mandatory（義務的な、必須の）」が適当です。"
         },
-        // 12. 電車・交通 / 遅延
         {
-            q: "A: You look stressed. What happened?\nB: The train was delayed by 30 minutes due to heavy snow.\nA: Oh no. Did you ( ) for your job interview?\nB: Luckily, I arrived just in time.",
-            options: ["1 make it on time", "2 forget your resume", "3 miss the train", "4 cancel the meeting"],
-            ans: 0, exp: "「ギリギリ間に合った」という返答に繋がる「1 make it on time（時間通りに着く）」が適当です。"
+            q: "The flight was delayed due to heavy fog; ( ), all passengers remained patient.",
+            options: ["1 therefore", "2 nevertheless", "3 otherwise", "4 besides"],
+            ans: 1, exp: "「濃霧で遅延したが、それにもかかわらず乗客は忍耐強かった」となるため「2 nevertheless（それにもかかわらず）」が適当です。"
         },
-        // 13. 家事・買い物 / 買い忘れ
         {
-            q: "A: I'm going to the supermarket. Do we need anything?\nB: We're almost out of milk and eggs. Could you ( )?\nA: No problem. Anything else?",
-            options: ["1 cook dinner now", "2 pick some up", "3 throw them away", "4 bake a cake"],
-            ans: 1, exp: "日用品を買ってくるよう頼む「2 pick some up（いくつか買ってきて）」が適当です。"
+            q: "We need to ( ) solutions to reduce operational costs this quarter.",
+            options: ["1 come up with", "2 look down on", "3 run out of", "4 catch up with"],
+            ans: 0, exp: "解決策を「1 come up with（思いつく・提案する）」が適当です。"
         },
-        // 14. 映画館 / チケット購入
         {
-            q: "A: Two tickets for the 7:00 PM show of 'Space Adventure', please.\nB: All seats in the middle are taken. Would you mind ( )?\nA: That's fine. We just want to see the movie.",
-            options: ["1 sitting in the front row", "2 paying in cash", "3 coming back tomorrow", "4 watching a different movie"],
-            ans: 0, exp: "中央席が埋まっているため提案される「1 sitting in the front row（最前列に座る）」が適当です。"
+            q: "The survey ( ) by the research firm revealed interesting market trends.",
+            options: ["1 conducting", "2 conducted", "3 conduct", "4 to conduct"],
+            ans: 1, exp: "「調査会社によって実施された調査」という受動の意味になるため過去分詞「2 conducted」が入ります。"
         },
-        // 15. 図書館 / 本の返却期限
         {
-            q: "A: I'd like to renew this book for another two weeks.\nB: Let me check... I'm sorry, but another user has ( ).\nA: Ah, I see. Then I'll return it today.",
-            options: ["1 read this book already", "2 reserved it", "3 lost the book", "4 written a review"],
-            ans: 1, exp: "延長できない理由として「2 reserved it（予約している）」が適当です。"
+            q: "The candidate's extensive ( ) in international trade made her the top applicant.",
+            options: ["1 experience", "2 experiment", "3 expectation", "4 expression"],
+            ans: 0, exp: "「国際貿易における豊富な経験」という意味になり「1 experience」が適当です。"
         },
-        // 16. パーティー・集まり / 招待への返事
         {
-            q: "A: Are you coming to Sarah's birthday party this Saturday?\nB: I really want to, but I ( ) on that day.\nA: That's a shame! She will miss you.",
-            options: ["1 have a prior engagement", "2 don't like parties", "3 forgot her birthday", "4 live too close"],
-            ans: 0, exp: "行けない理由として「1 have a prior engagement（先約がある）」が適当です。"
+            q: "The factory has ( ) its production capacity to meet the growing demand.",
+            options: ["1 expanded", "2 reduced", "3 postponed", "4 dismissed"],
+            ans: 0, exp: "需要増に対応するため「1 expanded（拡大した）」が適当です。"
         },
-        // 17. 銀行 / 口座開設
         {
-            q: "A: Good afternoon. I'd like to open a new savings account.\nB: Sure thing. Do you have ( ) with you today?\nA: Yes, I have my driver's license and passport.",
-            options: ["1 a credit card", "2 official identification", "3 a job application", "4 a checkbook"],
-            ans: 1, exp: "本人確認書類を指す「2 official identification」が適当です。"
+            q: "This year's sales figures are ( ) higher than those of the previous fiscal year.",
+            options: ["1 far", "2 very", "3 more", "4 too"],
+            ans: 0, exp: "比較級 higher を強調する語として「1 far（遥かに）」が適当です。（veryは比較級修飾不可）"
         },
-        // 18. 天気・服装
         {
-            q: "A: It looks like it's going to freeze tonight.\nB: Really? Maybe I should ( ) before going out.\nA: Definitely. It's much colder than yesterday.",
-            options: ["1 wear a heavy coat", "2 turn off the heater", "3 drink iced tea", "4 open all the windows"],
-            ans: 0, exp: "極寒の予想に対する服装として「1 wear a heavy coat（厚手のコートを着る）」が適当です。"
+            q: "The manager emphasized the importance of maintaining a ( ) work environment.",
+            options: ["1 safe", "2 hazardous", "3 severe", "4 critical"],
+            ans: 0, exp: "職場の維持として適切なのは「1 safe（安全な）」環境です。"
         },
-        // 19. ギフトショップ / 贈り物選び
         {
-            q: "A: I'm looking for a gift for my mother's 60th birthday.\nB: How about a silk scarf? They are very popular.\nA: That sounds lovely. Can you ( )?\nB: Of course, we offer free gift wrapping.",
-            options: ["1 wrap it for me", "2 wear it now", "3 send it to me", "4 lower the price"],
-            ans: 0, exp: "プレゼント用に頼む「1 wrap it for me（ラッピングしてもらう）」が適当です。"
+            q: "The team worked around the clock in order to ( ) the strict deadline.",
+            options: ["1 meet", "2 break", "3 pass", "4 lose"],
+            ans: 0, exp: "締切を守る・間に合わせる表現は「1 meet the deadline」です。"
         },
-        // 20. フィットネスジム / 入会
         {
-            q: "A: I'm thinking about joining this gym to get in shape.\nB: Great! We offer a free trial class for new members.\nA: That sounds good. Can I ( ) for tomorrow's class?\nB: Sure, let me take your name and email.",
-            options: ["1 sign up", "2 give up", "3 pay cash", "4 teach the class"],
-            ans: 0, exp: "体験クラスに申し込む表現「1 sign up（申し込む）」が適当です。"
+            q: "The board members agreed that the proposed budget was ( ) reasonable.",
+            options: ["1 perfectly", "2 perfection", "3 perfect", "4 perfecting"],
+            ans: 0, exp: "形容詞 reasonable を修飾する副詞「1 perfectly（完全に・実に）」が入ります。"
         }
     ];
 
     let bank = [];
     for (let i = 1; i <= 50; i++) {
-        // 20個のテンプレートを順番に循環利用して50問分生成
         let t = templates[(i - 1) % templates.length];
         bank.push({
             id: i,
@@ -468,631 +250,409 @@ function generateDialogueBank() {
     return bank;
 }
 
-function generatePassageBank() {
-    let bank = [];
-    for (let i = 1; i <= 20; i++) {
-        bank.push({
-            type: "passage",
-            id: "p" + i,
-            title: `City Gardening (No.${i})`,
-            text: `Many people living in urban areas are finding new ways to enjoy nature. In recent years, balcony gardening has become very popular. (  21  ), residents are growing their own vegetables at home.\n\nWorking on gardens also brings neighbors together. People share seeds and advice, which helps (  22  ) within the community.`,
-            subs: [
-                {
-                    label: "(21)",
-                    options: ["1 In addition", "2 On the other hand", "3 In contrast", "4 By mistake"],
-                    ans: 0,
-                    exp: "追加の情報を述べる「1 In addition」が適当です。"
-                },
-                {
-                    label: "(22)",
-                    options: ["1 build stronger relationships", "2 waste useful time", "3 create unnecessary noise", "4 spend extra money"],
-                    ans: 0,
-                    exp: "ポジティブな地域関係を表す「1 build stronger relationships」が適当です。"
-                }
-            ]
-        });
-    }
-    return bank;
-}
-
-function generateQ4APassageBank() {
-    let bank = [];
-    for (let i = 1; i <= 20; i++) {
-        bank.push({
-            type: "email_passage",
-            id: "q4a_" + i,
-            from: "Karen Smith <karen.s@city-library.org>",
-            to: "David Miller <d.miller99@webmail.com>",
-            date: "March 12",
-            subject: `Volunteer Opportunity (Set ${i})`,
-            body: "Dear David,\nThank you for reaching out regarding our weekend volunteer program. Currently, the Saturday reading section is full. However, we urgently need assistance in our digital archive department on Sundays. Volunteers help digitize historical local newspapers. No special technical background is required, as we provide a full orientation session before you start.\nIf available on Sundays, please fill out the application form and send it back by Friday.\nBest regards,\nKaren Smith",
-            subs: [
-                {
-                    label: "(23)",
-                    qText: "Why is Karen writing to David?",
-                    options: ["1 To offer a Sunday volunteer position.", "2 To cancel the reading section.", "3 To ask for a donation.", "4 To hire a computer engineer."],
-                    ans: 0, exp: "日曜ボランティアを提案しているため「1」が正解です。"
-                },
-                {
-                    label: "(24)",
-                    qText: "What is true about the digital archive department?",
-                    options: ["1 Advanced technical skills are needed.", "2 Orientation will be provided.", "3 It is open only on Saturdays.", "4 David must pay a fee."],
-                    ans: 1, exp: "オリエンテーションが提供されるため「2」が正解です。"
-                },
-                {
-                    label: "(25)",
-                    qText: "What should David do if he wants to apply?",
-                    options: ["1 Send the form by Friday.", "2 Visit the library on Saturday.", "3 Call Karen immediately.", "4 Buy a new computer."],
-                    ans: 0, exp: "金曜までに申込書を送るため「1」が正解です。"
-                }
-            ]
-        });
-    }
-    return bank;
-}
-
-// 大問4B（20パターン自動生成）
-function generateQ4BPassageBank() {
-    // 1問目は添付画像の Pig Beach
-    let bank = [
+// --- 大問2: 会話文完成 (20パターン) ---
+function generateDialogueBank() {
+    const templates = [
         {
-            type: "article_passage",
-            id: "q4b_1",
-            title: "Pig Beach",
-            text: "    Big Major Cay in the country of the Bahamas is a small island with a beautiful beach known as Pig Beach. On this island, visitors can see and sometimes play with pigs swimming near the beach. In recent years, these pigs have gained popularity worldwide because of social media. This has led many tourists to visit the island to see this unique sight. As a result, this has had some negative impact on these animals.\n\n    These pigs are not native to the island, and nobody knows exactly how they arrived there. One story says that old sailors left their pigs on the island. Another story suggests that the pigs swam to the island after escaping from a broken ship. Some people believe the pigs were brought there by farmers from a nearby island. In any case, after these pigs learned that humans, especially tourists today, would feed them, they made the place their home.\n\n    Today, tourists who come to see the pigs sometimes cause problems. They often give the pigs various kinds of food, but much of it is not good for their health. This could make the pigs sick. Some reports said that pigs ate harmful items, such as plastic. In the past, some of the pigs died after people fed them on the beach, as they had also eaten too much sand with the food.\n\n    To protect the pigs, several organizations and the local government are taking action. For example, they have started campaigns to educate tourists on how to behave properly around the swimming pigs. They are also cleaning up the beach and making stricter rules on feeding the pigs. They aim to improve the situation for both the pigs and the environment through more eco-friendly tourism. These events have also made people reconsider how humans should interact with wild animals.",
-            subs: [
-                {
-                    label: "(26)",
-                    qText: "What is true about Big Major Cay?",
-                    options: [
-                        "1 Social media has made it famous for its large, beautiful beach.",
-                        "2 There are pigs living there without any contact with humans.",
-                        "3 This island, where pigs live, offers tourists a very unusual view.",
-                        "4 It experienced a drop in tourists in recent years due to the pigs."
-                    ],
-                    ans: 2, exp: "第1段落「tourists to visit the island to see this unique sight」より、ブタがいる珍しい景観を提供している「3」が正解です。"
-                },
-                {
-                    label: "(27)",
-                    qText: "One possible explanation for the pigs being on the island is that",
-                    options: [
-                        "1 people brought them to attract tourists.",
-                        "2 a broken ship landed there with them inside.",
-                        "3 they originally came from this island.",
-                        "4 sailors brought them but left them behind."
-                    ],
-                    ans: 3, exp: "第2段落「old sailors left their pigs on the island」より、船乗りが連れてきて置いて行ったという「4」发正解です。"
-                },
-                {
-                    label: "(28)",
-                    qText: "How are the pigs affected by tourists?",
-                    options: [
-                        "1 They feel stressed when tourists touch them carelessly.",
-                        "2 They are fed food that is not good for them to eat.",
-                        "3 Their homes are being destroyed because of plastic trash.",
-                        "4 Too many tourists drive them away from their homes."
-                    ],
-                    ans: 1, exp: "第3段落「much of it is not good for their health」より、体に良くない食べ物を与えられているという「2」が正解です。"
-                },
-                {
-                    label: "(29)",
-                    qText: "What was done to protect the pigs on the island?",
-                    options: [
-                        "1 The government provided locals with information on how to handle them.",
-                        "2 The government made a rule that no tourists could go to the island.",
-                        "3 Some groups were working to teach tourists how to treat them correctly.",
-                        "4 Some groups were cleaning the beach without the help of the government."
-                    ],
-                    ans: 2, exp: "第4段落「campaigns to educate tourists on how to behave properly」より、観光客に正しい接し方を教える活動をしている「3」が正解です。"
-                }
-            ]
+            q: "A: Welcome to PC Support. How can I help you today?\nB: My laptop won't connect to Wi-Fi.\nA: I see. Let me ( ) to check the hardware.\nB: Thank you.",
+            options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 inspect your wireless adapter", "4 return it to you without repair"],
+            ans: 2, exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter」が適当です。"
+        },
+        {
+            q: "A: Do you have a table for two available?\nB: Yes, but you'll have to wait about 15 minutes.\nA: That's fine. Can we ( ) in the meantime?\nB: Sure, right this way.",
+            options: ["1 look at the menu", "2 pay the bill", "3 cancel our reservation", "4 wash the dishes"],
+            ans: 0, exp: "待ち時間にできることとして「1 look at the menu（メニューを見る）」が適当です。"
+        },
+        {
+            q: "A: How was your weekend trip to the mountains?\nB: It was great, but it started raining heavily on Sunday.\nA: Oh, that's too bad. Did you ( )?\nB: Yes, we visited an art museum instead.",
+            options: ["1 go hiking anyway", "2 change your plans", "3 stay home all weekend", "4 buy a new umbrella"],
+            ans: 1, exp: "雨のため予定を変更したか尋ねる「2 change your plans」が適当です。"
+        },
+        {
+            q: "A: Good morning, Marketing Department.\nB: Hello, may I speak to Mr. Davis, please?\nA: I'm afraid he is in a meeting right now. Would you like to ( )?\nB: Yes, please ask him to call me back.",
+            options: ["1 join the meeting", "2 leave a message", "3 wait on the line forever", "4 send him a postcard"],
+            ans: 1, exp: "不在時の対応として「2 leave a message（伝言を残す）」が適当です。"
+        },
+        {
+            q: "A: Excuse me, I really like this jacket. Do you have it in a medium?\nB: Let me check our stock room... Yes, here you go.\nA: Great! Where can I ( )?\nB: The fitting rooms are right over there.",
+            options: ["1 try it on", "2 return this item", "3 pay for shipping", "4 wash this jacket"],
+            ans: 0, exp: "試着室の場所を聞く文脈なので「1 try it on（試着する）」が適当です。"
+        },
+        {
+            q: "A: Hi, I'd like to check in, but I know it's only 11 AM.\nB: Standard check-in is at 3 PM, sir.\nA: Is it possible to ( ) until then?\nB: Certainly. We can store them in our luggage room.",
+            options: ["1 book another room", "2 leave my bags here", "3 get a full refund", "4 order room service"],
+            ans: 1, exp: "チェックイン前荷物を預ける「2 leave my bags here」が適当です。"
+        },
+        {
+            q: "A: Excuse me, could you tell me how to get to the central library?\nB: Go straight down this street and turn left at the traffic light.\nA: Is it ( ) from here?\nB: No, it's only about a 5-minute walk.",
+            options: ["1 open today", "2 very far", "3 expensive to enter", "4 dangerous to walk"],
+            ans: 1, exp: "徒歩5分かを聞く前の質問として「2 very far（とても遠いですか）」が適当です。"
+        },
+        {
+            q: "A: Dr. Smith's office. How can I help you?\nB: I'd like to ( ) for a routine checkup.\nA: Sure, we have openings this Thursday at 2 PM.",
+            options: ["1 make an appointment", "2 cancel my insurance", "3 pay my medical bill", "4 take some medicine"],
+            ans: 0, exp: "受診の予約をする表現「1 make an appointment」が適当です。"
+        },
+        {
+            q: "A: Please put your suitcase on the scale.\nB: Here you go. Is the weight okay?\nA: I'm sorry, but it's 3 kilograms over the limit. You will need to ( ).\nB: Oh, then I'll move some heavy items to my carry-on.",
+            options: ["1 buy a new suitcase", "2 pay an extra fee", "3 change your flight seat", "4 leave the airport"],
+            ans: 1, exp: "重量オーバー時の対応として「2 pay an extra fee（追加料金を払う）」が適当です。"
+        },
+        {
+            q: "A: What can I get for you today?\nB: An iced latte and a blueberry muffin, please.\nA: Will that be for here or ( )?\nB: To go, please.",
+            options: ["1 for later", "2 to take out", "3 to go", "4 for dining"],
+            ans: 2, exp: "店内か持ち帰りか尋ねる定型句「3 to go（お持ち帰り）」が適当です。"
+        },
+        {
+            q: "A: Are you free to grab some lunch now?\nB: I'd love to, but I have to ( ) by 1 PM.\nA: That's okay, we can go somewhere quick nearby.",
+            options: ["1 finish this report", "2 start my vacation", "3 buy a new car", "4 clean my house"],
+            ans: 0, exp: "仕事中の昼休みの会話として「1 finish this report（レポートを終わらせる）」が適当です。"
+        },
+        {
+            q: "A: You look stressed. What happened?\nB: The train was delayed by 30 minutes due to heavy snow.\nA: Oh no. Did you ( ) for your job interview?\nB: Luckily, I arrived just in time.",
+            options: ["1 make it on time", "2 forget your resume", "3 miss the train", "4 cancel the meeting"],
+            ans: 0, exp: "「ギリギリ間に合った」という返答に繋がる「1 make it on time（時間通りに着く）」が適当です。"
+        },
+        {
+            q: "A: I'm going to the supermarket. Do we need anything?\nB: We're almost out of milk and eggs. Could you ( )?\nA: No problem. Anything else?",
+            options: ["1 cook dinner now", "2 pick some up", "3 throw them away", "4 bake a cake"],
+            ans: 1, exp: "日用品を買ってくるよう頼む「2 pick some up（いくつか買ってきて）」が適当です。"
+        },
+        {
+            q: "A: Two tickets for the 7:00 PM show of 'Space Adventure', please.\nB: All seats in the middle are taken. Would you mind ( )?\nA: That's fine. We just want to see the movie.",
+            options: ["1 sitting in the front row", "2 paying in cash", "3 coming back tomorrow", "4 watching a different movie"],
+            ans: 0, exp: "中央席が埋まっているため提案される「1 sitting in the front row（最前列に座る）」が適当です。"
+        },
+        {
+            q: "A: I'd like to renew this book for another two weeks.\nB: Let me check... I'm sorry, but another user has ( ).\nA: Ah, I see. Then I'll return it today.",
+            options: ["1 read this book already", "2 reserved it", "3 lost the book", "4 written a review"],
+            ans: 1, exp: "延長できない理由として「2 reserved it（予約している）」が適当です。"
+        },
+        {
+            q: "A: Are you coming to Sarah's birthday party this Saturday?\nB: I really want to, but I ( ) on that day.\nA: That's a shame! She will miss you.",
+            options: ["1 have a prior engagement", "2 don't like parties", "3 forgot her birthday", "4 live too close"],
+            ans: 0, exp: "行けない理由として「1 have a prior engagement（先約がある）」が適当です。"
+        },
+        {
+            q: "A: Good afternoon. I'd like to open a new savings account.\nB: Sure thing. Do you have ( ) with you today?\nA: Yes, I have my driver's license and passport.",
+            options: ["1 a credit card", "2 official identification", "3 a job application", "4 a checkbook"],
+            ans: 1, exp: "本人確認書類を指す「2 official identification」が適当です。"
+        },
+        {
+            q: "A: It looks like it's going to freeze tonight.\nB: Really? Maybe I should ( ) before going out.\nA: Definitely. It's much colder than yesterday.",
+            options: ["1 wear a heavy coat", "2 turn off the heater", "3 drink iced tea", "4 open all the windows"],
+            ans: 0, exp: "極寒の予想に対する服装として「1 wear a heavy coat（厚手のコートを着る）」が適当です。"
+        },
+        {
+            q: "A: I'm looking for a gift for my mother's 60th birthday.\nB: How about a silk scarf? They are very popular.\nA: That sounds lovely. Can you ( )?\nB: Of course, we offer free gift wrapping.",
+            options: ["1 wrap it for me", "2 wear it now", "3 send it to me", "4 lower the price"],
+            ans: 0, exp: "プレゼント用に頼む「1 wrap it for me（ラッピングしてもらう）」が適当です。"
+        },
+        {
+            q: "A: I'm thinking about joining this gym to get in shape.\nB: Great! We offer a free trial class for new members.\nA: That sounds good. Can I ( ) for tomorrow's class?\nB: Sure, let me take your name and email.",
+            options: ["1 sign up", "2 give up", "3 pay cash", "4 teach the class"],
+            ans: 0, exp: "体験クラスに申し込む表現「1 sign up（申し込む）」が適当です。"
         }
     ];
 
-    // 2〜20問目を自動生成
-    const topics = [
-        "Urban Rooftop Farming", "The History of Coffee", "Solar Energy in Schools", "The Secrets of Honeybees",
-        "Electric Bicycles in Cities", "Preserving Coral Reefs", "The Rise of Podcasts", "Deep-Sea Creatures",
-        "Vertical Gardens", "Space Debris Removal", "The World of Alpaca Wool", "Ancient Trade Routes",
-        "The Power of Wind Energy", "Traditional Tea Ceremonies", "Forest Bathing in Japan", "Microplastics in Oceans",
-        "Artificial Intelligence in Art", "The History of Paper", "Bird Migration Patterns"
-    ];
-
-    for (let i = 2; i <= 20; i++) {
-        let topicName = topics[i - 2];
+    let bank = [];
+    for (let i = 1; i <= 50; i++) {
+        let t = templates[(i - 1) % templates.length];
         bank.push({
-            type: "article_passage",
-            id: "q4b_" + i,
-            title: topicName,
-            text: `    ${topicName} has become an important topic around the world in recent years. Many scientists and researchers have studied how it impacts our daily lives and environment. Initially, people viewed this phenomenon as simple, but further studies revealed much greater complexity.\n\n    In the past, traditional methods were widely accepted because technology was limited. However, modern innovations have completely changed the situation. Experts discovered new ways to utilize resources effectively, which led to significant improvements in efficiency.\n\n    Despite these positive changes, several challenges remain unresolved. One major concern is the high cost involved in implementing new systems. Additionally, public awareness remains relatively low in some regions, making it difficult to achieve widespread adoption.\n\n    To address these issues, local governments and environmental organizations are taking action. They are organizing educational programs to inform citizens about the benefits. Through continuous efforts and international cooperation, experts hope to create a sustainable future for everyone.`,
-            subs: [
-                {
-                    label: "(26)",
-                    qText: `What is true about ${topicName}?`,
-                    options: [
-                        "1 Recent studies show it is more complex than previously thought.",
-                        "2 It has been completely ignored by scientists worldwide.",
-                        "3 Traditional methods are still considered the most effective way.",
-                        "4 It has only negative effects on local communities."
-                    ],
-                    ans: 0, exp: "第1段落「further studies revealed much greater complexity」より「1」が正解です。"
-                },
-                {
-                    label: "(27)",
-                    qText: "What led to improvements in efficiency?",
-                    options: [
-                        "1 Stopping the use of modern technology.",
-                        "2 Modern innovations and new resource utilization methods.",
-                        "3 Relying solely on ancient traditions.",
-                        "4 Increasing the overall production costs."
-                    ],
-                    ans: 1, exp: "第2段落「modern innovations... new ways to utilize resources」より「2」が正解です。"
-                },
-                {
-                    label: "(28)",
-                    qText: "What is mentioned as a current problem?",
-                    options: [
-                        "1 The total lack of interest from local governments.",
-                        "2 The implementation costs are still very high.",
-                        "3 Scientists have stopped researching the issue.",
-                        "4 Citizens are forced to pay heavy taxes."
-                    ],
-                    ans: 1, exp: "第3段落「One major concern is the high cost」より「2」が正解です。"
-                },
-                {
-                    label: "(29)",
-                    qText: "How are organizations trying to solve the problem?",
-                    options: [
-                        "1 By banning the topic entirely.",
-                        "2 By closing down local schools and libraries.",
-                        "3 By running educational programs for citizens.",
-                        "4 By raising prices for all products."
-                    ],
-                    ans: 2, exp: "第4段落「organizing educational programs to inform citizens」より「3」が正解です。"
-                }
-            ]
+            id: i,
+            q: t.q,
+            options: t.options,
+            ans: t.ans,
+            exp: t.exp
         });
     }
-
     return bank;
 }
 
-// リスニング問題データベース
-function generateListeningBank() {
+// --- 大問3: 短〜中長文・案内/メール (5セット) ---
+function generateReadingPart1Bank() {
     return [
         {
-            type: "listening",
-            id: "l1",
-            part: "第1部 会話応答",
-            script: "Man: Excuse me, is this seat taken?\nWoman: No, it's free. Please go ahead and sit down.",
-            question: "音声を聴いて、最後の返答として最も適切なものを選びなさい。",
-            audioText: "Excuse me, is this seat taken? No, it's free. Please go ahead and sit down.",
-            options: ["1 Thank you very much.", "2 Yes, I bought it yesterday.", "3 I am looking for the station.", "4 Sorry, I have no time."],
-            answer: 0,
-            explanation: "席を譲ってもらったお礼を言う「1 Thank you very much.」が正解です。"
+            title: "Passage 1: Office Maintenance Notice",
+            text: "To All Employees,\nPlease be advised that the main server will undergo scheduled maintenance this Saturday, October 10th, from 1:00 PM to 5:00 PM. During this period, internal email and cloud storage services will be temporarily unavailable. Please make sure to save all active files and log out of the system before 12:50 PM on Saturday. If you have any urgent inquiries during the downtime, please contact the IT Helpdesk via the emergency mobile line.\nThank you for your cooperation.\nIT Department",
+            questions: [
+                {
+                    q: "Q1. What is the main purpose of this notice?",
+                    options: ["1 To announce a company holiday", "2 To inform staff of a temporary system outage", "3 To introduce new IT department members", "4 To update the emergency phone list"],
+                    ans: 1, exp: "本文前半でサーバの定期メンテナンスに伴うメール・クラウドの停止（system outage）を知らせています。"
+                },
+                {
+                    q: "Q2. What are employees required to do before 12:50 PM on Saturday?",
+                    options: ["1 Call the emergency line", "2 Save files and log out", "3 Clean their workstations", "4 Send an email to the IT department"],
+                    ans: 1, exp: "本文中に「make sure to save all active files and log out... before 12:50 PM」と明記されています。"
+                }
+            ]
         },
         {
-            type: "listening",
-            id: "l2",
-            part: "第1部 会話応答",
-            script: "Woman: What time does the grocery store close tonight?\nMan: It usually closes at 8 PM, but today is a holiday, so it closes at 6 PM.",
-            question: "音声を聴いて、次に続く会話として最も適切なものを選びなさい。",
-            audioText: "What time does the grocery store close tonight? It usually closes at 8 PM, but today is a holiday, so it closes at 6 PM.",
-            options: ["1 Oh, then we should hurry!", "2 I like grocery shopping.", "3 Yes, it opens at 9 AM.", "4 No, I didn't go there."],
-            answer: 0,
-            explanation: "6時に閉まるため急がなければいけないという「1 Oh, then we should hurry!」が正解です。"
+            title: "Passage 2: Store Opening Invitation",
+            text: "Dear Valued Customer,\nWe are thrilled to announce the grand opening of Green Leaf Bakery's second branch in downtown Kashiwa on Friday, November 15th. To celebrate, we are offering a 20% discount on all baked goods during our opening weekend. The first 50 customers on Friday morning will also receive a complimentary tote bag. We look forward to welcoming you to our new location!",
+            questions: [
+                {
+                    q: "Q1. What special offer is available throughout the opening weekend?",
+                    options: ["1 A free tote bag for everyone", "2 A 20% discount on all baked goods", "3 Free coffee with any purchase", "4 Buy one, get one free loaves"],
+                    ans: 1, exp: "「20% discount on all baked goods during our opening weekend」と記載されています。"
+                },
+                {
+                    q: "Q2. Who will receive a free tote bag?",
+                    options: ["1 Anyone who visits on Saturday", "2 The first 50 customers on Friday", "3 Customers who spend over $50", "4 All newsletter subscribers"],
+                    ans: 1, exp: "「The first 50 customers on Friday morning」と書かれています。"
+                }
+            ]
         },
         {
-            type: "listening",
-            id: "l3",
-            part: "第2部 会話の内容一致",
-            script: "Man: Hi Mary, did you finish your history essay?\nWoman: Not yet. I'm going to the central library after lunch to find some extra books.\nMan: Can I come with you? I need to print out my science report.",
-            question: "Question: Where is Mary going after lunch?",
-            audioText: "Hi Mary, did you finish your history essay? Not yet. I'm going to the central library after lunch to find some extra books. Can I come with you? I need to print out my science report. Question: Where is Mary going after lunch?",
-            options: ["1 To the central library.", "2 To a computer shop.", "3 To a science lab.", "4 To her history class."],
-            answer: 0,
-            explanation: "昼食後に中央図書館（central library）へ行くと言っているため「1」が正解です。"
+            title: "Passage 3: Professional Development Seminar",
+            text: "Attention All Staff,\nHuman Resources is pleased to host a workshop on 'Effective Project Management' on Wednesday, May 12th, in Conference Room B. The session will run from 9:00 AM to 12:00 PM and will cover key techniques for scheduling and team coordination. Space is limited to 20 participants, so please register via the intranet portal by May 5th.",
+            questions: [
+                {
+                    q: "Q1. What topic will be covered in the workshop?",
+                    options: ["1 Financial accounting", "2 Effective Project Management", "3 Social media marketing", "4 Workplace safety"],
+                    ans: 1, exp: "ワークショップのテーマとして「Effective Project Management」と明記されています。"
+                },
+                {
+                    q: "Q2. How can employees secure a spot for the workshop?",
+                    options: ["1 By emailing HR directly", "2 By registering on the intranet by May 5th", "3 By arriving early on May 12th", "4 By submitting a written request"],
+                    ans: 1, exp: "「register via the intranet portal by May 5th」と指示があります。"
+                }
+            ]
         },
         {
-            type: "listening",
-            id: "l4",
-            part: "第3部 文の内容一致",
-            script: "Attention all passengers on Flight 302 to London. Due to heavy snow at the destination airport, our departure will be delayed by two hours. Please wait near Gate 12 for further updates.",
-            question: "Question: Why is Flight 302 delayed?",
-            audioText: "Attention all passengers on Flight 302 to London. Due to heavy snow at the destination airport, our departure will be delayed by two hours. Please wait near Gate 12 for further updates. Question: Why is Flight 302 delayed?",
-            options: ["1 Because of heavy snow.", "2 Because of mechanical trouble.", "3 Because Gate 12 is closed.", "4 Because of a strike."],
-            answer: 0,
-            explanation: "目的地の大雪（heavy snow）が原因のため「1」が正解です。"
+            title: "Passage 4: Library Policy Update",
+            text: "Dear Library Members,\nStarting next month, the City Central Library will extend its weekday operating hours until 9:00 PM. Additionally, members may now borrow up to 10 books at a time, up from the previous limit of 7. Please note that overdue fines will also increase to 50 cents per day per item. Thank you for your continued support.",
+            questions: [
+                {
+                    q: "Q1. What change is being made to borrowing limits?",
+                    options: ["1 Members can borrow fewer books", "2 The limit is increased to 10 books", "3 The limit is reduced to 5 books", "4 Borrowing duration is shortened"],
+                    ans: 1, exp: "「borrow up to 10 books at a time, up from the previous limit of 7」と記載されています。"
+                },
+                {
+                    q: "Q2. What will happen if items are returned late?",
+                    options: ["1 Library cards will be suspended", "2 Overdue fines will increase to 50 cents/day", "3 Members must pay for a replacement", "4 No further renewals will be allowed"],
+                    ans: 1, exp: "「overdue fines will also increase to 50 cents per day per item」と明記されています。"
+                }
+            ]
+        },
+        {
+            title: "Passage 5: Flight Schedule Change Notice",
+            text: "Dear Traveler,\nWe are writing to inform you of a time change for your upcoming flight, SkyAir 402 from Tokyo to Singapore on December 2. Your new departure time is 11:30 AM, 45 minutes earlier than originally scheduled. Please arrive at Terminal 2 at least two hours prior to departure. If this change causes inconvenience, you may reschedule your flight online free of charge.",
+            questions: [
+                {
+                    q: "Q1. How has Flight SkyAir 402 been adjusted?",
+                    options: ["1 It was canceled", "2 It departs 45 minutes earlier", "3 It departs 45 minutes later", "4 The departure terminal was changed"],
+                    ans: 1, exp: "「45 minutes earlier than originally scheduled」と記載されています。"
+                },
+                {
+                    q: "Q2. What option is provided for passengers inconvenienced by the change?",
+                    options: ["1 A voucher for airport dining", "2 Free online flight rescheduling", "3 Upgrade to business class", "4 Full cash refund at the counter"],
+                    ans: 1, exp: "「you may reschedule your flight online free of charge」と記載されています。"
+                }
+            ]
         }
     ];
 }
 
-const wordBank = generateWordBank();
-const idiomBank = generateIdiomBank();
-const q1Bank = [...wordBank, ...idiomBank];
-const q2Bank = generateDialogueBank();
-const q3Bank = generatePassageBank();
-const q4aBank = generateQ4APassageBank();
-const q4bBank = generateQ4BPassageBank();
-const listeningBank = generateListeningBank();
-
-function shuffleArray(array) {
-    const arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-}
-
-function shuffleOptions(question) {
-    if (question.type === "passage" || question.type === "email_passage" || question.type === "article_passage") {
-        const newSubs = question.subs.map(sub => {
-            const originalAnsText = sub.options[sub.ans];
-            const shuffled = shuffleArray(sub.options);
-            const clean = shuffled.map(o => o.replace(/^[1-4]\s*/, ""));
-            const finalOptions = clean.map((o, idx) => `${idx + 1} ${o}`);
-            const newAns = clean.findIndex(o => originalAnsText.includes(o));
-            return { ...sub, options: finalOptions, ans: newAns };
-        });
-        return { ...question, subs: newSubs };
-    } else {
-        const originalAnswerText = question.options[question.answer];
-        const shuffledOptions = shuffleArray(question.options);
-        const cleanOptions = shuffledOptions.map(opt => opt.replace(/^[1-4]\s*/, ""));
-        const finalOptions = cleanOptions.map((opt, idx) => `${idx + 1} ${opt}`);
-        const newAnswerIndex = cleanOptions.findIndex(opt => originalAnswerText.includes(opt));
-        return { ...question, options: finalOptions, answer: newAnswerIndex };
-    }
-}
-
-function getWeakList() {
-    const data = localStorage.getItem("eiken_p2_weak_list");
-    return data ? JSON.parse(data) : [];
-}
-
-function saveWeakList(list) {
-    localStorage.setItem("eiken_p2_weak_list", JSON.stringify(list));
-    updateWeakCountUI();
-}
-
-function updateWeakCountUI() {
-    const weakList = getWeakList();
-    document.getElementById("weak-count").textContent = weakList.length;
-    document.getElementById("weak-mode-btn").disabled = weakList.length === 0;
-}
-
-let activeQuestions = [];
-let currentIndex = 0;
-let userAnswers = {};
-
-function playAudio(text) {
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const uttr = new SpeechSynthesisUtterance(text);
-        uttr.lang = 'en-US';
-        uttr.rate = 0.9;
-        window.speechSynthesis.speak(uttr);
-    } else {
-        alert("お使いのブラウザは音声読み上げに対応していません。");
-    }
-}
-
-function startQuiz(mode) {
-    if (mode === "q1") {
-        const wSel = shuffleArray(wordBank).slice(0, 8);
-        const iSel = shuffleArray(idiomBank).slice(0, 7);
-        activeQuestions = shuffleArray([...wSel, ...iSel]).map(shuffleOptions);
-    } else if (mode === "q2") {
-        activeQuestions = shuffleArray(q2Bank).slice(0, 5).map(shuffleOptions);
-    } else if (mode === "q3") {
-        activeQuestions = shuffleArray(q3Bank).slice(0, 2).map(shuffleOptions);
-    } else if (mode === "q4a") {
-        activeQuestions = shuffleArray(q4aBank).slice(0, 2).map(shuffleOptions);
-    } else if (mode === "q4b") {
-        activeQuestions = shuffleArray(q4bBank).slice(0, 1).map(shuffleOptions);
-    } else if (mode === "listening") {
-        activeQuestions = shuffleArray(listeningBank).map(shuffleOptions);
-    } else if (mode === "mix") {
-        const q1Sel = shuffleArray(q1Bank).slice(0, 5);
-        const q2Sel = shuffleArray(q2Bank).slice(0, 2);
-        const q3Sel = shuffleArray(q3Bank).slice(0, 1);
-        const q4bSel = shuffleArray(q4bBank).slice(0, 1);
-        const lSel = shuffleArray(listeningBank).slice(0, 2);
-        activeQuestions = [...q1Sel, ...q2Sel, ...q3Sel, ...q4bSel, ...lSel].map(shuffleOptions);
-    } else if (mode === "weak") {
-        const allQuestions = [...q1Bank, ...q2Bank, ...q3Bank, ...q4aBank, ...q4bBank, ...listeningBank];
-        const weakIds = getWeakList();
-        const weakQuestions = allQuestions.filter(q => weakIds.includes(q.id));
-        activeQuestions = shuffleArray(weakQuestions).slice(0, 15).map(shuffleOptions);
-    }
-
-    userAnswers = {};
-    currentIndex = 0;
-
-    document.getElementById("start-screen").style.display = "none";
-    document.getElementById("quiz-screen").style.display = "block";
-    document.getElementById("result-area").style.display = "none";
-    renderQuestion();
-}
-
-function renderQuestion() {
-    window.speechSynthesis.cancel();
-    const qData = activeQuestions[currentIndex];
-    const quizArea = document.getElementById("quiz-area");
-
-    if (qData.type === "listening") {
-        let selectedOpt = userAnswers[currentIndex];
-        let optionsHtml = qData.options.map((opt, idx) => {
-            const isSelected = selectedOpt === idx ? "selected" : "";
-            return `<button class="option-btn ${isSelected}" onclick="selectOption(${idx})">${opt}</button>`;
-        }).join("");
-
-        quizArea.innerHTML = `
-            <div class="question-card">
-                <div class="question-number">
-                    <span>問題 (${currentIndex + 1} / ${activeQuestions.length})</span>
-                    <span class="badge" style="background-color: #d35400">${qData.part}</span>
-                </div>
-                <div class="audio-box">
-                    <p style="margin-top:0; font-weight:bold; color:#d35400;">🔊 音声ボタンを押して問題を聴いてください</p>
-                    <button class="audio-btn" onclick="playAudio('${qData.audioText.replace(/'/g, "\\'")}')">▶ 音声を再生する</button>
-                </div>
-                <div style="font-weight:bold; margin-bottom:12px;">${qData.question}</div>
-                <div class="options">${optionsHtml}</div>
-            </div>
-        `;
-    } else if (qData.type === "article_passage") {
-        let currentAnswers = userAnswers[currentIndex] || {};
-        let subsHtml = qData.subs.map((sub, sIdx) => {
-            const selectedOpt = currentAnswers[sIdx];
-            let opts = sub.options.map((opt, oIdx) => {
-                const isSelected = selectedOpt === oIdx ? "selected" : "";
-                return `<button class="option-btn ${isSelected}" onclick="selectSubOption(${sIdx}, ${oIdx})">${opt}</button>`;
-            }).join("");
-
-            return `
-                <div class="sub-q-box">
-                    <div class="sub-q-title">設問 ${sub.label}</div>
-                    <div style="font-weight:bold; margin-bottom: 8px; font-size: 0.9rem;">${sub.qText}</div>
-                    <div class="options">${opts}</div>
-                </div>
-            `;
-        }).join("");
-
-        quizArea.innerHTML = `
-            <div class="question-card">
-                <div class="question-number">
-                    <span>長文 (${currentIndex + 1} / ${activeQuestions.length})</span>
-                    <span class="badge" style="background-color: #27ae60">大問4B (説明文)</span>
-                </div>
-                <div class="passage-title">${qData.title}</div>
-                <div class="question-text">${qData.text}</div>
-                ${subsHtml}
-            </div>
-        `;
-    } else if (qData.type === "email_passage") {
-        let currentAnswers = userAnswers[currentIndex] || {};
-        let subsHtml = qData.subs.map((sub, sIdx) => {
-            const selectedOpt = currentAnswers[sIdx];
-            let opts = sub.options.map((opt, oIdx) => {
-                const isSelected = selectedOpt === oIdx ? "selected" : "";
-                return `<button class="option-btn ${isSelected}" onclick="selectSubOption(${sIdx}, ${oIdx})">${opt}</button>`;
-            }).join("");
-
-            return `
-                <div class="sub-q-box">
-                    <div class="sub-q-title">設問 ${sub.label}</div>
-                    <div style="font-weight:bold; margin-bottom: 8px; font-size: 0.9rem;">${sub.qText}</div>
-                    <div class="options">${opts}</div>
-                </div>
-            `;
-        }).join("");
-
-        quizArea.innerHTML = `
-            <div class="question-card">
-                <div class="question-number">
-                    <span>長文 (${currentIndex + 1} / ${activeQuestions.length})</span>
-                    <span class="badge" style="background-color: #16a085">大問4A (Eメール)</span>
-                </div>
-                <div class="email-header">
-                    From: ${qData.from}<br>
-                    To: ${qData.to}<br>
-                    Date: ${qData.date}<br>
-                    Subject: ${qData.subject}
-                </div>
-                <div class="question-text">${qData.body}</div>
-                ${subsHtml}
-            </div>
-        `;
-    } else if (qData.type === "passage") {
-        let currentAnswers = userAnswers[currentIndex] || {};
-        let subsHtml = qData.subs.map((sub, sIdx) => {
-            const selectedOpt = currentAnswers[sIdx];
-            let opts = sub.options.map((opt, oIdx) => {
-                const isSelected = selectedOpt === oIdx ? "selected" : "";
-                return `<button class="option-btn ${isSelected}" onclick="selectSubOption(${sIdx}, ${oIdx})">${opt}</button>`;
-            }).join("");
-
-            return `
-                <div class="sub-q-box">
-                    <div class="sub-q-title">設問 ${sub.label}</div>
-                    <div class="options">${opts}</div>
-                </div>
-            `;
-        }).join("");
-
-        quizArea.innerHTML = `
-            <div class="question-card">
-                <div class="question-number">
-                    <span>長文 (${currentIndex + 1} / ${activeQuestions.length})</span>
-                    <span class="badge" style="background-color: #e74c3c">大問3 (長文空所)</span>
-                </div>
-                <div class="passage-title">${qData.title}</div>
-                <div class="question-text">${qData.text}</div>
-                ${subsHtml}
-            </div>
-        `;
-    } else {
-        let selectedOpt = userAnswers[currentIndex];
-        let optionsHtml = qData.options.map((opt, idx) => {
-            const isSelected = selectedOpt === idx ? "selected" : "";
-            return `<button class="option-btn ${isSelected}" onclick="selectOption(${idx})">${opt}</button>`;
-        }).join("");
-
-        let badgeText = qData.id.startsWith("d") ? "大問2 (会話文)" : "大問1 (語彙・熟語)";
-        let badgeColor = qData.id.startsWith("d") ? "#9b59b6" : "#3498db";
-
-        quizArea.innerHTML = `
-            <div class="question-card">
-                <div class="question-number">
-                    <span>問題 (${currentIndex + 1} / ${activeQuestions.length})</span>
-                    <span class="badge" style="background-color: ${badgeColor}">${badgeText}</span>
-                </div>
-                <div class="question-text">${qData.q}</div>
-                <div class="options">${optionsHtml}</div>
-            </div>
-        `;
-    }
-
-    document.getElementById("prev-btn").disabled = currentIndex === 0;
-    if (currentIndex === activeQuestions.length - 1) {
-        document.getElementById("next-btn").style.display = "none";
-        document.getElementById("submit-btn").style.display = "inline-block";
-    } else {
-        document.getElementById("next-btn").style.display = "inline-block";
-        document.getElementById("submit-btn").style.display = "none";
-    }
-}
-
-function selectOption(index) {
-    userAnswers[currentIndex] = index;
-    renderQuestion();
-}
-
-function selectSubOption(sIdx, oIdx) {
-    if (!userAnswers[currentIndex]) userAnswers[currentIndex] = {};
-    userAnswers[currentIndex][sIdx] = oIdx;
-    renderQuestion();
-}
-
-function changeQuestion(step) {
-    currentIndex += step;
-    renderQuestion();
-}
-
-function showResults() {
-    window.speechSynthesis.cancel();
-    let totalScore = 0;
-    let totalMax = 0;
-    let detailHtml = "";
-    let weakList = getWeakList();
-
-    activeQuestions.forEach((q, idx) => {
-        if (q.type === "passage" || q.type === "email_passage" || q.type === "article_passage") {
-            const userSubAns = userAnswers[idx] || {};
-            let isAllCorrect = true;
-            let sectionName = q.type === "article_passage" ? "大問4B" : (q.type === "email_passage" ? "大問4A" : "大問3");
-            let qTitle = q.subject || q.title;
-
-            detailHtml += `<div style="text-align:left; margin-bottom:15px; border-bottom: 2px solid #ddd; padding-bottom:10px;">
-                <strong>長文${idx + 1} [${sectionName}: ${qTitle}]:</strong><br>`;
-
-            q.subs.forEach((sub, sIdx) => {
-                totalMax++;
-                const uAns = userSubAns[sIdx];
-                const isCorrect = uAns === sub.ans;
-                if (isCorrect) {
-                    totalScore++;
-                } else {
-                    isAllCorrect = false;
+// --- 大問4: 長文読解・説明文/コラム (5セット) ---
+function generateReadingPart2Bank() {
+    return [
+        {
+            title: "Passage 1: The Evolution of Remote Work",
+            text: "In recent years, remote work has transformed from a rare privilege into a standard workplace model. Studies show that employees working from home often report higher job satisfaction and improved work-life balance. However, challenges remain regarding team communication and maintaining clear boundaries between personal and professional life. Companies are increasingly adopting hybrid models to combine the flexibility of remote work with the collaboration benefits of in-person interactions.",
+            questions: [
+                {
+                    q: "Q1. According to the passage, what benefit do remote workers frequently report?",
+                    options: ["1 Higher salaries", "2 Improved work-life balance", "3 Longer vacation time", "4 Faster career promotions"],
+                    ans: 1, exp: "本文に「report higher job satisfaction and improved work-life balance」と書かれています。"
+                },
+                {
+                    q: "Q2. Why are many companies moving toward hybrid models?",
+                    options: ["1 To reduce office rental costs completely", "2 To replace all full-time managers", "3 To combine remote flexibility with in-person collaboration", "4 To eliminate the use of digital communication tools"],
+                    ans: 2, exp: "「to combine the flexibility of remote work with the collaboration benefits of in-person interactions」が理由として挙げられています。"
                 }
-
-                detailHtml += `
-                    <div style="margin-left: 10px; margin-top: 5px;">
-                        ${sub.label}: ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
-                        正解: ${sub.options[sub.ans]}<br>
-                        <small style="color:#666;">解説: ${sub.exp}</small>
-                    </div>
-                `;
-            });
-
-            if (isAllCorrect) {
-                weakList = weakList.filter(id => id !== q.id);
-            } else {
-                if (!weakList.includes(q.id)) weakList.push(q.id);
-            }
-
-            detailHtml += `</div>`;
-        } else if (q.type === "listening") {
-            totalMax++;
-            const userAns = userAnswers[idx];
-            const isCorrect = userAns === q.answer;
-            
-            if (isCorrect) {
-                totalScore++;
-                weakList = weakList.filter(id => id !== q.id);
-            } else {
-                if (!weakList.includes(q.id)) weakList.push(q.id);
-            }
-
-            detailHtml += `
-                <div style="text-align:left; margin-bottom:15px; border-bottom: 1px dashed #ccc; padding-bottom:10px;">
-                    <strong>問${idx + 1} [${q.part}]:</strong> ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
-                    <strong>英文スクリプト:</strong><br>
-                    <small style="color:#2c3e50; font-family:monospace; display:block; background:#f0f3f4; padding:6px; border-radius:4px; margin:4px 0;">${q.script.replace(/\n/g, '<br>')}</small>
-                    正解: ${q.options[q.answer]}<br>
-                    <small style="color:#666;">解説: ${q.explanation}</small>
-                </div>
-            `;
-        } else {
-            totalMax++;
-            const userAns = userAnswers[idx];
-            const isCorrect = userAns === q.answer;
-            
-            if (isCorrect) {
-                totalScore++;
-                weakList = weakList.filter(id => id !== q.id);
-            } else {
-                if (!weakList.includes(q.id)) weakList.push(q.id);
-            }
-
-            let badgeText = q.id.startsWith("d") ? "大問2" : "大問1";
-
-            detailHtml += `
-                <div style="text-align:left; margin-bottom:12px; border-bottom: 1px dashed #ccc; padding-bottom:8px;">
-                    <strong>問${idx + 1} [${badgeText}]:</strong> ${isCorrect ? '<span class="correct">正解 ◯</span>' : '<span class="incorrect">不正解 ✕</span>'}<br>
-                    正解: ${q.options[q.answer]}<br>
-                    <small style="color:#666;">解説: ${q.explanation}</small>
-                </div>
-            `;
+            ]
+        },
+        {
+            title: "Passage 2: Urban Greening Projects",
+            text: "Major cities around the world are investing heavily in urban greening initiatives, such as creating rooftop gardens and planting trees along avenues. These projects aim to combat the 'urban heat island' effect, where concrete and asphalt absorb heat and elevate city temperatures. In addition to cooling urban areas, parks and green spaces improve air quality and provide recreational spots that enhance residents' mental well-being.",
+            questions: [
+                {
+                    q: "Q1. What is one primary goal of urban greening projects?",
+                    options: ["1 To increase vehicle parking space", "2 To combat the urban heat island effect", "3 To generate renewable energy", "4 To widen city roadways"],
+                    ans: 1, exp: "「These projects aim to combat the 'urban heat island' effect」と書かれています。"
+                },
+                {
+                    q: "Q2. How do green spaces benefit city residents' mental health?",
+                    options: ["1 By providing recreational areas", "2 By lowering public transport costs", "3 By reducing noise pollution entirely", "4 By providing free electricity"],
+                    ans: 0, exp: "「provide recreational spots that enhance residents' mental well-being」と記載されています。"
+                }
+            ]
+        },
+        {
+            title: "Passage 3: The Rise of Solar Power",
+            text: "Solar energy technology has advanced dramatically over the last decade, leading to significant cost reductions for solar panels. As a result, both homeowners and businesses are increasingly installing solar systems to reduce electricity bills and lower carbon emissions. Governments are supporting this transition by offering tax incentives for clean energy adoption. Experts predict that solar power will become the dominant energy source in many regions within the next decade.",
+            questions: [
+                {
+                    q: "Q1. What factor has contributed to the growing adoption of solar power?",
+                    options: ["1 Increased government taxation on solar panels", "2 Significant reductions in solar panel costs", "3 Decreased efficiency of traditional power grids", "4 Lack of other renewable energy choices"],
+                    ans: 1, exp: "「leading to significant cost reductions for solar panels」と説明されています。"
+                },
+                {
+                    q: "Q2. How are governments encouraging people to adopt solar energy?",
+                    options: ["1 By making solar panels compulsory", "2 By providing tax incentives", "3 By offering free maintenance services", "4 By banning fossil fuels immediately"],
+                    ans: 1, exp: "「Governments are supporting this transition by offering tax incentives」と記載されています。"
+                }
+            ]
+        },
+        {
+            title: "Passage 4: The Science of Sleep and Productivity",
+            text: "Neuroscientists have long emphasized the importance of adequate sleep for cognitive performance. Lack of sleep impairs attention, problem-solving skills, and memory consolidation. Research indicates that adults who consistently get 7 to 8 hours of quality sleep per night perform noticeably better in complex decision-making tasks compared to those who are sleep-deprived. Employers are now encouraging wellness programs that prioritize sleep hygiene.",
+            questions: [
+                {
+                    q: "Q1. What happens when a person lacks sufficient sleep?",
+                    options: ["1 Their memory retention improves", "2 Their attention and problem-solving skills decrease", "3 Their physical strength doubles", "4 They become more productive at night"],
+                    ans: 1, exp: "「Lack of sleep impairs attention, problem-solving skills, and memory consolidation」と書かれています。"
+                },
+                {
+                    q: "Q2. How much sleep per night is recommended for optimal performance according to the text?",
+                    options: ["1 4 to 5 hours", "2 5 to 6 hours", "3 7 to 8 hours", "4 9 to 10 hours"],
+                    ans: 2, exp: "「adults who consistently get 7 to 8 hours of quality sleep」と明記されています。"
+                }
+            ]
+        },
+        {
+            title: "Passage 5: Eco-Friendly Packaging Innovations",
+            text: "To address environmental concerns caused by single-use plastics, packaging companies are turning to biodegradable materials derived from plants, such as cornstarch and seaweed. These bio-based plastics break down naturally within months, compared to traditional plastics that persist in oceans and landfills for centuries. While production costs remain higher than conventional plastics, rising consumer demand for eco-friendly products is driving rapid adoption across the retail industry.",
+            questions: [
+                {
+                    q: "Q1. What materials are being used to create biodegradable packaging?",
+                    options: ["1 Recycled glass and metal", "2 Plant-derived sources like cornstarch and seaweed", "3 Synthetic petroleum compounds", "4 Treated wood pulp and chemicals"],
+                    ans: 1, exp: "「biodegradable materials derived from plants, such as cornstarch and seaweed」と記載されています。"
+                },
+                {
+                    q: "Q2. What is one challenge facing bio-based plastics mentioned in the passage?",
+                    options: ["1 They take centuries to break down", "2 Production costs are higher than traditional plastics", "3 Consumers refuse to buy eco-friendly items", "4 They cannot be used for food packaging"],
+                    ans: 1, exp: "「While production costs remain higher than conventional plastics...」と書かれています。"
+                }
+            ]
         }
+    ];
+}
+
+// --- 画面表示制御ロジック ---
+let currentSection = 1;
+let currentIndex = 0;
+let currentBank = [];
+
+function loadSection(sectionNum) {
+    currentSection = sectionNum;
+    currentIndex = 0;
+    
+    if (sectionNum === 1) currentBank = generateVocabularyBank();
+    else if (sectionNum === 2) currentBank = generateDialogueBank();
+    else if (sectionNum === 3) currentBank = generateReadingPart1Bank();
+    else if (sectionNum === 4) currentBank = generateReadingPart2Bank();
+
+    render();
+}
+
+function render() {
+    const area = document.getElementById("content-area");
+    const item = currentBank[currentIndex];
+    
+    // UIボタンの活性表示切り替え
+    document.querySelectorAll('.nav-buttons .btn').forEach((btn, idx) => {
+        if (idx + 1 === currentSection) btn.classList.add('btn-active');
+        else btn.classList.remove('btn-active');
     });
 
-    saveWeakList(weakList);
+    let html = "";
+    
+    if (currentSection === 1 || currentSection === 2) {
+        // 短文・語彙 / 会話文問題
+        html += `<div class="card">
+            <div style="font-size:0.85rem; color:#777; margin-bottom:8px;">No. ${item.id} / ${currentBank.length}</div>
+            <div class="question-text">${item.q}</div>
+            <div class="options">
+                ${item.options.map((opt, idx) => `
+                    <button class="option-btn" onclick="checkAnswer(${idx},${item.ans}, '${escapeHtml(item.exp)}')">${opt}</button>
+                `).join('')}
+            </div>
+            <div id="result-box"></div>
+        </div>`;
+    } else {
+        // 長文読解問題 (大問3 & 大問4)
+        html += `<div class="card">
+            <div style="font-size:0.85rem; color:#777; margin-bottom:8px;">Set ${item.id} / ${currentBank.length}</div>
+            <h3 style="margin-top:0; color:#2c3e50;">${item.title}</h3>
+            <div class="passage-box">${item.text}</div>
+            
+            ${item.questions.map((qObj, qIdx) => `
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
+                    <div class="question-text">${qObj.q}</div>
+                    <div class="options">
+                        ${qObj.options.map((opt, oIdx) => `
+                            <button class="option-btn" onclick="checkReadingAnswer('${qIdx}', ${oIdx}, ${qObj.ans}, '${escapeHtml(qObj.exp)}')">${opt}</button>
+                        `).join('')}
+                    </div>
+                    <div id="result-box-${qIdx}"></div>
+                </div>
+            `).join('')}
+        </div>`;
+    }
 
-    const resultArea = document.getElementById("result-area");
-    resultArea.style.display = "block";
-    resultArea.innerHTML = `
-        <h2 style="text-align:center;">結果発表</h2>
-        <p style="font-size: 1.2rem; text-align:center;">スコア: <strong>${totalScore} / ${totalMax}</strong> 点</p>
-        <hr>
-        ${detailHtml}
-        <button class="btn" style="margin:15px auto 0 auto; display:block;" onclick="returnToStart()">トップに戻る</button>
-    `;
+    // ページネーションコントロール
+    html += `<div class="pagination">
+        <button class="btn" onclick="prevItem()" ${currentIndex === 0 ? 'disabled style="opacity:0.5;cursor:default;"' : ''}>← 前へ</button>
+        <span>${currentIndex + 1} / ${currentBank.length}</span>
+        <button class="btn" onclick="nextItem()" ${currentIndex === currentBank.length - 1 ? 'disabled style="opacity:0.5;cursor:default;"' : ''}>次へ →</button>
+    </div>`;
 
-    document.getElementById("quiz-screen").style.display = "none";
+    area.innerHTML = html;
 }
 
-function returnToStart() {
-    window.speechSynthesis.cancel();
-    document.getElementById("start-screen").style.display = "block";
-    document.getElementById("quiz-screen").style.display = "none";
-    document.getElementById("result-area").style.display = "none";
-    updateWeakCountUI();
+function checkAnswer(selectedIdx, correctIdx, expText) {
+    const box = document.getElementById("result-box");
+    if (selectedIdx === correctIdx) {
+        box.innerHTML = `<div class="explanation exp-correct"><strong>正解です！</strong><br>${expText}</div>`;
+    } else {
+        box.innerHTML = `<div class="explanation exp-wrong"><strong>不正解です。</strong><br>${expText}</div>`;
+    }
 }
 
-updateWeakCountUI();
+function checkReadingAnswer(qIdx, selectedIdx, correctIdx, expText) {
+    const box = document.getElementById(`result-box-${qIdx}`);
+    if (selectedIdx === correctIdx) {
+        box.innerHTML = `<div class="explanation exp-correct"><strong>正解です！</strong><br>${expText}</div>`;
+    } else {
+        box.innerHTML = `<div class="explanation exp-wrong"><strong>不正解です。</strong><br>${expText}</div>`;
+    }
+}
+
+function prevItem() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        render();
+    }
+}
+
+function nextItem() {
+    if (currentIndex < currentBank.length - 1) {
+        currentIndex++;
+        render();
+    }
+}
+
+function escapeHtml(str) {
+    return str.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+}
+
+// 初期表示（大問1を読み込み）
+window.onload = function() {
+    loadSection(1);
+};
 </script>
 
 </body>
