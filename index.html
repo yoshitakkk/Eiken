@@ -331,22 +331,138 @@ function generateIdiomBank() {
 
 function generateDialogueBank() {
     const templates = [
+        // 1. PCサポート / ITトラブル (既存ベース)
         {
             q: "A: Welcome to PC Support. How can I help you today?\nB: My laptop won't connect to Wi-Fi.\nA: I see. Let me ( ) to check the hardware.\nB: Thank you.",
             options: ["1 fix your desk as soon as possible", "2 make sure the screen is dark enough", "3 inspect your wireless adapter", "4 return it to you without repair"],
             ans: 2, exp: "通信ハードウェアを確認するため「3 inspect your wireless adapter」が適当です。"
+        },
+        // 2. レストラン / 席待ち
+        {
+            q: "A: Do you have a table for two available?\nB: Yes, but you'll have to wait about 15 minutes.\nA: That's fine. Can we ( ) in the meantime?\nB: Sure, right this way.",
+            options: ["1 look at the menu", "2 pay the bill", "3 cancel our reservation", "4 wash the dishes"],
+            ans: 0, exp: "待ち時間にできることとして「1 look at the menu（メニューを見る）」が適当です。"
+        },
+        // 3. 週末の旅行 / 予定変更
+        {
+            q: "A: How was your weekend trip to the mountains?\nB: It was great, but it started raining heavily on Sunday.\nA: Oh, that's too bad. Did you ( )?\nB: Yes, we visited an art museum instead.",
+            options: ["1 go hiking anyway", "2 change your plans", "3 stay home all weekend", "4 buy a new umbrella"],
+            ans: 1, exp: "雨のため予定を変更したか尋ねる「2 change your plans」が適当です。"
+        },
+        // 4. オフィス / 電話の取り次ぎ
+        {
+            q: "A: Good morning, Marketing Department.\nB: Hello, may I speak to Mr. Davis, please?\nA: I'm afraid he is in a meeting right now. Would you like to ( )?\nB: Yes, please ask him to call me back.",
+            options: ["1 join the meeting", "2 leave a message", "3 wait on the line forever", "4 send him a postcard"],
+            ans: 1, exp: "不在時の対応として「2 leave a message（伝言を残す）」が適当です。"
+        },
+        // 5. ショッピング / 服の試着
+        {
+            q: "A: Excuse me, I really like this jacket. Do you have it in a medium?\nB: Let me check our stock room... Yes, here you go.\nA: Great! Where can I ( )?\nB: The fitting rooms are right over there.",
+            options: ["1 try it on", "2 return this item", "3 pay for shipping", "4 wash this jacket"],
+            ans: 0, exp: "試着室の場所を聞く文脈なので「1 try it on（試着する）」が適当です。"
+        },
+        // 6. ホテル / チェックイン前荷物預かり
+        {
+            q: "A: Hi, I'd like to check in, but I know it's only 11 AM.\nB: Standard check-in is at 3 PM, sir.\nA: Is it possible to ( ) until then?\nB: Certainly. We can store them in our luggage room.",
+            options: ["1 book another room", "2 leave my bags here", "3 get a full refund", "4 order room service"],
+            ans: 1, exp: "チェックイン前荷物を預ける「2 leave my bags here」が適当です。"
+        },
+        // 7. 道案内 / 最寄り駅への行き方
+        {
+            q: "A: Excuse me, could you tell me how to get to the central library?\nB: Go straight down this street and turn left at the traffic light.\nA: Is it ( ) from here?\nB: No, it's only about a 5-minute walk.",
+            options: ["1 open today", "2 very far", "3 expensive to enter", "4 dangerous to walk"],
+            ans: 1, exp: "徒歩5分かを聞く前の質問として「2 very far（とても遠いですか）」が適当です。"
+        },
+        // 8. 病院・クリニック / 予約
+        {
+            q: "A: Dr. Smith's office. How can I help you?\nB: I'd like to ( ) for a routine checkup.\nA: Sure, we have openings this Thursday at 2 PM.",
+            options: ["1 make an appointment", "2 cancel my insurance", "3 pay my medical bill", "4 take some medicine"],
+            ans: 0, exp: "受診の予約をする表現「1 make an appointment」が適当です。"
+        },
+        // 9. 空港 / 荷物の手荷物許容量
+        {
+            q: "A: Please put your suitcase on the scale.\nB: Here you go. Is the weight okay?\nA: I'm sorry, but it's 3 kilograms over the limit. You will need to ( ).\nB: Oh, then I'll move some heavy items to my carry-on.",
+            options: ["1 buy a new suitcase", "2 pay an extra fee", "3 change your flight seat", "4 leave the airport"],
+            ans: 1, exp: "重量オーバー時の対応として「2 pay an extra fee（追加料金を払う）」が適当です。"
+        },
+        // 10. カフェ / 注文のお持ち帰り
+        {
+            q: "A: What can I get for you today?\nB: An iced latte and a blueberry muffin, please.\nA: Will that be for here or ( )?\nB: To go, please.",
+            options: ["1 for later", "2 to take out", "3 to go", "4 for dining"],
+            ans: 2, exp: "店内か持ち帰りか尋ねる定型句「3 to go（お持ち帰り）」が対話の答と一致します。"
+        },
+        // 11. 同僚同士 / 昼食の誘い
+        {
+            q: "A: Are you free to grab some lunch now?\nB: I'd love to, but I have to ( ) by 1 PM.\nA: That's okay, we can go somewhere quick nearby.",
+            options: ["1 finish this report", "2 start my vacation", "3 buy a new car", "4 clean my house"],
+            ans: 0, exp: "仕事中の昼休みの会話として「1 finish this report（レポートを終わらせる）」が適当です。"
+        },
+        // 12. 電車・交通 / 遅延
+        {
+            q: "A: You look stressed. What happened?\nB: The train was delayed by 30 minutes due to heavy snow.\nA: Oh no. Did you ( ) for your job interview?\nB: Luckily, I arrived just in time.",
+            options: ["1 make it on time", "2 forget your resume", "3 miss the train", "4 cancel the meeting"],
+            ans: 0, exp: "「ギリギリ間に合った」という返答に繋がる「1 make it on time（時間通りに着く）」が適当です。"
+        },
+        // 13. 家事・買い物 / 買い忘れ
+        {
+            q: "A: I'm going to the supermarket. Do we need anything?\nB: We're almost out of milk and eggs. Could you ( )?\nA: No problem. Anything else?",
+            options: ["1 cook dinner now", "2 pick some up", "3 throw them away", "4 bake a cake"],
+            ans: 1, exp: "日用品を買ってくるよう頼む「2 pick some up（いくつか買ってきて）」が適当です。"
+        },
+        // 14. 映画館 / チケット購入
+        {
+            q: "A: Two tickets for the 7:00 PM show of 'Space Adventure', please.\nB: All seats in the middle are taken. Would you mind ( )?\nA: That's fine. We just want to see the movie.",
+            options: ["1 sitting in the front row", "2 paying in cash", "3 coming back tomorrow", "4 watching a different movie"],
+            ans: 0, exp: "中央席が埋まっているため提案される「1 sitting in the front row（最前列に座る）」が適当です。"
+        },
+        // 15. 図書館 / 本の返却期限
+        {
+            q: "A: I'd like to renew this book for another two weeks.\nB: Let me check... I'm sorry, but another user has ( ).\nA: Ah, I see. Then I'll return it today.",
+            options: ["1 read this book already", "2 reserved it", "3 lost the book", "4 written a review"],
+            ans: 1, exp: "延長できない理由として「2 reserved it（予約している）」が適当です。"
+        },
+        // 16. パーティー・集まり / 招待への返事
+        {
+            q: "A: Are you coming to Sarah's birthday party this Saturday?\nB: I really want to, but I ( ) on that day.\nA: That's a shame! She will miss you.",
+            options: ["1 have a prior engagement", "2 don't like parties", "3 forgot her birthday", "4 live too close"],
+            ans: 0, exp: "行けない理由として「1 have a prior engagement（先約がある）」が適当です。"
+        },
+        // 17. 銀行 / 口座開設
+        {
+            q: "A: Good afternoon. I'd like to open a new savings account.\nB: Sure thing. Do you have ( ) with you today?\nA: Yes, I have my driver's license and passport.",
+            options: ["1 a credit card", "2 official identification", "3 a job application", "4 a checkbook"],
+            ans: 1, exp: "本人確認書類を指す「2 official identification」が適当です。"
+        },
+        // 18. 天気・服装
+        {
+            q: "A: It looks like it's going to freeze tonight.\nB: Really? Maybe I should ( ) before going out.\nA: Definitely. It's much colder than yesterday.",
+            options: ["1 wear a heavy coat", "2 turn off the heater", "3 drink iced tea", "4 open all the windows"],
+            ans: 0, exp: "極寒の予想に対する服装として「1 wear a heavy coat（厚手のコートを着る）」が適当です。"
+        },
+        // 19. ギフトショップ / 贈り物選び
+        {
+            q: "A: I'm looking for a gift for my mother's 60th birthday.\nB: How about a silk scarf? They are very popular.\nA: That sounds lovely. Can you ( )?\nB: Of course, we offer free gift wrapping.",
+            options: ["1 wrap it for me", "2 wear it now", "3 send it to me", "4 lower the price"],
+            ans: 0, exp: "プレゼント用に頼む「1 wrap it for me（ラッピングしてもらう）」が適当です。"
+        },
+        // 20. フィットネスジム / 入会
+        {
+            q: "A: I'm thinking about joining this gym to get in shape.\nB: Great! We offer a free trial class for new members.\nA: That sounds good. Can I ( ) for tomorrow's class?\nB: Sure, let me take your name and email.",
+            options: ["1 sign up", "2 give up", "3 pay cash", "4 teach the class"],
+            ans: 0, exp: "体験クラスに申し込む表現「1 sign up（申し込む）」が適当です。"
         }
     ];
+
     let bank = [];
     for (let i = 1; i <= 50; i++) {
+        // 20個のテンプレートを順番に循環利用して50問分生成
         let t = templates[(i - 1) % templates.length];
         bank.push({
-            type: "single",
-            id: "d" + i,
-            q: `[会話問題 No.${i}]\n${t.q}`,
+            id: i,
+            q: t.q,
             options: t.options,
-            answer: t.ans,
-            explanation: t.exp
+            ans: t.ans,
+            exp: t.exp
         });
     }
     return bank;
