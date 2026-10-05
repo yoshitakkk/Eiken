@@ -252,61 +252,61 @@
 </div>
 
 <script>
-// --- 大問1用: 50問データプール (単語30問 + 熟語20問) ---[cite: 2]
+// --- 大問1用: 50問データプール (単語30問 + 熟語20問) ---
 const wordBank = [
-    { id: "w_1", tag: "単語", question: "A: Michael, this meal is ( ) delicious! It's the best pasta I've ever eaten.\nB: Really? I'm glad you like it.", options: ["nervously", "absolutely", "rarely", "separately"], answer: 1, explanation: "「絶対に/完全に」を意味する副詞 absolutely が入ります。" },[cite: 2]
-    { id: "w_2", tag: "単語", question: "Dennis was recently ( ) to his company's New York office. He likes his new apartment.", options: ["transferred", "reduced", "proposed", "apologized"], answer: 0, explanation: "「転勤した/移動した」を意味する transferred が適当です。" },[cite: 2]
-    { id: "w_3", tag: "単語", question: "A: Why did you choose that hotel?\nB: It had good reviews, and the price seemed ( ) compared to other options.", options: ["wooden", "boring", "cute", "reasonable"], answer: 3, explanation: "「（価格が）手頃な・妥当な」を意味する reasonable が入ります。" },[cite: 2]
-    { id: "w_4", tag: "単語", question: "At the start of the lesson, Mr. Harris made an ( ) that a student teacher would join them.", options: ["award", "aisle", "attempt", "announcement"], answer: 3, explanation: "「お知らせ・発表」を意味する announcement が正解です。" },[cite: 2]
-    { id: "w_5", tag: "単語", question: "When Adam buys expensive items, he always keeps the ( ) in a safe place in case he needs to return them.", options: ["battery", "receipt", "website", "frame"], answer: 1, explanation: "「領収書・レシート」を意味する receipt が入ります。" },[cite: 2]
-    { id: "w_6", tag: "単語", question: "People can ( ) their friends to support them during difficult times.", options: ["paste", "blame", "trust", "scratch"], answer: 2, explanation: "「信頼する」を意味する trust が適当です。" },[cite: 2]
-    { id: "w_7", tag: "単語", question: "A: How many points did you ( ) in the math test?\nB: Only 50 out of 100.", options: ["enter", "engage", "claim", "score"], answer: 3, explanation: "「（点数を）獲得する」を意味する score が入ります。" },[cite: 2]
-    { id: "w_8", tag: "単語", question: "After running ten kilometers, Evan's legs started to ( ). He sat down to rest.", options: ["ache", "soothe", "push", "gather"], answer: 0, explanation: "「痛む」を意味する ache が適当です。" },[cite: 2]
-    { id: "w_9", tag: "単語", question: "Gold has a higher ( ) than silver because it is harder to find.", options: ["shadow", "talent", "pattern", "value"], answer: 3, explanation: "「価値」を意味する value が入ります。" },[cite: 2]
-    { id: "w_10", tag: "単語", question: "Yes, my headache has totally ( ). The pain had gone when I woke up.", options: ["wondered", "disappeared", "supposed", "entered"], answer: 1, explanation: "「（症状などが）消去する・消える」を意味する disappeared が正解です。" },[cite: 2]
-    { id: "w_11", tag: "単語", question: "A: Did you see the new art gallery?\nB: Yes, the paintings there were truly ( ).", options: ["impressive", "careless", "negative", "standard"], answer: 0, explanation: "「印象的な・見事な」を意味する impressive が適当です。" },[cite: 2]
-    { id: "w_12", tag: "単語", question: "The company plans to ( ) its new product next month.", options: ["launch", "escape", "defeat", "refuse"], answer: 0, explanation: "「（製品などを）発売する/立ち上げる」を意味する launch が正解です。" },[cite: 2]
-    { id: "w_13", tag: "単語", question: "A: Is it ( ) to walk to the station from here?\nB: Yes, it takes only five minutes.", options: ["convenient", "dangerous", "rare", "noisy"], answer: 0, explanation: "「便利な/アクセスが良い」を意味する convenient が適当です。" },[cite: 2]
-    { id: "w_14", tag: "単語", question: "Please read the ( ) carefully before using the new machine.", options: ["instructions", "pollution", "audience", "government"], answer: 0, explanation: "「取扱説明書・指示」を意味する instructions が正解です。" },[cite: 2]
-    { id: "w_15", tag: "単語", question: "The doctor told him to ( ) the amount of sugar in his diet.", options: ["reduce", "create", "admire", "protect"], answer: 0, explanation: "「減らす」を意味する reduce が適当です。" },[cite: 2]
-    { id: "w_16", tag: "単語", question: "A: We need to buy fresh ( ) for tonight's dinner.\nB: Let's go to the supermarket.", options: ["ingredients", "habits", "damages", "customs"], answer: 0, explanation: "「（料理の）材料・食材」を意味する ingredients が入ります。" },[cite: 2]
-    { id: "w_17", tag: "単語", question: "It was a ( ) mistake, so he apologised to his boss immediately.", options: ["serious", "smooth", "bright", "polite"], answer: 0, explanation: "「重大な・深刻な」を意味する serious が適当です。" },[cite: 2]
-    { id: "w_18", tag: "単語", question: "The firefighter acted ( ) to save the family from the burning house.", options: ["bravely", "softly", "weakly", "daily"], answer: 0, explanation: "「勇敢に」を意味する副詞 bravely が正解です。" },[cite: 2]
-    { id: "w_19", tag: "単語", question: "The teacher asked the students to work in ( ) to complete the project.", options: ["pairs", "signals", "circles", "routes"], answer: 0, explanation: "「ペアで・2人組で」を意味する in pairs が適当です。" },[cite: 2]
-    { id: "w_20", tag: "単語", question: "The snow will ( ) melt when the temperature rises in the afternoon.", options: ["gradually", "suddenly", "heavily", "closely"], answer: 0, explanation: "「徐々に・次第に」を意味する gradually が正解です。" },[cite: 2]
-    { id: "w_21", tag: "単語", question: "She has a strong ( ) in learning foreign languages and culture.", options: ["interest", "noise", "speed", "limit"], answer: 0, explanation: "「関心・興味」を意味する interest が正解です。" },[cite: 2]
-    { id: "w_22", tag: "単語", question: "Drivers must be careful to avoid ( ) on slippery roads.", options: ["accidents", "rewards", "features", "opinions"], answer: 0, explanation: "「事故」を意味する accidents が入ります。" },[cite: 2]
-    { id: "w_23", tag: "単語", question: "He spent two hours trying to ( ) the difficult puzzle.", options: ["solve", "damage", "cancel", "borrow"], answer: 0, explanation: "「解決する・解く」を意味する solve が適当です。" },[cite: 2]
-    { id: "w_24", tag: "単語", question: "A: What is the main ( ) of your trip to London?\nB: To visit historical museums.", options: ["purpose", "border", "fault", "schedule"], answer: 0, explanation: "「目的」を意味する purpose が正解です。" },[cite: 2]
-    { id: "w_25", tag: "単語", question: "The manager will ( ) the final decision after the meeting.", options: ["make", "force", "steal", "hide"], answer: 0, explanation: "「決定を下す」は make a decision なので make が正解です。" },[cite: 2]
-    { id: "w_26", tag: "単語", question: "We should take water to ( ) dehydration during the hike.", options: ["prevent", "allow", "regret", "contain"], answer: 0, explanation: "「防ぐ・予防する」を意味する prevent が適当です。" },[cite: 2]
-    { id: "w_27", tag: "単語", question: "Her performance was so ( ) that everyone stood up and applauded.", options: ["wonderful", "terrible", "painful", "shallow"], answer: 0, explanation: "「素晴らしい」を意味する wonderful が正解です。" },[cite: 2]
-    { id: "w_28", tag: "単語", question: "The price of electricity has risen ( ) over the past year.", options: ["significantly", "foolishly", "narrowly", "blindly"], answer: 0, explanation: "「かなり・著しく」を意味する副詞 significantly が入ります。" },[cite: 2]
-    { id: "w_29", tag: "単語", question: "They decided to ( ) their wedding until next summer.", options: ["postpone", "attend", "achieve", "express"], answer: 0, explanation: "「延期する」を意味する postpone が適当です。" },[cite: 2]
-    { id: "w_30", tag: "単語", question: "It is important to maintain a healthy ( ) between work and life.", options: ["balance", "conflict", "distance", "traffic"], answer: 0, explanation: "「バランス・調和」を意味する balance が適当です。" }[cite: 2]
+    { id: "w_1", tag: "単語", question: "A: Michael, this meal is ( ) delicious! It's the best pasta I've ever eaten.\nB: Really? I'm glad you like it.", options: ["nervously", "absolutely", "rarely", "separately"], answer: 1, explanation: "「絶対に/完全に」を意味する副詞 absolutely が入ります。" },
+    { id: "w_2", tag: "単語", question: "Dennis was recently ( ) to his company's New York office. He likes his new apartment.", options: ["transferred", "reduced", "proposed", "apologized"], answer: 0, explanation: "「転勤した/移動した」を意味する transferred が適当です。" },
+    { id: "w_3", tag: "単語", question: "A: Why did you choose that hotel?\nB: It had good reviews, and the price seemed ( ) compared to other options.", options: ["wooden", "boring", "cute", "reasonable"], answer: 3, explanation: "「（価格が）手頃な・妥当な」を意味する reasonable が入ります。" },
+    { id: "w_4", tag: "単語", question: "At the start of the lesson, Mr. Harris made an ( ) that a student teacher would join them.", options: ["award", "aisle", "attempt", "announcement"], answer: 3, explanation: "「お知らせ・発表」を意味する announcement が正解です。" },
+    { id: "w_5", tag: "単語", question: "When Adam buys expensive items, he always keeps the ( ) in a safe place in case he needs to return them.", options: ["battery", "receipt", "website", "frame"], answer: 1, explanation: "「領収書・レシート」を意味する receipt が入ります。" },
+    { id: "w_6", tag: "単語", question: "People can ( ) their friends to support them during difficult times.", options: ["paste", "blame", "trust", "scratch"], answer: 2, explanation: "「信頼する」を意味する trust が適当です。" },
+    { id: "w_7", tag: "単語", question: "A: How many points did you ( ) in the math test?\nB: Only 50 out of 100.", options: ["enter", "engage", "claim", "score"], answer: 3, explanation: "「（点数を）獲得する」を意味する score が入ります。" },
+    { id: "w_8", tag: "単語", question: "After running ten kilometers, Evan's legs started to ( ). He sat down to rest.", options: ["ache", "soothe", "push", "gather"], answer: 0, explanation: "「痛む」を意味する ache が適当です。" },
+    { id: "w_9", tag: "単語", question: "Gold has a higher ( ) than silver because it is harder to find.", options: ["shadow", "talent", "pattern", "value"], answer: 3, explanation: "「価値」を意味する value が入ります。" },
+    { id: "w_10", tag: "単語", question: "Yes, my headache has totally ( ). The pain had gone when I woke up.", options: ["wondered", "disappeared", "supposed", "entered"], answer: 1, explanation: "「（症状などが）消去する・消える」を意味する disappeared が正解です。" },
+    { id: "w_11", tag: "単語", question: "A: Did you see the new art gallery?\nB: Yes, the paintings there were truly ( ).", options: ["impressive", "careless", "negative", "standard"], answer: 0, explanation: "「印象的な・見事な」を意味する impressive が適当です。" },
+    { id: "w_12", tag: "単語", question: "The company plans to ( ) its new product next month.", options: ["launch", "escape", "defeat", "refuse"], answer: 0, explanation: "「（製品などを）発売する/立ち上げる」を意味する launch が正解です。" },
+    { id: "w_13", tag: "単語", question: "A: Is it ( ) to walk to the station from here?\nB: Yes, it takes only five minutes.", options: ["convenient", "dangerous", "rare", "noisy"], answer: 0, explanation: "「便利な/アクセスが良い」を意味する convenient が適当です。" },
+    { id: "w_14", tag: "単語", question: "Please read the ( ) carefully before using the new machine.", options: ["instructions", "pollution", "audience", "government"], answer: 0, explanation: "「取扱説明書・指示」を意味する instructions が正解です。" },
+    { id: "w_15", tag: "単語", question: "The doctor told him to ( ) the amount of sugar in his diet.", options: ["reduce", "create", "admire", "protect"], answer: 0, explanation: "「減らす」を意味する reduce が適当です。" },
+    { id: "w_16", tag: "単語", question: "A: We need to buy fresh ( ) for tonight's dinner.\nB: Let's go to the supermarket.", options: ["ingredients", "habits", "damages", "customs"], answer: 0, explanation: "「（料理の）材料・食材」を意味する ingredients が入ります。" },
+    { id: "w_17", tag: "単語", question: "It was a ( ) mistake, so he apologised to his boss immediately.", options: ["serious", "smooth", "bright", "polite"], answer: 0, explanation: "「重大な・深刻な」を意味する serious が適当です。" },
+    { id: "w_18", tag: "単語", question: "The firefighter acted ( ) to save the family from the burning house.", options: ["bravely", "softly", "weakly", "daily"], answer: 0, explanation: "「勇敢に」を意味する副詞 bravely が正解です。" },
+    { id: "w_19", tag: "単語", question: "The teacher asked the students to work in ( ) to complete the project.", options: ["pairs", "signals", "circles", "routes"], answer: 0, explanation: "「ペアで・2人組で」を意味する in pairs が適当です。" },
+    { id: "w_20", tag: "単語", question: "The snow will ( ) melt when the temperature rises in the afternoon.", options: ["gradually", "suddenly", "heavily", "closely"], answer: 0, explanation: "「徐々に・次第に」を意味する gradually が正解です。" },
+    { id: "w_21", tag: "単語", question: "She has a strong ( ) in learning foreign languages and culture.", options: ["interest", "noise", "speed", "limit"], answer: 0, explanation: "「関心・興味」を意味する interest が正解です。" },
+    { id: "w_22", tag: "単語", question: "Drivers must be careful to avoid ( ) on slippery roads.", options: ["accidents", "rewards", "features", "opinions"], answer: 0, explanation: "「事故」を意味する accidents が入ります。" },
+    { id: "w_23", tag: "単語", question: "He spent two hours trying to ( ) the difficult puzzle.", options: ["solve", "damage", "cancel", "borrow"], answer: 0, explanation: "「解決する・解く」を意味する solve が適当です。" },
+    { id: "w_24", tag: "単語", question: "A: What is the main ( ) of your trip to London?\nB: To visit historical museums.", options: ["purpose", "border", "fault", "schedule"], answer: 0, explanation: "「目的」を意味する purpose が正解です。" },
+    { id: "w_25", tag: "単語", question: "The manager will ( ) the final decision after the meeting.", options: ["make", "force", "steal", "hide"], answer: 0, explanation: "「決定を下す」は make a decision なので make が正解です。" },
+    { id: "w_26", tag: "単語", question: "We should take water to ( ) dehydration during the hike.", options: ["prevent", "allow", "regret", "contain"], answer: 0, explanation: "「防ぐ・予防する」を意味する prevent が適当です。" },
+    { id: "w_27", tag: "単語", question: "Her performance was so ( ) that everyone stood up and applauded.", options: ["wonderful", "terrible", "painful", "shallow"], answer: 0, explanation: "「素晴らしい」を意味する wonderful が正解です。" },
+    { id: "w_28", tag: "単語", question: "The price of electricity has risen ( ) over the past year.", options: ["significantly", "foolishly", "narrowly", "blindly"], answer: 0, explanation: "「かなり・著しく」を意味する副詞 significantly が入ります。" },
+    { id: "w_29", tag: "単語", question: "They decided to ( ) their wedding until next summer.", options: ["postpone", "attend", "achieve", "express"], answer: 0, explanation: "「延期する」を意味する postpone が適当です。" },
+    { id: "w_30", tag: "単語", question: "It is important to maintain a healthy ( ) between work and life.", options: ["balance", "conflict", "distance", "traffic"], answer: 0, explanation: "「バランス・調和」を意味する balance が適当です。" }
 ];
 
 const idiomBank = [
-    { id: "i_1", tag: "熟語", question: "Almost all the pets in the shelter found homes, ( ) one dog that was still waiting.", options: ["next to", "except for", "across from", "up to"], answer: 1, explanation: "「〜を除いて」を意味する except for が入ります。" },[cite: 2]
-    { id: "i_2", tag: "熟語", question: "A: ( )! There's a bee near your face!\nB: Oh, I didn't see it. Thanks!", options: ["Get on", "Take off", "Give up", "Look out"], answer: 3, explanation: "「気をつけて！」を意味する Look out が入ります。" },[cite: 2]
-    { id: "i_3", tag: "熟語", question: "A: Dad, can I have a new smartphone?\nB: No, that's ( ), Megan. You just got a new one last month.", options: ["out of the question", "up in the air", "in a good temper", "none of your business"], answer: 0, explanation: "「論外だ・不可能だ」を意味する out of the question が入ります。" },[cite: 2]
-    { id: "i_4", tag: "熟語", question: "Justin does not mind cooking for his family ( ) he does not have to wash the dishes afterward.", options: ["as soon as", "as long as", "even if", "by the time"], answer: 1, explanation: "「〜である限り」条件を表す as long as が正解です。" },[cite: 2]
-    { id: "i_5", tag: "熟語", question: "( ) her full-time job, Sheila teaches guitar lessons on the weekends.", options: ["On account of", "For fear of", "In addition to", "By means of"], answer: 2, explanation: "「〜に加えて」を意味する In addition to が適当です。" },[cite: 2]
-    { id: "i_6", tag: "熟語", question: "A: Take your time. We don't need to rush.\nB: Thanks, I'll ( ).", options: ["take it easy", "make it up", "keep it off", "set it free"], answer: 0, explanation: "「気楽にやる/落ち着いて行う」を意味する take it easy が正解です。" },[cite: 2]
-    { id: "i_7", tag: "熟語", question: "She finally ( ) her mind to study abroad in Canada next year.", options: ["made up", "put off", "broke into", "took over"], answer: 0, explanation: "「決心する」を意味する make up one's mind が適当です。" },[cite: 2]
-    { id: "i_8", tag: "熟語", question: "They had to ( ) the baseball game because of the heavy rain.", options: ["call off", "look up", "turn down", "carry out"], answer: 0, explanation: "「（行事などを）中止する」を意味する call off が正解です。" },[cite: 2]
-    { id: "i_9", tag: "熟語", question: "I am really looking ( ) to seeing you again next month.", options: ["forward", "back", "around", "through"], answer: 0, explanation: "「〜を楽しみに待つ」を表す look forward to が入ります。" },[cite: 2]
-    { id: "i_10", tag: "熟語", question: "A: Did you ( ) the light before leaving the room?\nB: Yes, I did.", options: ["turn off", "put on", "get off", "run out"], answer: 0, explanation: "「（電気などを）消す」を意味する turn off が正解です。" },[cite: 2]
-    { id: "i_11", tag: "熟語", question: "He succeeded in passing the exam ( ) hard work and patience.", options: ["by means of", "in front of", "in spite of", "for the sake of"], answer: 0, explanation: "「〜によって・〜の手段で」を意味する by means of が適当です。" },[cite: 2]
-    { id: "i_12", tag: "熟語", question: "We ran ( ) gas on our way to the mountains, but fortunately found a station nearby.", options: ["out of", "away from", "into", "over"], answer: 0, explanation: "「（蓄えなどを）使い果たす・切らす」を意味する run out of が適当です。" },[cite: 2]
-    { id: "i_13", tag: "熟語", question: "A: Can you ( ) after my dog while I'm on vacation?\nB: Sure, no problem!", options: ["look", "take", "care", "run"], answer: 0, explanation: "「〜の世話をする」を意味する look after が入ります。" },[cite: 2]
-    { id: "i_14", tag: "熟語", question: "The concert was held indoors ( ) the sudden rainstorm.", options: ["due to", "instead of", "as for", "in case"], answer: 0, explanation: "「〜が原因で・〜のために」を意味する due to が適当です。" },[cite: 2]
-    { id: "i_15", tag: "熟語", question: "He decided to give ( ) smoking for his health.", options: ["up", "in", "out", "off"], answer: 0, explanation: "「（習慣などを）やめる/諦める」を意味する give up が正解です。" },[cite: 2]
-    { id: "i_16", tag: "熟語", question: "She was late for the meeting ( ) the heavy morning traffic.", options: ["because of", "according to", "in front of", "as well as"], answer: 0, explanation: "「〜のために（理由）」を意味する because of が入ります。" },[cite: 2]
-    { id: "i_17", tag: "熟語", question: "Please feel free to ( ) in touch with me if you have any questions.", options: ["get", "hold", "make", "catch"], answer: 0, explanation: "「連絡を取る」を意味する get in touch with が適当です。" },[cite: 2]
-    { id: "i_18", tag: "熟語", question: "A: Shall we meet at 10 AM?\nB: Sounds good. Let's ( ) that.", options: ["stick to", "drop off", "pass out", "give in"], answer: 0, explanation: "「（予定・計画などを）堅持する/決定通りにする」を意味する stick to が適当です。" },[cite: 2]
-    { id: "i_19", tag: "熟語", question: "In Japan, it is customary to ( ) your shoes before entering a house.", options: ["take off", "put away", "throw out", "set up"], answer: 0, explanation: "「（服や靴を）脱ぐ」を意味する take off が入ります。" },[cite: 2]
-    { id: "i_20", tag: "熟語", question: "He managed to complete the task ahead of ( ).", options: ["schedule", "order", "mind", "reason"], answer: 0, explanation: "「予定より早く」を意味する ahead of schedule が正解です。" }[cite: 2]
+    { id: "i_1", tag: "熟語", question: "Almost all the pets in the shelter found homes, ( ) one dog that was still waiting.", options: ["next to", "except for", "across from", "up to"], answer: 1, explanation: "「〜を除いて」を意味する except for が入ります。" },
+    { id: "i_2", tag: "熟語", question: "A: ( )! There's a bee near your face!\nB: Oh, I didn't see it. Thanks!", options: ["Get on", "Take off", "Give up", "Look out"], answer: 3, explanation: "「気をつけて！」を意味する Look out が入ります。" },
+    { id: "i_3", tag: "熟語", question: "A: Dad, can I have a new smartphone?\nB: No, that's ( ), Megan. You just got a new one last month.", options: ["out of the question", "up in the air", "in a good temper", "none of your business"], answer: 0, explanation: "「論外だ・不可能だ」を意味する out of the question が入ります。" },
+    { id: "i_4", tag: "熟語", question: "Justin does not mind cooking for his family ( ) he does not have to wash the dishes afterward.", options: ["as soon as", "as long as", "even if", "by the time"], answer: 1, explanation: "「〜である限り」条件を表す as long as が正解です。" },
+    { id: "i_5", tag: "熟語", question: "( ) her full-time job, Sheila teaches guitar lessons on the weekends.", options: ["On account of", "For fear of", "In addition to", "By means of"], answer: 2, explanation: "「〜に加えて」を意味する In addition to が適当です。" },
+    { id: "i_6", tag: "熟語", question: "A: Take your time. We don't need to rush.\nB: Thanks, I'll ( ).", options: ["take it easy", "make it up", "keep it off", "set it free"], answer: 0, explanation: "「気楽にやる/落ち着いて行う」を意味する take it easy が正解です。" },
+    { id: "i_7", tag: "熟語", question: "She finally ( ) her mind to study abroad in Canada next year.", options: ["made up", "put off", "broke into", "took over"], answer: 0, explanation: "「決心する」を意味する make up one's mind が適当です。" },
+    { id: "i_8", tag: "熟語", question: "They had to ( ) the baseball game because of the heavy rain.", options: ["call off", "look up", "turn down", "carry out"], answer: 0, explanation: "「（行事などを）中止する」を意味する call off が正解です。" },
+    { id: "i_9", tag: "熟語", question: "I am really looking ( ) to seeing you again next month.", options: ["forward", "back", "around", "through"], answer: 0, explanation: "「〜を楽しみに待つ」を表す look forward to が入ります。" },
+    { id: "i_10", tag: "熟語", question: "A: Did you ( ) the light before leaving the room?\nB: Yes, I did.", options: ["turn off", "put on", "get off", "run out"], answer: 0, explanation: "「（電気などを）消す」を意味する turn off が正解です。" },
+    { id: "i_11", tag: "熟語", question: "He succeeded in passing the exam ( ) hard work and patience.", options: ["by means of", "in front of", "in spite of", "for the sake of"], answer: 0, explanation: "「〜によって・〜の手段で」を意味する by means of が適当です。" },
+    { id: "i_12", tag: "熟語", question: "We ran ( ) gas on our way to the mountains, but fortunately found a station nearby.", options: ["out of", "away from", "into", "over"], answer: 0, explanation: "「（蓄えなどを）使い果たす・切らす」を意味する run out of が適当です。" },
+    { id: "i_13", tag: "熟語", question: "A: Can you ( ) after my dog while I'm on vacation?\nB: Sure, no problem!", options: ["look", "take", "care", "run"], answer: 0, explanation: "「〜の世話をする」を意味する look after が入ります。" },
+    { id: "i_14", tag: "熟語", question: "The concert was held indoors ( ) the sudden rainstorm.", options: ["due to", "instead of", "as for", "in case"], answer: 0, explanation: "「〜が原因で・〜のために」を意味する due to が適当です。" },
+    { id: "i_15", tag: "熟語", question: "He decided to give ( ) smoking for his health.", options: ["up", "in", "out", "off"], answer: 0, explanation: "「（習慣などを）やめる/諦める」を意味する give up が正解です。" },
+    { id: "i_16", tag: "熟語", question: "She was late for the meeting ( ) the heavy morning traffic.", options: ["because of", "according to", "in front of", "as well as"], answer: 0, explanation: "「〜のために（理由）」を意味する because of が入ります。" },
+    { id: "i_17", tag: "熟語", question: "Please feel free to ( ) in touch with me if you have any questions.", options: ["get", "hold", "make", "catch"], answer: 0, explanation: "「連絡を取る」を意味する get in touch with が適当です。" },
+    { id: "i_18", tag: "熟語", question: "A: Shall we meet at 10 AM?\nB: Sounds good. Let's ( ) that.", options: ["stick to", "drop off", "pass out", "give in"], answer: 0, explanation: "「（予定・計画などを）堅持する/決定通りにする」を意味する stick to が適当です。" },
+    { id: "i_19", tag: "熟語", question: "In Japan, it is customary to ( ) your shoes before entering a house.", options: ["take off", "put away", "throw out", "set up"], answer: 0, explanation: "「（服や靴を）脱ぐ」を意味する take off が入ります。" },
+    { id: "i_20", tag: "熟語", question: "He managed to complete the task ahead of ( ).", options: ["schedule", "order", "mind", "reason"], answer: 0, explanation: "「予定より早く」を意味する ahead of schedule が正解です。" }
 ];
 
 // 大問2用データ
@@ -367,15 +367,21 @@ let displayQuestions = [];
 const STORAGE_KEY = 'eiken_prep_history_v3';
 
 function loadHistory() {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : {};
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : {};
+  } catch (e) {
+    return {};
+  }
 }
 
 function saveHistory(history) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  } catch (e) {}
 }
 
-// ランダム抽出関数[cite: 2]
+// ランダム抽出関数
 function getRandomItems(array, count) {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -385,21 +391,16 @@ function getRandomItems(array, count) {
   return shuffled.slice(0, count);
 }
 
-// 選択肢シャッフル関数[cite: 2]
+// 選択肢シャッフル処理（安全版）
 function shuffleOptions(question) {
-  const originalAnswerText = question.options[question.answer];
-  const shuffledOptions = [...question.options];
-  
-  for (let i = shuffledOptions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
-  }
-  
-  const newAnswerIndex = shuffledOptions.findIndex(opt => opt === originalAnswerText);
+  const correctText = question.options[question.answer];
+  const shuffledOptions = getRandomItems(question.options, question.options.length);
+  const newAnswerIndex = shuffledOptions.indexOf(correctText);
+
   return {
     ...question,
     options: shuffledOptions,
-    answer: newAnswerIndex
+    answer: newAnswerIndex !== -1 ? newAnswerIndex : 0
   };
 }
 
@@ -408,8 +409,9 @@ function switchSection(sectionKey) {
   isReviewMode = false;
   currentCategory = 'all';
 
-  document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
-    const keys = ['part1', 'part2', 'part3', 'part4'];
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const keys = ['part1', 'part2', 'part3', 'part4'];
+  navBtns.forEach((btn, idx) => {
     btn.classList.toggle('active', keys[idx] === sectionKey);
   });
 
@@ -428,7 +430,6 @@ function loadSectionQuestions(shouldShuffle = true) {
   const history = loadHistory();
 
   if (currentSection === 'part1') {
-    // 大問1: 50問のバンクから単語10問 + 熟語5問 を抽選[cite: 2]
     let selectedWords = [...wordBank];
     let selectedIdioms = [...idiomBank];
 
@@ -450,8 +451,10 @@ function loadSectionQuestions(shouldShuffle = true) {
     if (isReviewMode) {
       baseQuestions = baseQuestions.filter(q => history[q.id] && history[q.id].isCorrect === false);
     }
+    if (shouldShuffle) {
+      baseQuestions = getRandomItems(baseQuestions, baseQuestions.length);
+    }
     displayQuestions = baseQuestions.map(q => shuffleOptions(q));
-    if (shouldShuffle) displayQuestions = getRandomItems(displayQuestions, displayQuestions.length);
 
   } else {
     // 大問3・4
@@ -513,7 +516,7 @@ function renderUI() {
   document.getElementById('stats-display').textContent = `全体正答率: ${rate}% (${totalCorrect}/${totalAnswered} 済)`;
 
   if (displayQuestions.length === 0) {
-    container.innerHTML = `<p style="text-align:center; padding: 20px 0; color: #64748b;">
+    container.innerHTML = `<p style="text-align:center; padding: 30px 0; color: #64748b;">
       ${isReviewMode ? '復習する問題（間違えた問題）はありません！' : '該当する問題がありません。'}
     </p>`;
     return;
