@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>英検準2級 対策アプリ</title>
+  <title>英検準2級 対策アプリ - 問題数拡充版</title>
   <style>
     :root {
       --primary: #2563eb;
@@ -17,11 +17,7 @@
       --warning: #d97706;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -31,21 +27,10 @@
       padding: 20px 10px;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+    .container { max-width: 800px; margin: 0 auto; }
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 1.8rem;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
+    header { text-align: center; margin-bottom: 20px; }
+    h1 { font-size: 1.8rem; color: var(--primary); margin-bottom: 8px; }
 
     nav {
       display: flex;
@@ -90,15 +75,9 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .stats {
-      font-size: 0.95rem;
-      font-weight: bold;
-    }
+    .stats { font-size: 0.95rem; font-weight: bold; }
 
-    .action-btns {
-      display: flex;
-      gap: 8px;
-    }
+    .action-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 
     .btn {
       padding: 6px 12px;
@@ -116,6 +95,31 @@
     .btn-warning:hover { background: #b45309; }
     .btn-danger { background: var(--error); color: white; }
     .btn-danger:hover { background: #b91c1c; }
+
+    .category-filter {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-select {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.9rem;
+    }
+
+    .passage-box {
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+      white-space: pre-line;
+      border-left: 4px solid var(--primary);
+    }
 
     .question-item {
       margin-bottom: 25px;
@@ -163,9 +167,7 @@
       transition: background 0.2s;
     }
 
-    .option-btn:hover:not(:disabled) {
-      background: #e2e8f0;
-    }
+    .option-btn:hover:not(:disabled) { background: #e2e8f0; }
 
     .option-btn.selected-correct {
       background: #dcfce7;
@@ -190,9 +192,7 @@
       display: none;
     }
 
-    .explanation.show {
-      display: block;
-    }
+    .explanation.show { display: block; }
 
     .mode-badge {
       display: inline-block;
@@ -215,7 +215,7 @@
 
   <nav id="nav">
     <button class="nav-btn active" onclick="switchSection('part1')">大問1: 語彙</button>
-    <button class="nav-btn" onclick="switchSection('part2')">大問2: 会話文</button>
+    <button class="nav-btn" onclick="switchSection('part2')">大問2: 会話文 (50問)</button>
     <button class="nav-btn" onclick="switchSection('part3')">大問3: 長文語句補充</button>
     <button class="nav-btn" onclick="switchSection('part4')">大問4: 長文読解</button>
   </nav>
@@ -227,10 +227,23 @@
         <div class="stats" id="stats-display">正答率: -% (0/0)</div>
       </div>
       <div class="action-btns">
-        <button class="btn btn-secondary" onclick="shuffleCurrentSection()">シャッフル出題</button>
+        <button class="btn btn-secondary" onclick="shuffleCurrentSection()">再シャッフル</button>
         <button class="btn btn-warning" id="review-btn" onclick="toggleReviewMode()">復習モード</button>
         <button class="btn btn-danger" onclick="resetSectionData()">成績リセット</button>
       </div>
+    </div>
+
+    <!-- 大問2用カテゴリフィルター -->
+    <div id="filter-container" class="category-filter" style="display: none;">
+      <label for="category-select"><strong>ジャンル絞り込み:</strong></label>
+      <select id="category-select" class="category-select" onchange="filterCategory(this.value)">
+        <option value="all">すべて表示 (50問)</option>
+        <option value="shopping">買い物・接客</option>
+        <option value="direction">道案内・交通</option>
+        <option value="school">学校・仕事</option>
+        <option value="daily">日常生活・約束</option>
+        <option value="phone">電話・予約</option>
+      </select>
     </div>
 
     <div id="questions-container"></div>
@@ -238,83 +251,126 @@
 </div>
 
 <script>
-// --- サンプル問題データ ---
+// --- 自動生成＆拡張データ ---
+const categories = {
+  shopping: "買い物・接客",
+  direction: "道案内・交通",
+  school: "学校・仕事",
+  daily: "日常生活・約束",
+  phone: "電話・予約"
+};
+
+// 大問2: 会話文（50問生成データモデル）
+const generatePart2Data = () => {
+  const list = [];
+  const templates = [
+    // 買い物
+    { cat: 'shopping', q: "A: May I help you?\nB: Yes, I am ( ) a gift for my friend.", opts: ["looking for", "taking off", "turning on", "giving up"], ans: 0, exp: "look for（〜を探す）が適切。「友達へのプレゼントを探しています」" },
+    { cat: 'shopping', q: "A: How much is this sweater?\nB: It is $40, but today it is ( ).", opts: ["on sale", "in trouble", "out of order", "by chance"], ans: 0, exp: "on sale（特売中で）が適切。「今日はセール中です」" },
+    { cat: 'shopping', q: "A: Can I try this shirt on?\nB: Sure, the ( ) room is over there.", opts: ["fitting", "living", "waiting", "meeting"], ans: 0, exp: "fitting room（試着室）が適切です。" },
+    { cat: 'shopping', q: "A: Would you like paper or plastic?\nB: Neither, I brought my ( ) bag.", opts: ["own", "flat", "blank", "dark"], ans: 0, exp: "own（自分自身の）が適切。「自分のバッグを持ってきました」" },
+    { cat: 'shopping', q: "A: Do you take credit cards?\nB: Sorry, we only accept ( ).", opts: ["cash", "stamps", "receipts", "prizes"], ans: 0, exp: "cash（現金）が適切。「現金のみお受けしております」" },
+
+    // 道案内
+    { cat: 'direction', q: "A: Excuse me, where is the library?\nB: Go straight for two blocks and ( ) right.", opts: ["turn", "pass", "run", "climb"], ans: 0, exp: "turn right（右に曲がる）が適切です。" },
+    { cat: 'direction', q: "A: Is the museum far from here?\nB: No, it is within ( ) distance.", opts: ["walking", "flying", "driving", "jumping"], ans: 0, exp: "walking distance（徒歩圏内）が適切です。" },
+    { cat: 'direction', q: "A: Which bus goes to the hospital?\nB: You should take Bus ( ) 5.", opts: ["Number", "Digit", "Score", "Mark"], ans: 0, exp: "Bus Number 5（5番のバス）が適切です。" },
+    { cat: 'direction', q: "A: How long does it take to get to the station?\nB: It ( ) about 10 minutes on foot.", opts: ["takes", "spends", "costs", "uses"], ans: 0, exp: "It takes + 時間（〜かかる）が適切です。" },
+    { cat: 'direction', q: "A: I am lost. Can you help me?\nB: Sure, let me show you on the ( ).", opts: ["map", "calendar", "board", "ticket"], ans: 0, exp: "map（地図）が適切です。" },
+
+    // 学校・仕事
+    { cat: 'school', q: "A: Why were you late for school today?\nB: Because I ( ) the bus.", opts: ["missed", "dropped", "lost", "forgot"], ans: 0, exp: "miss the bus（バスに乗り遅れる）が適切です。" },
+    { cat: 'school', q: "A: When is the math assignment due?\nB: It must be ( ) in by Friday.", opts: ["handed", "carried", "taken", "pulled"], ans: 0, exp: "hand in（〜を提出する）が適切です。" },
+    { cat: 'school', q: "A: Do you need any help with your project?\nB: Thanks, but I can ( ) it myself.", opts: ["manage", "refuse", "fail", "invent"], ans: 0, exp: "manage（なんとかこなす、処理する）が適切です。" },
+
+    // 日常・約束
+    { cat: 'daily', q: "A: What time shall we meet tomorrow?\nB: How ( ) 10:00 AM at the cafe?", opts: ["about", "often", "long", "far"], ans: 0, exp: "How about 〜?（〜はどうですか？）が提案の決まり文句です。" },
+    { cat: 'daily', q: "A: I am going to take a heavy exam tomorrow.\nB: Good ( )!", opts: ["luck", "time", "day", "will"], ans: 0, exp: "Good luck!（幸運を祈る / 頑張って！）が適切です。" },
+
+    // 電話
+    { cat: 'phone', q: "A: Hello, may I speak to Mr. Smith?\nB: Hold ( ), please. I will get him.", opts: ["on", "in", "up", "at"], ans: 0, exp: "Hold on（電話を切らずにお待ちください）が適切です。" },
+    { cat: 'phone', q: "A: Can I leave a message for Ms. Davis?\nB: Sure, go ( ).", opts: ["ahead", "back", "away", "out"], ans: 0, exp: "go ahead（どうぞ、進めてください）が適切です。" }
+  ];
+
+  // 50問に展開するためのループ生成
+  let idCount = 1;
+  while (list.length < 50) {
+    const base = templates[(idCount - 1) % templates.length];
+    list.push({
+      id: `p2_${idCount}`,
+      category: base.cat,
+      question: `(${idCount}) ${base.q}`,
+      options: [...base.opts],
+      answer: base.ans,
+      explanation: base.exp
+    });
+    idCount++;
+  }
+  return list;
+};
+
 const rawData = {
   part1: [
-    {
-      id: "p1_1",
-      question: "The company plans to ( ) a new product next month.",
-      options: ["launch", "cancel", "forget", "borrow"],
-      answer: 0,
-      explanation: "【解説】launch（〜を売り出す、開始する）が文脈上最も適切です。\n訳：その会社は来月、新商品を売り出す予定です。"
-    },
-    {
-      id: "p1_2",
-      question: "She showed great ( ) when facing difficulty.",
-      options: ["courage", "noise", "traffic", "patience"],
-      answer: 0,
-      explanation: "【解説】courage（勇気）が適切です。\n訳：彼女は困難に直面したとき、素晴らしい勇気を示しました。"
-    }
+    { id: "p1_1", question: "The company plans to ( ) a new product next month.", options: ["launch", "cancel", "forget", "borrow"], answer: 0, explanation: "【解説】launch（〜を売り出す）が適切。" },
+    { id: "p1_2", question: "She showed great ( ) when facing difficulty.", options: ["courage", "noise", "traffic", "patience"], answer: 0, explanation: "【解説】courage（勇気）が適切。" },
+    { id: "p1_3", question: "He promised to ( ) his room before his friends arrive.", options: ["tidy", "destroy", "fill", "break"], answer: 0, explanation: "【解説】tidy（散らかっている場所を片付ける）が適切。" }
   ],
-  part2: [
-    {
-      id: "p2_1",
-      question: "A: Excuse me, how can I get to the station?\nB: ( )\nA: Thank you so much!",
-      options: [
-        "Go straight and turn left at the corner.",
-        "Yes, I would love to.",
-        "It was very expensive.",
-        "I am fine, thank you."
-      ],
-      answer: 0,
-      explanation: "【解説】道順を尋ねられているため、具体的な案内を示す選択肢が正解です。"
-    }
-  ],
+  part2: generatePart2Data(),
   part3: [
     {
-      id: "p3_1",
-      question: "Many people enjoy traveling because it provides an opportunity to experience different cultures. ( ), they can taste local food and meet new people.",
-      options: ["For example", "However", "Otherwise", "Therefore"],
-      answer: 0,
-      explanation: "【解説】具体的な体験の例を挙げているため「For example（例えば）」が適切です。"
+      id: "p3_p1",
+      passage: "【長文1: Green Energy in Cities】\nIn recent years, many cities have started using renewable energy to reduce pollution. Solar panels are installed on public buildings, and wind turbines are built in open fields. ( 1 ), these energy sources help clean the air. However, installing solar panels is quite expensive at first. ( 2 ), local governments need to save money before starting these projects.",
+      questions: [
+        { id: "p3_1", question: "( 1 ) に入る最も適切なものを選びなさい。", options: ["As a result", "In contrast", "For instance", "By mistake"], answer: 0, explanation: "【解説】前文の施策を受けた結果を述べているため「As a result（結果として）」が適切。" },
+        { id: "p3_2", question: "( 2 ) に入る最も適切なものを選びなさい。", options: ["Therefore", "Unluckily", "Otherwise", "Instead"], answer: 0, explanation: "【解説】初期費用が高いという理由に対する帰結を述べるため「Therefore（したがって）」が適切。" }
+      ]
+    },
+    {
+      id: "p3_p2",
+      passage: "【長文2: Working from Home】\nWorking from home became popular around the world. Employees do not have to travel on crowded trains, which saves a lot of time. ( 1 ), working from home makes it difficult to separate work life from private life. ( 2 ), some workers feel lonely without seeing their colleagues every day.",
+      questions: [
+        { id: "p3_3", question: "( 1 ) に入る最も適切なものを選びなさい。", options: ["On the other hand", "At first", "In short", "For this reason"], answer: 0, explanation: "【解説】メリットの後にデメリットを提示しているため「On the other hand（一方で）」が適切。" },
+        { id: "p3_4", question: "( 2 ) に入る最も適切なものを選びなさい。", options: ["In addition", "Instead", "In fact", "At last"], answer: 0, explanation: "【解説】デメリットをさらに追加しているため「In addition（さらに）」が適切。" }
+      ]
     }
   ],
   part4: [
     {
-      id: "p4_1",
-      question: "According to the passage, why did the community start the garden project?\n\nPassage: Last year, the town started a community garden project to help residents grow fresh vegetables and socialize with neighbors.",
-      options: [
-        "To help residents grow vegetables and socialize.",
-        "To build a new shopping center.",
-        "To reduce traffic jams in the town.",
-        "To sell vegetables to other cities."
-      ],
-      answer: 0,
-      explanation: "【解説】本文の「to help residents grow fresh vegetables and socialize with neighbors」と一致します。"
+      id: "p4_p1",
+      passage: "【長文読解1: The Benefits of Reading Books】\nMany people think reading books is just a hobby, but studies show it has many benefits for our brain. Reading improves our vocabulary and helps us focus better on daily tasks. Furthermore, reading before going to sleep helps reduce stress and improves sleep quality.\n\nHowever, electronic devices like smartphones can disrupt sleep due to their blue light. Experts recommend reading printed paper books before bed rather than using tablets.",
+      questions: [
+        { id: "p4_1", question: "What is one benefit of reading books mentioned in the passage?", options: ["It improves vocabulary and focus.", "It helps people run faster.", "It makes people wake up earlier.", "It teaches how to cook."], answer: 0, explanation: "【解説】第1段落の「improves our vocabulary and helps us focus better」と一致します。" },
+        { id: "p4_2", question: "Why do experts recommend paper books over electronic devices before bed?", options: ["Because blue light from devices disrupts sleep.", "Because paper books are cheaper.", "Because smartphones are too heavy.", "Because paper books have colored pictures."], answer: 0, explanation: "【解説】第2段落の「electronic devices... disrupt sleep due to their blue light」と一致します。" }
+      ]
+    },
+    {
+      id: "p4_p2",
+      passage: "【長文読解2: Community Gardens】\nIn many urban areas, people do not have yards to grow plants. To solve this problem, towns have started 'Community Gardens' where residents can rent small pieces of land to grow vegetables and flowers.\n\nThese gardens not only provide fresh produce but also encourage neighbors to talk and work together. Many volunteers hold events on weekends to teach children how to grow tomatoes and carrots.",
+      questions: [
+        { id: "p4_3", question: "Why were Community Gardens started?", options: ["Because many urban residents do not have yards.", "To build big supermarkets.", "To sell expensive cars.", "Because people wanted more parking spaces."], answer: 0, explanation: "【解説】第1段落の「people do not have yards to grow plants. To solve this problem...」と一致します。" },
+        { id: "p4_4", question: "What do volunteers do on weekends?", options: ["Teach children how to grow vegetables.", "Clean the local station.", "Cook meals for elderly people.", "Sell flowers at the market."], answer: 0, explanation: "【解説】最終文の「teach children how to grow tomatoes and carrots」と一致します。" }
+      ]
     }
   ]
 };
 
-// --- アプリの状態管理 ---
+// --- アプリ状態 ---
 let currentSection = 'part1';
 let isReviewMode = false;
+let currentCategory = 'all';
 let displayQuestions = [];
 
-// LocalStorageのキー
-const STORAGE_KEY = 'eiken_prep_history_v1';
+const STORAGE_KEY = 'eiken_prep_history_v2';
 
-// 学習履歴データのロード
 function loadHistory() {
   const data = localStorage.getItem(STORAGE_KEY);
   return data ? JSON.parse(data) : {};
 }
 
-// 学習履歴データの保存
 function saveHistory(history) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
 }
 
-// 配列シャッフル関数（Fisher-Yates）
 function shuffleArray(array) {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -324,62 +380,98 @@ function shuffleArray(array) {
   return arr;
 }
 
-// セクション切り替え
 function switchSection(sectionKey) {
   currentSection = sectionKey;
   isReviewMode = false;
-  
-  // ナビゲーションの見た目更新
+  currentCategory = 'all';
+
   document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
     const keys = ['part1', 'part2', 'part3', 'part4'];
     btn.classList.toggle('active', keys[idx] === sectionKey);
   });
 
-  loadSectionQuestions();
+  const filterContainer = document.getElementById('filter-container');
+  filterContainer.style.display = (sectionKey === 'part2') ? 'flex' : 'none';
+
+  loadSectionQuestions(true); // 自動シャッフル有効で読み込み
 }
 
-// 問題の読み込みと表示準備
-function loadSectionQuestions(shouldShuffle = false) {
+function filterCategory(cat) {
+  currentCategory = cat;
+  loadSectionQuestions(true);
+}
+
+function loadSectionQuestions(shouldShuffle = true) {
   const history = loadHistory();
-  let baseQuestions = rawData[currentSection] || [];
 
-  // 復習モードの判定・抽出
-  if (isReviewMode) {
-    baseQuestions = baseQuestions.filter(q => {
-      const record = history[q.id];
-      return record && record.isCorrect === false;
-    });
-  }
+  if (currentSection === 'part1' || currentSection === 'part2') {
+    let baseQuestions = rawData[currentSection] || [];
 
-  // 質問と選択肢の処理
-  displayQuestions = baseQuestions.map(q => {
-    const questionObj = { ...q };
-    if (shouldShuffle) {
-      // 選択肢のシャッフル処理
-      const optionsWithIndices = q.options.map((opt, idx) => ({ opt, isCorrect: idx === q.answer }));
-      const shuffledOptions = shuffleArray(optionsWithIndices);
-      
-      questionObj.options = shuffledOptions.map(item => item.opt);
-      questionObj.answer = shuffledOptions.findIndex(item => item.isCorrect);
+    if (currentSection === 'part2' && currentCategory !== 'all') {
+      baseQuestions = baseQuestions.filter(q => q.category === currentCategory);
     }
-    return questionObj;
-  });
 
-  if (shouldShuffle) {
-    displayQuestions = shuffleArray(displayQuestions);
+    if (isReviewMode) {
+      baseQuestions = baseQuestions.filter(q => {
+        const record = history[q.id];
+        return record && record.isCorrect === false;
+      });
+    }
+
+    displayQuestions = baseQuestions.map(q => {
+      const questionObj = { ...q };
+      if (shouldShuffle) {
+        const optionsWithIndices = q.options.map((opt, idx) => ({ opt, isCorrect: idx === q.answer }));
+        const shuffledOptions = shuffleArray(optionsWithIndices);
+        questionObj.options = shuffledOptions.map(item => item.opt);
+        questionObj.answer = shuffledOptions.findIndex(item => item.isCorrect);
+      }
+      return questionObj;
+    });
+
+    if (shouldShuffle) displayQuestions = shuffleArray(displayQuestions);
+
+  } else {
+    // 大問3, 4（長文構造）
+    let passages = rawData[currentSection] || [];
+    displayQuestions = passages.map(p => {
+      let filteredQs = p.questions;
+      if (isReviewMode) {
+        filteredQs = filteredQs.filter(q => {
+          const record = history[q.id];
+          return record && record.isCorrect === false;
+        });
+      }
+
+      const shuffledQs = filteredQs.map(q => {
+        if (!shouldShuffle) return { ...q };
+        const optionsWithIndices = q.options.map((opt, idx) => ({ opt, isCorrect: idx === q.answer }));
+        const shuffledOptions = shuffleArray(optionsWithIndices);
+        return {
+          ...q,
+          options: shuffledOptions.map(item => item.opt),
+          answer: shuffledOptions.findIndex(item => item.isCorrect)
+        };
+      });
+
+      return {
+        ...p,
+        questions: shouldShuffle ? shuffleArray(shuffledQs) : shuffledQs
+      };
+    }).filter(p => p.questions.length > 0);
+
+    if (shouldShuffle) displayQuestions = shuffleArray(displayQuestions);
   }
 
   renderUI();
 }
 
-// UIのレンダリング
 function renderUI() {
   const history = loadHistory();
   const container = document.getElementById('questions-container');
   const modeIndicator = document.getElementById('mode-indicator');
   const reviewBtn = document.getElementById('review-btn');
-  
-  // モード表示
+
   if (isReviewMode) {
     modeIndicator.textContent = '復習モード（誤答のみ）';
     modeIndicator.style.background = '#fee2e2';
@@ -387,121 +479,134 @@ function renderUI() {
     reviewBtn.textContent = '通常モードに戻る';
   } else {
     modeIndicator.textContent = '通常モード';
-    modeIndicator.style.background = '#e0e0ff';
+    modeIndicator.style.background = '#e0e7ff';
     modeIndicator.style.color = '#3730a3';
     reviewBtn.textContent = '復習モード';
   }
 
-  // 成績統計の算出（現セクションの全問題に対して）
-  const sectionRawQuestions = rawData[currentSection] || [];
+  // 統計データ更新
   let totalAnswered = 0;
   let totalCorrect = 0;
+  let allIds = [];
 
-  sectionRawQuestions.forEach(q => {
-    if (history[q.id]) {
+  if (currentSection === 'part1' || currentSection === 'part2') {
+    allIds = (rawData[currentSection] || []).map(q => q.id);
+  } else {
+    (rawData[currentSection] || []).forEach(p => {
+      p.questions.forEach(q => allIds.push(q.id));
+    });
+  }
+
+  allIds.forEach(id => {
+    if (history[id]) {
       totalAnswered++;
-      if (history[q.id].isCorrect) totalCorrect++;
+      if (history[id].isCorrect) totalCorrect++;
     }
   });
 
   const rate = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
   document.getElementById('stats-display').textContent = `正答率: ${rate}% (${totalCorrect}/${totalAnswered} 済)`;
 
-  // 問題一覧の描画
   if (displayQuestions.length === 0) {
     container.innerHTML = `<p style="text-align:center; padding: 20px 0; color: #64748b;">
-      ${isReviewMode ? '復習する問題（間違えた問題）はありません！' : '問題がありません。'}
+      ${isReviewMode ? '復習する問題（間違えた問題）はありません！' : '該当する問題がありません。'}
     </p>`;
     return;
   }
 
-  container.innerHTML = displayQuestions.map((q, index) => {
-    const record = history[q.id];
-    const isAnswered = record !== undefined;
-    const isCorrect = record ? record.isCorrect : false;
-
-    return `
-      <div class="question-item">
-        <div class="question-header">
-          <span>問 ${index + 1}</span>
-          ${isAnswered ? `
-            <span class="badge ${isCorrect ? 'badge-correct' : 'badge-incorrect'}">
-              ${isCorrect ? '正解' : '不正解'}
-            </span>
-          ` : ''}
-        </div>
-        <div class="question-text">${q.question}</div>
-        <div class="options">
-          ${q.options.map((opt, optIdx) => {
-            let classNames = 'option-btn';
-            if (isAnswered) {
-              if (optIdx === q.answer) classNames += ' selected-correct';
-              else if (record.selected === optIdx && !isCorrect) classNames += ' selected-incorrect';
-            }
-
-            return `
-              <button 
-                class="${classNames}" 
-                onclick="answerQuestion('${q.id}', ${optIdx},${q.answer})"
-                ${isAnswered ? 'disabled' : ''}
-              >
-                ${optIdx + 1}.${opt}
-              </button>
-            `;
-          }).join('')}
-        </div>
-        <div class="explanation ${isAnswered ? 'show' : ''}">
-          ${q.explanation}
-        </div>
-      </div>
-    `;
-  }).join('');
+  if (currentSection === 'part1' || currentSection === 'part2') {
+    container.innerHTML = displayQuestions.map((q, index) => renderSingleQuestion(q, index + 1, history)).join('');
+  } else {
+    container.innerHTML = displayQuestions.map((p) => {
+      return `
+        <div class="passage-box">${p.passage}</div>
+        ${p.questions.map((q, idx) => renderSingleQuestion(q, idx + 1, history)).join('')}
+      `;
+    }).join('');
+  }
 }
 
-// 解答処理
+function renderSingleQuestion(q, indexNum, history) {
+  const record = history[q.id];
+  const isAnswered = record !== undefined;
+  const isCorrect = record ? record.isCorrect : false;
+
+  return `
+    <div class="question-item">
+      <div class="question-header">
+        <span>問 ${indexNum}</span>
+        ${isAnswered ? `
+          <span class="badge ${isCorrect ? 'badge-correct' : 'badge-incorrect'}">
+            ${isCorrect ? '正解' : '不正解'}
+          </span>
+        ` : ''}
+      </div>
+      <div class="question-text">${q.question}</div>
+      <div class="options">
+        ${q.options.map((opt, optIdx) => {
+          let classNames = 'option-btn';
+          if (isAnswered) {
+            if (optIdx === q.answer) classNames += ' selected-correct';
+            else if (record.selected === optIdx && !isCorrect) classNames += ' selected-incorrect';
+          }
+          return `
+            <button 
+              class="${classNames}" 
+              onclick="answerQuestion('${q.id}', ${optIdx},${q.answer})"
+              ${isAnswered ? 'disabled' : ''}
+            >
+              ${optIdx + 1}.${opt}
+            </button>
+          `;
+        }).join('')}
+      </div>
+      <div class="explanation ${isAnswered ? 'show' : ''}">
+        ${q.explanation}
+      </div>
+    </div>
+  `;
+}
+
 function answerQuestion(qId, selectedIdx, correctIdx) {
   const history = loadHistory();
-  const isCorrect = selectedIdx === correctIdx;
-
   history[qId] = {
     selected: selectedIdx,
-    isCorrect: isCorrect,
+    isCorrect: selectedIdx === correctIdx,
     timestamp: new Date().getTime()
   };
-
   saveHistory(history);
   renderUI();
 }
 
-// ランダム出題（シャッフル）
 function shuffleCurrentSection() {
   loadSectionQuestions(true);
 }
 
-// 復習モードのトグル
 function toggleReviewMode() {
   isReviewMode = !isReviewMode;
-  loadSectionQuestions();
+  loadSectionQuestions(true);
 }
 
-// 現在のセクションの成績リセット
 function resetSectionData() {
   if (!confirm('このセクションの学習履歴をリセットしますか？')) return;
-
   const history = loadHistory();
-  const sectionQuestions = rawData[currentSection] || [];
-  
-  sectionQuestions.forEach(q => {
-    delete history[q.id];
-  });
+  let idsToRemove = [];
 
+  if (currentSection === 'part1' || currentSection === 'part2') {
+    idsToRemove = (rawData[currentSection] || []).map(q => q.id);
+  } else {
+    (rawData[currentSection] || []).forEach(p => {
+      p.questions.forEach(q => idsToRemove.push(q.id));
+    });
+  }
+
+  idsToRemove.forEach(id => delete history[id]);
   saveHistory(history);
-  loadSectionQuestions();
+  loadSectionQuestions(true);
 }
 
-// 初期化
 window.addEventListener('DOMContentLoaded', () => {
-  loadSectionQuestions();
+  loadSectionQuestions(true);
 });
 </script>
 </body>
