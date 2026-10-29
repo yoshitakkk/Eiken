@@ -96,21 +96,6 @@
     .btn-danger { background: var(--error); color: white; }
     .btn-danger:hover { background: #b91c1c; }
 
-    .category-filter {
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .category-select {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: white;
-      font-size: 0.9rem;
-    }
-
     .passage-box {
       background: #f1f5f9;
       padding: 15px;
@@ -216,9 +201,9 @@
 
   <nav id="nav">
     <button class="nav-btn active" onclick="switchSection('part1')">大問1: 語彙 (15問抽選)</button>
-    <button class="nav-btn" onclick="switchSection('part2')">大問2: 会話文 (50問)</button>
-    <button class="nav-btn" onclick="switchSection('part3')">大問3: 長文語句補充</button>
-    <button class="nav-btn" onclick="switchSection('part4')">大問4: 長文読解</button>
+    <button class="nav-btn" onclick="switchSection('part2')">大問2: 会話文 (ランダム5問)</button>
+    <button class="nav-btn" onclick="switchSection('part3')">大問3: 長文語句補充 (50題からランダム2題)</button>
+    <button class="nav-btn" onclick="switchSection('part4')">大問4: 長文読解 (50題からランダム2題)</button>
   </nav>
 
   <main class="card">
@@ -232,19 +217,6 @@
         <button class="btn btn-warning" id="review-btn" onclick="toggleReviewMode()">復習モード</button>
         <button class="btn btn-danger" onclick="resetSectionData()">成績リセット</button>
       </div>
-    </div>
-
-    <!-- 大問2用カテゴリフィルター -->
-    <div id="filter-container" class="category-filter" style="display: none;">
-      <label for="category-select"><strong>ジャンル絞り込み:</strong></label>
-      <select id="category-select" class="category-select" onchange="filterCategory(this.value)">
-        <option value="all">すべて表示 (50問)</option>
-        <option value="shopping">買い物・接客</option>
-        <option value="direction">道案内・交通</option>
-        <option value="school">学校・仕事</option>
-        <option value="daily">日常生活・約束</option>
-        <option value="phone">電話・予約</option>
-      </select>
     </div>
 
     <div id="questions-container"></div>
@@ -313,18 +285,17 @@ const idiomBank = [
 const generatePart2Data = () => {
   const list = [];
   const templates = [
-    { cat: 'shopping', q: "A: May I help you?\nB: Yes, I am ( ) a gift for my friend.", opts: ["looking for", "taking off", "turning on", "giving up"], ans: 0, exp: "look for（〜を探す）が適切。" },
-    { cat: 'direction', q: "A: Excuse me, where is the library?\nB: Go straight for two blocks and ( ) right.", opts: ["turn", "pass", "run", "climb"], ans: 0, exp: "turn right（右に曲がる）が適切です。" },
-    { cat: 'school', q: "A: Why were you late for school today?\nB: Because I ( ) the bus.", opts: ["missed", "dropped", "lost", "forgot"], ans: 0, exp: "miss the bus（バスに乗り遅れる）が適切です。" },
-    { cat: 'daily', q: "A: What time shall we meet tomorrow?\nB: How ( ) 10:00 AM at the cafe?", opts: ["about", "often", "long", "far"], ans: 0, exp: "How about 〜?（〜はどうですか？）が提案の決まり文句です。" },
-    { cat: 'phone', q: "A: Hello, may I speak to Mr. Smith?\nB: Hold ( ), please. I will get him.", opts: ["on", "in", "up", "at"], ans: 0, exp: "Hold on（電話を切らずにお待ちください）が適切です。" }
+    { q: "A: May I help you?\nB: Yes, I am ( ) a gift for my friend.", opts: ["looking for", "taking off", "turning on", "giving up"], ans: 0, exp: "look for（〜を探す）が適切。" },
+    { q: "A: Excuse me, where is the library?\nB: Go straight for two blocks and ( ) right.", opts: ["turn", "pass", "run", "climb"], ans: 0, exp: "turn right（右に曲がる）が適切です。" },
+    { q: "A: Why were you late for school today?\nB: Because I ( ) the bus.", opts: ["missed", "dropped", "lost", "forgot"], ans: 0, exp: "miss the bus（バスに乗り遅れる）が適切です。" },
+    { q: "A: What time shall we meet tomorrow?\nB: How ( ) 10:00 AM at the cafe?", opts: ["about", "often", "long", "far"], ans: 0, exp: "How about 〜?（〜はどうですか？）が提案の決まり文句です。" },
+    { q: "A: Hello, may I speak to Mr. Smith?\nB: Hold ( ), please. I will get him.", opts: ["on", "in", "up", "at"], ans: 0, exp: "Hold on（電話を切らずにお待ちください）が適切です。" }
   ];
   let idCount = 1;
   while (list.length < 50) {
     const base = templates[(idCount - 1) % templates.length];
     list.push({
       id: `p2_${idCount}`,
-      category: base.cat,
       question: `(${idCount}) ${base.q}`,
       options: [...base.opts],
       answer: base.ans,
@@ -335,33 +306,395 @@ const generatePart2Data = () => {
   return list;
 };
 
+const generatePart3Data = () => {
+  const templates = [
+    {
+      title: "Community Libraries",
+      opening: "Some libraries now lend useful items in addition to books.",
+      examples: [
+        "one library lends tools for small home repairs",
+        "another lets families borrow board games",
+        "a library near the coast lends fishing equipment",
+        "one town offers seeds that visitors can plant",
+        "a city library lends simple musical instruments"
+      ],
+      endings: [
+        "This helps neighbors try a task before buying expensive equipment",
+        "Families can enjoy time together without purchasing new games",
+        "Visitors can learn about local fishing traditions",
+        "The program encourages people to grow plants at home",
+        "More young people have a chance to discover music"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "School Gardens",
+      opening: "Students at West Hill School wanted to make their garden more useful.",
+      examples: [
+        "they planted vegetables that grow well in cool weather",
+        "they placed signs beside each plant with its name",
+        "they invited a local farmer to teach them about soil",
+        "they collected rainwater in a large container",
+        "they made a weekly schedule for watering the flowers"
+      ],
+      endings: [
+        "The students could harvest food before the summer break",
+        "Visitors learned what the students were growing",
+        "The class understood why healthy soil is important",
+        "The garden used less water from the school building",
+        "No plants were forgotten during the busy school week"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Local Markets",
+      opening: "A small market can help local farmers meet more customers.",
+      examples: [
+        "some farmers bring fresh vegetables every Saturday",
+        "one stand offers samples of fruit before customers buy it",
+        "a few sellers explain how they grow their food",
+        "the market accepts reusable bags from shoppers",
+        "some families sell bread made with local ingredients"
+      ],
+      endings: [
+        "People can buy food that was grown nearby",
+        "Customers can discover fruit they have never tried",
+        "Visitors learn more about where their meals come from",
+        "The market produces less plastic waste",
+        "The families can share traditional recipes with the town"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Saving Energy",
+      opening: "Many families are looking for simple ways to use less electricity.",
+      examples: [
+        "they turn off lights when they leave a room",
+        "one family dries clothes outside on sunny days",
+        "some homes use curtains to keep rooms cool in summer",
+        "parents set a timer for the heating system",
+        "children unplug chargers after using their devices"
+      ],
+      endings: [
+        "Their monthly electricity bills can become lower",
+        "The family does not need to use a clothes dryer as often",
+        "The air conditioner can run for a shorter time",
+        "The house stays comfortable without heating empty rooms",
+        "Less electricity is wasted when devices are not in use"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Protecting Local Wildlife",
+      opening: "People in Green Valley are working to protect animals near their homes.",
+      examples: [
+        "volunteers put birdhouses in quiet areas of the park",
+        "the town planted flowers that attract butterflies",
+        "students made signs asking visitors not to feed wild birds",
+        "local workers cleaned trash from a stream",
+        "a nature group records which animals it sees each month"
+      ],
+      endings: [
+        "More birds have safe places to build nests",
+        "Butterflies can find food throughout the summer",
+        "The birds are less likely to eat food that is bad for them",
+        "Fish and other animals have cleaner water",
+        "The group can notice changes in animal populations"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Learning a Language",
+      opening: "Learners often improve when they use English outside the classroom.",
+      examples: [
+        "one student listens to a short English podcast on the bus",
+        "a study group meets online with a volunteer from Canada",
+        "some learners label objects in their rooms with English words",
+        "a class holds a monthly afternoon conversation event",
+        "one learner keeps a diary using a few new words each day"
+      ],
+      endings: [
+        "She can practice listening during her daily trip",
+        "Students hear how English is used in real conversations",
+        "They see useful vocabulary many times during the day",
+        "The students get more chances to speak without feeling nervous",
+        "The learner can review how her writing has changed"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Public Transportation",
+      opening: "The city changed its bus service to make travel easier for residents.",
+      examples: [
+        "it added a stop near the new hospital",
+        "the bus company created a map with larger letters",
+        "drivers now announce the names of important stops",
+        "the city added more buses during the morning rush",
+        "a weekend bus now connects the station to the beach"
+      ],
+      endings: [
+        "Patients can reach their appointments more easily",
+        "Passengers can read the route information more clearly",
+        "People who cannot see the display know when to get off",
+        "Workers have more space to travel at busy times",
+        "Visitors can travel without needing a car"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Museum Workshops",
+      opening: "The town museum wants visitors to learn by doing, not only by reading.",
+      examples: [
+        "children can make a simple clay pot during a weekend class",
+        "visitors can try writing with an old-style brush",
+        "a guide shows families how people stored food long ago",
+        "students build a model of a historical bridge",
+        "the museum holds a class about traditional paper making"
+      ],
+      endings: [
+        "Young visitors remember more about how pottery was made",
+        "They experience one way people communicated in the past",
+        "Families understand how daily life has changed",
+        "Students learn why the bridge was important to the area",
+        "Visitors can take home a small piece of their work"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Healthy Routines",
+      opening: "Small changes can help people build healthier daily routines.",
+      examples: [
+        "Mika walks to the station instead of taking a short bus ride",
+        "a family prepares lunch at home on Sunday",
+        "Ken places a bottle of water beside his school bag",
+        "some students go to bed at the same time each night",
+        "a group of friends takes a short walk after dinner"
+      ],
+      endings: [
+        "She gets more exercise before the school day begins",
+        "The parents have nutritious meals ready for busy weekdays",
+        "He remembers to drink water during the day",
+        "They feel more rested when they wake up",
+        "They can relax and talk while getting some exercise"
+      ],
+      first: "For example", second: "As a result"
+    },
+    {
+      title: "Reducing Food Waste",
+      opening: "Restaurants and families are finding ways to waste less food.",
+      examples: [
+        "a cafe uses vegetables that are not perfectly shaped",
+        "one restaurant lets customers order smaller portions",
+        "a family plans its meals before shopping",
+        "a bakery gives unsold bread to a nearby shelter",
+        "a school kitchen saves vegetable scraps for compost"
+      ],
+      endings: [
+        "Good food is less likely to be thrown away",
+        "Customers can finish their meals more easily",
+        "The family buys only what it expects to use",
+        "People at the shelter receive fresh food",
+        "The compost can later help plants grow"
+      ],
+      first: "For example", second: "As a result"
+    }
+  ];
+
+  return templates.flatMap((template, templateIndex) =>
+    template.examples.map((example, exampleIndex) => {
+      const number = templateIndex * 5 + exampleIndex + 1;
+      const firstOptions = ["For example", "However", "As a result", "In addition"];
+      const secondOptions = ["As a result", "Instead", "For instance", "In contrast"];
+      const questions = [
+        {
+          id: `p3_${number}_1`,
+          question: "( 1 ) に入る最も適切なものを選びなさい。",
+          options: firstOptions,
+          answer: firstOptions.indexOf(template.first),
+          explanation: `【解説】${template.first}（例えば）が具体例を導いています。`
+        },
+        {
+          id: `p3_${number}_2`,
+          question: "( 2 ) に入る最も適切なものを選びなさい。",
+          options: secondOptions,
+          answer: secondOptions.indexOf(template.second),
+          explanation: `【解説】${template.second}（その結果）が前の内容から生じる結果を示しています。`
+        }
+      ];
+      return {
+        id: `p3_passage_${number}`,
+        passage: `【長文${number}: ${template.title}】\n${template.opening} ( 1 ), ${example}. ( 2 ), ${template.endings[exampleIndex]}.`,
+        questions
+      };
+    })
+  );
+};
+
+const generatePart4Data = () => {
+  const themes = [
+    {
+      title: "A School Newspaper",
+      place: "at the school",
+      stories: [
+        ["Mia", "share news about the school festival", "many students did not know when the festival would begin", "interviewed the teachers and wrote a short article", "more families came to the festival"],
+        ["Leo", "help new students feel welcome", "some new students had trouble finding their classrooms", "made a map with clear directions", "the new students found their classes more easily"],
+        ["Ava", "tell students about the science club", "few students knew what the club did", "asked club members to describe their experiments", "several students joined the club"],
+        ["Noah", "introduce healthy lunch choices", "students often chose snacks instead of a full lunch", "wrote about easy meals that students could bring", "more students brought balanced lunches"],
+        ["Yui", "save the history of the school", "older photographs were kept in boxes with no labels", "asked former teachers to identify people in the pictures", "the school created a useful photo display"]
+      ]
+    },
+    {
+      title: "A Community Garden",
+      place: "at a community garden",
+      stories: [
+        ["Rina", "grow vegetables for older residents", "some older neighbors could not visit the market often", "organized volunteers to deliver the harvest", "more residents received fresh vegetables"],
+        ["Ben", "make an empty lot more attractive", "the lot had become covered with weeds", "asked neighbors to plant flowers there", "the street became brighter and cleaner"],
+        ["Sara", "teach children how plants grow", "many children had never planted a seed", "started a weekly gardening class", "the children learned to care for young plants"],
+        ["Kai", "help neighbors meet each other", "people in the apartment building rarely talked", "planned a monthly garden workday", "neighbors began helping one another"],
+        ["Emma", "grow herbs for the community kitchen", "the kitchen spent a lot of money on fresh herbs", "planted basil and parsley beside the garden", "the kitchen could use herbs grown nearby"]
+      ]
+    },
+    {
+      title: "A Visit to the Museum",
+      place: "at the city museum",
+      stories: [
+        ["Hana", "learn how people lived in the past", "the information cards were difficult for her younger brother to read", "joined a family tour with a guide", "her brother understood the exhibits better"],
+        ["Oliver", "find ideas for his school project", "he could not choose a topic about local history", "looked at old maps in the museum library", "he chose to study how the town had grown"],
+        ["Mei", "see a special exhibition about ocean animals", "the exhibition was only open for one more week", "went to the museum with her classmates on Saturday", "she saw the displays before they closed"],
+        ["Ethan", "learn to make traditional pottery", "he had never used a potter's wheel before", "attended a workshop led by a local artist", "he made a small bowl to take home"],
+        ["Nana", "help the museum welcome more children", "many young visitors finished their visit quickly", "suggested adding a simple treasure hunt", "children spent more time looking at the exhibits"]
+      ]
+    },
+    {
+      title: "A Weekend at the Farm",
+      place: "on a farm outside town",
+      stories: [
+        ["Tomo", "understand where his food comes from", "he had only seen vegetables in a supermarket", "helped a farmer pick tomatoes", "he learned how much care crops need"],
+        ["Grace", "spend time outdoors with her family", "her family usually stayed inside on weekends", "suggested joining a farm activity day", "they enjoyed working together outside"],
+        ["Hiro", "learn about bees", "he was worried that bees were dangerous", "listened to a beekeeper explain how bees help plants", "he became interested in protecting bees"],
+        ["Lily", "try making cheese", "she had never seen how milk becomes cheese", "followed the farm worker's instructions", "she took a small piece of cheese home"],
+        ["Daniel", "help the farm prepare for winter", "the workers had many vegetables to store", "sorted and labeled the vegetables in the barn", "the farm could find its supplies easily later"]
+      ]
+    },
+    {
+      title: "A Better Bus Service",
+      place: "in town",
+      stories: [
+        ["Yuna", "make the bus easier for older people to use", "some passengers could not read the small route map", "asked the bus company to print a larger map", "passengers could check the stops more easily"],
+        ["Jack", "reduce traffic near the station", "many parents drove their children to school", "organized a group to ride the bus together", "fewer cars arrived at the school gate"],
+        ["Akari", "help visitors reach the art center", "the closest bus stop was far from the entrance", "shared a new bus route on the town website", "more visitors could get to the center"],
+        ["Sam", "make his journey to work more reliable", "the morning bus was often full", "started taking an earlier bus", "he usually arrived at work on time"],
+        ["Momo", "encourage people to travel without a car", "many residents did not know the bus schedule", "helped place timetables at local shops", "more people tried taking the bus"]
+      ]
+    },
+    {
+      title: "A School Music Club",
+      place: "at school",
+      stories: [
+        ["Kota", "help the music club prepare for a concert", "the club did not have enough practice time", "suggested meeting for a short rehearsal after school", "the musicians felt ready for the concert"],
+        ["Maya", "invite more students to the club", "some students thought they needed to read music first", "planned a meeting where beginners could try instruments", "several beginners decided to join"],
+        ["Ren", "find a quiet place to practice the piano", "his home was noisy in the evening", "asked to use an empty classroom after school", "he could practice without disturbing his family"],
+        ["Sophie", "choose music everyone could enjoy", "the club members had different musical tastes", "asked each member to suggest one song", "the group agreed on a varied program"],
+        ["Haruto", "repair an old guitar for the club", "the guitar had a loose string and made a poor sound", "learned how to replace the strings from a teacher", "the club could use the guitar again"]
+      ]
+    },
+    {
+      title: "A Beach Clean-up",
+      place: "at a beach near home",
+      stories: [
+        ["Niko", "keep the beach safe for sea animals", "plastic bags were sometimes left in the sand", "joined a weekend clean-up group", "the beach had less trash"],
+        ["Chloe", "learn more about ocean pollution", "she did not know where most beach litter came from", "asked volunteers to explain what they found", "she learned how litter can travel through rivers"],
+        ["Daichi", "make the clean-up easier for families", "young children needed smaller gloves", "brought extra child-sized gloves to the next event", "more families could take part"],
+        ["Ella", "encourage visitors to take their trash home", "some people left bottles near the picnic area", "made a polite sign beside the bins", "the picnic area stayed cleaner"],
+        ["Jun", "record which kinds of trash were common", "the group did not know what to focus on", "counted the bottles and wrappers they collected", "the group planned its next activity more carefully"]
+      ]
+    },
+    {
+      title: "Learning to Cook",
+      place: "in the kitchen at home",
+      stories: [
+        ["Fumi", "prepare a simple dinner by herself", "she had never used the oven", "asked her father to show her how to use it safely", "she made dinner for her family"],
+        ["Alex", "make healthier meals after school", "he often bought snacks because he was hungry", "prepared soup and rice the night before", "he had a filling meal ready after class"],
+        ["Nozomi", "learn to cook a dish from her grandmother", "the recipe was written only in her grandmother's notebook", "cooked beside her and wrote down each step", "she could make the dish on her own"],
+        ["Peter", "use the vegetables in the refrigerator", "some vegetables were close to going bad", "made a soup with the vegetables and beans", "the family used the food instead of throwing it away"],
+        ["Aya", "help her younger brother enjoy vegetables", "he did not like the taste of carrots", "cut them into small pieces and added them to a curry", "her brother ate more vegetables"]
+      ]
+    },
+    {
+      title: "A Reading Challenge",
+      place: "at a local library",
+      stories: [
+        ["Min", "read more books during the summer", "she often forgot to make time for reading", "joined the library's weekly reading challenge", "she finished several books by August"],
+        ["Chris", "find books about space", "he did not know which shelf to search", "asked the librarian for a recommendation", "he found a book that matched his interests"],
+        ["Yuri", "help children enjoy reading together", "some children felt shy about reading alone", "started a small reading group", "the children began sharing their favorite stories"],
+        ["Lucas", "improve his English vocabulary", "many books for adults were too difficult", "borrowed easy readers with short chapters", "he could read regularly and learn new words"],
+        ["Maki", "make the library more welcoming", "visitors had nowhere comfortable to sit", "asked the library to add chairs by the window", "people stayed longer to read"]
+      ]
+    },
+    {
+      title: "A New Recycling Program",
+      place: "in an apartment building",
+      stories: [
+        ["Shun", "help residents recycle correctly", "people were unsure which bin to use", "made a picture guide for the recycling area", "fewer items were placed in the wrong bin"],
+        ["Emily", "reduce the building's paper waste", "many notices were printed for every apartment", "suggested sharing announcements online", "the building used less paper"],
+        ["Takeshi", "collect old batteries safely", "residents sometimes put batteries in regular trash", "placed a marked collection box near the entrance", "residents had a safe place for used batteries"],
+        ["Nina", "help neighbors reuse unwanted items", "useful household goods were often thrown away", "organized a free exchange day", "neighbors found new homes for many items"],
+        ["Ryo", "encourage people to recycle food scraps", "the building had no place for compost", "asked the manager to set up a small compost box", "residents could use scraps to make soil"]
+      ]
+    }
+  ];
+  const goalDistractors = [
+    "win a prize in a sports competition",
+    "visit a relative in another city",
+    "buy a new computer for school",
+    "learn how to drive a bus",
+    "watch a famous actor perform"
+  ];
+  const actionDistractors = [
+    "asked a neighbor to cancel the event",
+    "bought a new car for the project",
+    "decided to stop helping the group",
+    "waited for someone else to solve the problem",
+    "moved to a different town"
+  ];
+  let number = 0;
+
+  return themes.flatMap(theme => theme.stories.map(([person, goal, problem, action, result]) => {
+    number++;
+    const goalOptions = [goal, ...goalDistractors.filter(option => option !== goal).slice(0, 3)];
+    const actionOptions = [action, ...actionDistractors.filter(option => option !== action).slice(0, 3)];
+    return {
+      id: `p4_passage_${number}`,
+      passage: `【長文${number}: ${theme.title}】\n${person} wanted to ${goal} ${theme.place}. However, ${problem}. After thinking about the situation, ${person} ${action}. In the end, ${result}.`,
+      questions: [
+        {
+          id: `p4_${number}_1`,
+          question: `Why did ${person} want to take action?`,
+          options: goalOptions,
+          answer: 0,
+          explanation: `【解説】本文に${person} wanted to ${goal}とあります。`
+        },
+        {
+          id: `p4_${number}_2`,
+          question: `What did ${person} do?`,
+          options: actionOptions,
+          answer: 0,
+          explanation: `【解説】本文では${person} ${action}と説明されています。`
+        }
+      ]
+    };
+  }));
+};
+
 const rawData = {
   part2: generatePart2Data(),
-  part3: [
-    {
-      id: "p3_p1",
-      passage: "【長文1: Green Energy in Cities】\nIn recent years, many cities have started using renewable energy to reduce pollution. Solar panels are installed on public buildings, and wind turbines are built in open fields. ( 1 ), these energy sources help clean the air. However, installing solar panels is quite expensive at first. ( 2 ), local governments need to save money before starting these projects.",
-      questions: [
-        { id: "p3_1", question: "( 1 ) に入る最も適切なものを選びなさい。", options: ["As a result", "In contrast", "For instance", "By mistake"], answer: 0, explanation: "【解説】As a result（結果として）が適切。" },
-        { id: "p3_2", question: "( 2 ) に入る最も適切なものを選びなさい。", options: ["Therefore", "Unluckily", "Otherwise", "Instead"], answer: 0, explanation: "【解説】Therefore（したがって）が適切。" }
-      ]
-    }
-  ],
-  part4: [
-    {
-      id: "p4_p1",
-      passage: "【長文読解1: The Benefits of Reading Books】\nMany people think reading books is just a hobby, but studies show it has many benefits for our brain. Reading improves our vocabulary and helps us focus better on daily tasks. Furthermore, reading before going to sleep helps reduce stress and improves sleep quality.",
-      questions: [
-        { id: "p4_1", question: "What is one benefit of reading books mentioned in the passage?", options: ["It improves vocabulary and focus.", "It helps people run faster.", "It makes people wake up earlier.", "It teaches how to cook."], answer: 0, explanation: "【解説】improves our vocabulary and helps us focus better と一致。" }
-      ]
-    }
-  ]
+  part3: generatePart3Data(),
+  part4: generatePart4Data()
 };
 
 // --- アプリ状態 ---
 let currentSection = 'part1';
 let isReviewMode = false;
-let currentCategory = 'all';
 let displayQuestions = [];
 
 const STORAGE_KEY = 'eiken_prep_history_v3';
@@ -407,7 +740,6 @@ function shuffleOptions(question) {
 function switchSection(sectionKey) {
   currentSection = sectionKey;
   isReviewMode = false;
-  currentCategory = 'all';
 
   const navBtns = document.querySelectorAll('.nav-btn');
   const keys = ['part1', 'part2', 'part3', 'part4'];
@@ -415,14 +747,6 @@ function switchSection(sectionKey) {
     btn.classList.toggle('active', keys[idx] === sectionKey);
   });
 
-  const filterContainer = document.getElementById('filter-container');
-  filterContainer.style.display = (sectionKey === 'part2') ? 'flex' : 'none';
-
-  loadSectionQuestions(true);
-}
-
-function filterCategory(cat) {
-  currentCategory = cat;
   loadSectionQuestions(true);
 }
 
@@ -445,21 +769,16 @@ function loadSectionQuestions(shouldShuffle = true) {
 
   } else if (currentSection === 'part2') {
     let baseQuestions = rawData.part2 || [];
-    if (currentCategory !== 'all') {
-      baseQuestions = baseQuestions.filter(q => q.category === currentCategory);
-    }
     if (isReviewMode) {
       baseQuestions = baseQuestions.filter(q => history[q.id] && history[q.id].isCorrect === false);
     }
-    if (shouldShuffle) {
-      baseQuestions = getRandomItems(baseQuestions, baseQuestions.length);
-    }
+    baseQuestions = getRandomItems(baseQuestions, 5);
     displayQuestions = baseQuestions.map(q => shuffleOptions(q));
 
   } else {
     // 大問3・4
     let passages = rawData[currentSection] || [];
-    displayQuestions = passages.map(p => {
+    passages = passages.map(p => {
       let filteredQs = p.questions;
       if (isReviewMode) {
         filteredQs = filteredQs.filter(q => history[q.id] && history[q.id].isCorrect === false);
@@ -469,6 +788,7 @@ function loadSectionQuestions(shouldShuffle = true) {
         questions: filteredQs.map(q => shuffleOptions(q))
       };
     }).filter(p => p.questions.length > 0);
+    displayQuestions = getRandomItems(passages, 2);
   }
 
   renderUI();
